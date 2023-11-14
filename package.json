@@ -21,6 +21,7 @@
     "@remix-run/react": "^2.0.0",
     "drizzle-orm": "^0.28.6",
     "isbot": "^3.6.13",
+    "nanoid": "^5.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix-auth": "^3.5.1",

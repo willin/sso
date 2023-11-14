@@ -1,10 +1,12 @@
 import type { Env } from './env';
 import type { IAuthService } from './services/auth';
+import type { IUserService } from './services/user';
 
 declare global {
   namespace RemixServer {
     export interface Services {
       auth: IAuthService;
+      user: IUserService;
     }
   }
 }
@@ -12,7 +14,6 @@ declare global {
 declare module '@remix-run/cloudflare' {
   interface AppLoadContext {
     env: Env;
-    DB: D1Database;
     services: RemixServer.Services;
   }
 }

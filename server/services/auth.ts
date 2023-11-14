@@ -41,7 +41,7 @@ export class AuthService implements IAuthService {
   #sessionStorage: SessionStorage<typeof SessionSchema>;
   #authenticator: Authenticator<ThirdUser>;
 
-  constructor(env: Env, hostname: string) {
+  constructor(env: Env, url: URL) {
     let sessionStorage = createCookieSessionStorage({
       cookie: {
         name: 'sid',
@@ -58,18 +58,19 @@ export class AuthService implements IAuthService {
       throwOnError: true
     });
 
-    const callbackURL = hostname.includes('localhost')
-      ? `http://${hostname}:8788/auth/$provider/callback`
-      : `https://${hostname}/auth/$provider/callback`;
-    const afdianCallbackURL = new URL(callbackURL.replace('$provider', 'afdian'));
-    const githubCallbackURL = new URL(callbackURL.replace('$provider', 'github'));
+    const callbackURL = `${url.protocol}//${url.hostname}${
+      ['80', '443'].includes(url.port) ? '' : `:${url.port}`
+    }/auth/$provider/callback`;
+
+    const afdianCallbackURL = callbackURL.replace('$provider', 'afdian');
+    const githubCallbackURL = callbackURL.replace('$provider', 'github');
 
     this.#authenticator.use(
       new AfdianStrategy(
         {
           clientID: env.AFDIAN_CLIENT_ID,
           clientSecret: env.AFDIAN_CLIENT_SECRET,
-          callbackURL: afdianCallbackURL.toString()
+          callbackURL: afdianCallbackURL
         },
         async ({ profile }) => {
           return {
@@ -85,7 +86,7 @@ export class AuthService implements IAuthService {
         {
           clientID: env.GITHUB_ID,
           clientSecret: env.GITHUB_SECRET,
-          callbackURL: githubCallbackURL.toString()
+          callbackURL: githubCallbackURL
         },
         async ({ profile }) => {
           return {
