@@ -6,7 +6,7 @@ import { AfdianStrategy } from 'remix-auth-afdian';
 import { z } from 'zod';
 import type { Env } from '../env';
 
-const UserSchema = z.object({
+const ThirdUserSchema = z.object({
   provider: z.enum(['github', 'afdian']),
   id: z.string(),
   username: z.string(),
@@ -22,24 +22,24 @@ const UserSchema = z.object({
 });
 
 const SessionSchema = z.object({
-  user: UserSchema.optional(),
+  user: ThirdUserSchema.optional(),
   strategy: z.string().optional(),
   'oauth2:state': z.string().uuid().optional(),
   'auth:error': z.object({ message: z.string() }).optional()
 });
 
-export type User = z.infer<typeof UserSchema>;
+export type ThirdUser = z.infer<typeof ThirdUserSchema>;
 
 export type Session = z.infer<typeof SessionSchema>;
 
 export interface IAuthService {
-  readonly authenticator: Authenticator<User>;
+  readonly authenticator: Authenticator<ThirdUser>;
   readonly sessionStorage: TypedSessionStorage<typeof SessionSchema>;
 }
 
 export class AuthService implements IAuthService {
   #sessionStorage: SessionStorage<typeof SessionSchema>;
-  #authenticator: Authenticator<User>;
+  #authenticator: Authenticator<ThirdUser>;
 
   constructor(env: Env, hostname: string) {
     let sessionStorage = createCookieSessionStorage({
@@ -54,7 +54,7 @@ export class AuthService implements IAuthService {
     });
 
     this.#sessionStorage = sessionStorage;
-    this.#authenticator = new Authenticator<User>(this.#sessionStorage as unknown as SessionStorage, {
+    this.#authenticator = new Authenticator<ThirdUser>(this.#sessionStorage as unknown as SessionStorage, {
       throwOnError: true
     });
 
