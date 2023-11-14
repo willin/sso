@@ -12,7 +12,7 @@ export const meta: MetaFunction = () => {
 type LoaderError = { message: string } | null;
 
 export const loader: LoaderFunction = async ({ request, context }) => {
-  await context.services.auth.authenticator.isAuthenticated(request, { successRedirect: '/private' });
+  await context.services.auth.authenticator.isAuthenticated(request, { successRedirect: '/demo' });
   const session = await context.services.auth.sessionStorage.getSession(request.headers.get('Cookie'));
   const error = session.get(context.services.auth.authenticator.sessionErrorKey) as LoaderError;
   return json({ error });
