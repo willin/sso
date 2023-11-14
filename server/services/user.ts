@@ -7,7 +7,7 @@ import type { IDatabaseService } from './database';
 const nanoid = customAlphabet('1234567890abcdef', 10);
 
 export enum UserType {
-  Normal = 'normal',
+  User = 'user',
   Admin = 'admin',
   VIP = 'vip',
   Forbidden = 'forbidden'
@@ -57,7 +57,7 @@ export class UserService implements IUserService {
     const userId = nanoid();
     await this.#db.execute(
       'INSERT INTO user (id, username, display_name, avatar, type, membership) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)',
-      [userId, thirdUser.username, thirdUser.displayName, thirdUser.photos?.[0].value, UserType.Normal, new Date()]
+      [userId, thirdUser.username, thirdUser.displayName, thirdUser.photos?.[0].value, UserType.User, new Date()]
     );
     await this.#addThirdUser(userId, thirdUser);
     const user = await this.getUserById(userId);

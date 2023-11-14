@@ -1,6 +1,7 @@
 {
   "private": true,
   "name": "sso.willin.wang",
+  "version": "0.0.0",
   "description": "R3mix of Willin.Wang",
   "author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
   "license": "GPL-3.0",
@@ -9,6 +10,7 @@
     "build": "remix build",
     "dev": "remix dev --manual -c \"npm run start\"",
     "start": "wrangler pages dev --compatibility-date=2023-08-15 ./public --d1=demo --local",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "typecheck": "tsc",
     "db:schema": "drizzle-kit generate:sqlite --schema=./server/db/schema.ts --out=./migrations",
     "db:init": "wrangler d1 migrations list demo",
@@ -30,9 +32,12 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "@cloudflare/workers-types": "^4.20230914.0",
     "@remix-run/dev": "^2.0.0",
     "@remix-run/eslint-config": "^2.0.0",
+    "conventional-changelog-cli": "^2.2.2",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "drizzle-kit": "^0.19.13",
