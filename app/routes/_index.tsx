@@ -15,12 +15,11 @@ export const loader: LoaderFunction = async ({ request, context }) => {
   await context.services.auth.authenticator.isAuthenticated(request, { successRedirect: '/private' });
   const session = await context.services.auth.sessionStorage.getSession(request.headers.get('Cookie'));
   const error = session.get(context.services.auth.authenticator.sessionErrorKey) as LoaderError;
-  const list = await context.services.views.list();
-  return json({ list, error });
+  return json({ error });
 };
 
 export default function Index() {
-  const { error, list } = useLoaderData<typeof loader>();
+  const { error } = useLoaderData<typeof loader>();
 
   return (
     <div>
@@ -28,7 +27,10 @@ export default function Index() {
         {error ? <div>{error.message}</div> : null}
         <button>Sign In with GitHub</button>
       </Form>
-      <pre>{JSON.stringify(list, null, 2)}</pre>
+      <Form method='post' action='/auth/afdian'>
+        {error ? <div>{error.message}</div> : null}
+        <button>Sign In with Afdian(爱发电)</button>
+      </Form>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "cloudflare-pages-d1-demo",
+  "name": "sso.willin.wang",
   "description": "R3mix of Willin.Wang",
   "author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
   "license": "GPL-3.0",
@@ -24,6 +24,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix-auth": "^3.5.1",
+    "remix-auth-afdian": "^1.0.0",
     "remix-auth-github": "^1.6.0",
     "zod": "^3.22.2"
   },

@@ -1,4 +1,8 @@
+kv_namespaces = [
+  { binding = "SESSION", id = "338fbd66700647869007ccc2c57fe08d" }
+]
+
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
-database_name = "demo"
-database_id = "fc5c56b4-4f33-45d8-ba6d-254e14dbf954"
+database_name = "sso"
+database_id = "5b8d49f4-9296-4c04-99e5-6fc30b426952"

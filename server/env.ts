@@ -11,9 +11,10 @@ export let EnvSchema = z.object({
       return 'development';
     }),
   COOKIE_SESSION_SECRET: z.string().min(1).optional().default('s3cret'),
+  AFDIAN_CLIENT_ID: z.string().min(1),
+  AFDIAN_CLIENT_SECRET: z.string().min(1),
   GITHUB_ID: z.string().min(1),
-  GITHUB_SECRET: z.string().min(1),
-  GITHUB_CALLBACK_URL: z.string().url().optional()
+  GITHUB_SECRET: z.string().min(1)
 });
 
 export type Env = z.infer<typeof EnvSchema>;

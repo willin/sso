@@ -32,6 +32,9 @@ dependencies:
   remix-auth:
     specifier: ^3.5.1
     version: 3.5.1(@remix-run/react@2.0.0)(@remix-run/server-runtime@1.19.3)
+  remix-auth-afdian:
+    specifier: ^1.0.0
+    version: 1.0.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1)
   remix-auth-github:
     specifier: ^1.6.0
     version: 1.6.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1)
@@ -6037,6 +6040,18 @@ packages:
       unified: 10.1.2
     dev: true
 
+  /remix-auth-afdian@1.0.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1):
+    resolution: {integrity: sha512-ddFSbO5s/lHQrBOHYokmTNARUgHdLXwVjDxsvGr1aSxBNM9IT7Bhy1lwNlaRiUAnMz0LRgeEUIxjqVapIDhUDA==}
+    peerDependencies:
+      remix-auth: ^3.4.0
+    dependencies:
+      remix-auth: 3.5.1(@remix-run/react@2.0.0)(@remix-run/server-runtime@1.19.3)
+      remix-auth-oauth2: 1.11.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1)
+    transitivePeerDependencies:
+      - '@remix-run/server-runtime'
+      - supports-color
+    dev: false
+
   /remix-auth-github@1.6.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1):
     resolution: {integrity: sha512-qdQmWVVEDHxnzMPn7XE0s7QX5GYba0uH3MDW+lVJiCoHDZCGymqmGCajLThL5vFJdwSx0C4GpQJ5EgEsIjQ3pA==}
     peerDependencies:
@@ -6046,6 +6061,19 @@ packages:
       '@remix-run/server-runtime': 1.19.3
       remix-auth: 3.5.1(@remix-run/react@2.0.0)(@remix-run/server-runtime@1.19.3)
       remix-auth-oauth2: 1.9.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /remix-auth-oauth2@1.11.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1):
+    resolution: {integrity: sha512-Yf1LF6NLYPFa7X2Rax/VEhXmYXFjZOi/q+7DmbMeoMHjAfkpqxbvzqqYSKIKDGR51z5TXR5na4to4380mir5bg==}
+    peerDependencies:
+      '@remix-run/server-runtime': ^1.0.0 || ^2.0.0
+      remix-auth: ^3.6.0
+    dependencies:
+      '@remix-run/server-runtime': 1.19.3
+      debug: 4.3.4
+      remix-auth: 3.5.1(@remix-run/react@2.0.0)(@remix-run/server-runtime@1.19.3)
     transitivePeerDependencies:
       - supports-color
     dev: false

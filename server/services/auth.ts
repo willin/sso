@@ -2,16 +2,23 @@ import { createCookieSessionStorage } from '@remix-run/cloudflare';
 import { Authenticator } from 'remix-auth';
 import type { SessionStorage } from '@remix-run/cloudflare';
 import { GitHubStrategy } from 'remix-auth-github';
+import { AfdianStrategy } from 'remix-auth-afdian';
 import { z } from 'zod';
 import type { Env } from '../env';
 
 const UserSchema = z.object({
+  provider: z.enum(['github', 'afdian']),
+  id: z.string(),
   username: z.string(),
   displayName: z.string(),
-  email: z.string().email().nullable(),
-  avatar: z.string().url(),
-  githubId: z.string().min(1),
-  isSponsor: z.boolean()
+  photos: z
+    .array(
+      z.object({
+        value: z.string()
+      })
+    )
+    .optional(),
+  _json: z.object().optional()
 });
 
 const SessionSchema = z.object({
@@ -51,24 +58,43 @@ export class AuthService implements IAuthService {
       throwOnError: true
     });
 
-    let callbackURL = new URL(env.GITHUB_CALLBACK_URL);
-    callbackURL.hostname = hostname;
+    const callbackURL = hostname.includes('localhost')
+      ? `http://${hostname}:8788/auth/$provider/callback`
+      : `https://${hostname}/auth/$provider/callback`;
+    const afdianCallbackURL = new URL(callbackURL.replace('$provider', 'afdian'));
+    const githubCallbackURL = new URL(callbackURL.replace('$provider', 'github'));
+
+    this.#authenticator.use(
+      new AfdianStrategy(
+        {
+          clientID: env.AFDIAN_CLIENT_ID,
+          clientSecret: env.AFDIAN_CLIENT_SECRET,
+          callbackURL: afdianCallbackURL.toString()
+        },
+        async ({ profile }) => {
+          return {
+            username: profile.displayName,
+            ...profile
+          };
+        }
+      )
+    );
 
     this.#authenticator.use(
       new GitHubStrategy(
         {
           clientID: env.GITHUB_ID,
           clientSecret: env.GITHUB_SECRET,
-          callbackURL: callbackURL.toString()
+          callbackURL: githubCallbackURL.toString()
         },
         async ({ profile }) => {
           return {
-            displayName: profile._json.name,
+            provider: 'github',
+            id: profile._json.id,
             username: profile._json.login,
-            email: profile._json.email ?? profile.emails?.at(0) ?? null,
-            avatar: profile._json.avatar_url,
-            githubId: profile._json.node_id
-            // isSponsor: await gh.isSponsoringMe(profile._json.node_id)
+            displayName: profile._json.name,
+            photos: [profile._json.avatar_url],
+            _json: profile._json
           };
         }
       )
