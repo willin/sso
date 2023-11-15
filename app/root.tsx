@@ -1,8 +1,12 @@
+import styles from './tailwind.css';
 import type { LinksFunction } from '@remix-run/cloudflare';
-import { cssBundleHref } from '@remix-run/css-bundle';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
-export const links: LinksFunction = () => [...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : [])];
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: styles },
+  { rel: 'shortcut icon', href: '/favicon.ico', type: 'image/ico' },
+  { rel: 'icon', href: '/favicon.png', type: 'image/png' }
+];
 
 export default function App() {
   return (
