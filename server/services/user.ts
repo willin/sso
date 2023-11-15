@@ -1,16 +1,13 @@
 import { z } from 'zod';
-import { customAlphabet } from 'nanoid';
 import type { Env } from '../env';
 import type { ThirdUser } from './auth';
 import type { IDatabaseService } from './database';
-
-const nanoid = customAlphabet('1234567890abcdef', 10);
+import { nanoid } from '../utils/nanoid';
 
 export enum UserType {
   User = 'user',
   Admin = 'admin',
-  VIP = 'vip',
-  Forbidden = 'forbidden'
+  VIP = 'vip'
 }
 
 const UserSchema = z.object({
@@ -29,6 +26,10 @@ export interface IUserService {
   getUserById(userId: string): Promise<User | null>;
   getUserByThirdUser(thirdUser: ThirdUser): Promise<User>;
   getThirdUsersByUserId(userId: string): Promise<ThirdUser[]>;
+  updateUser(user: User): Promise<User>;
+  updateThirdUser(userId: string, thirdUser: ThirdUser): Promise<boolean>;
+  deleteUser(userId: string): Promise<boolean>;
+  changeUserType(userId: string, userType: UserType, expire?: number | Date): Promise<boolean>;
 }
 
 export class UserService implements IUserService {
@@ -54,7 +55,7 @@ export class UserService implements IUserService {
   }
 
   async #registerUserFromThirdUser(thirdUser: ThirdUser): Promise<User> {
-    const userId = nanoid();
+    const userId = nanoid(10);
     try {
       await this.#db.execute(
         'INSERT INTO user (id, username, display_name, avatar, type) VALUES (?1, ?2, ?3, ?4, ?5)',
@@ -80,16 +81,25 @@ export class UserService implements IUserService {
   }
 
   async getUserById(userId: string): Promise<User | null> {
-    const records = await this.#db.query<User>('SELECT * FROM user WHERE id=?1 LIMIT 1', [userId]);
+    const records = await this.#db.query<User>(
+      'SELECT * FROM user WHERE id=?1 AND forbidden=0 ORDER BY created_at DESC LIMIT 1',
+      [userId]
+    );
     if (records.length === 0) {
       return null;
     }
-    return records[0];
+    const [user] = records;
+    return UserSchema.parse({
+      ...user,
+      createdAt: new Date(user.created_at),
+      displayName: user.display_name,
+      membership: user.membership ? new Date(user.membership) : null
+    });
   }
 
   async getUserByThirdUser(thirdUser: ThirdUser): Promise<User> {
     const record = await this.#db.query<{ user_id: string }>(
-      'SELECT user_id FROM third_user WHERE provider=?1 AND third_id=?2',
+      'SELECT user_id FROM third_user WHERE provider=?1 AND third_id=?2 AND forbidden=0 ORDER BY created_at DESC LIMIT 1',
       [thirdUser.provider, thirdUser.id]
     );
     if (record.length === 0) {
