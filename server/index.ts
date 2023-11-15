@@ -26,7 +26,7 @@ export const onRequest = createPagesFunctionHandler({
     const db = new DatabaseService(dbProvider);
     // Inject Main Services
     const user = new UserService(env, db);
-    const auth = new AuthService(env, url);
+    const auth = new AuthService(env, url, user);
     const services: RemixServer.Services = {
       auth,
       user

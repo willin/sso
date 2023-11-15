@@ -20,6 +20,7 @@ export class D1Provider implements IDatabaseService {
     if (bindings) {
       stmt = stmt.bind(...bindings);
     }
+
     return stmt.run().then(({ success }) => success);
   }
 }

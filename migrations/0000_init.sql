@@ -19,6 +19,7 @@ CREATE TABLE `third_user` (
   `created_at` INTEGER NOT NULL DEFAULT current_timestamp
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS idx_username ON user(`username`);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_third_user_pk ON third_user(`user_id`, `third_id`, `provider`);
 CREATE INDEX IF NOT EXISTS idx_user ON user(`id`, `created_at`);
 CREATE INDEX IF NOT EXISTS idx_third_user ON third_user(`user_id`, `created_at`);

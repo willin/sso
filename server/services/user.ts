@@ -48,17 +48,32 @@ export class UserService implements IUserService {
         thirdUser.username,
         thirdUser.displayName,
         thirdUser.photos?.[0].value,
-        JSON.stringify(thirdUser)
+        JSON.stringify(thirdUser._json)
       ]
     );
   }
 
   async #registerUserFromThirdUser(thirdUser: ThirdUser): Promise<User> {
     const userId = nanoid();
-    await this.#db.execute(
-      'INSERT INTO user (id, username, display_name, avatar, type, membership) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)',
-      [userId, thirdUser.username, thirdUser.displayName, thirdUser.photos?.[0].value, UserType.User, new Date()]
-    );
+    try {
+      await this.#db.execute(
+        'INSERT INTO user (id, username, display_name, avatar, type) VALUES (?1, ?2, ?3, ?4, ?5)',
+        [userId, thirdUser.username, thirdUser.displayName, thirdUser.photos?.[0].value, UserType.User]
+      );
+    } catch (e) {
+      if (e.message.includes('user.username')) {
+        await this.#db.execute(
+          'INSERT INTO user (id, username, display_name, avatar, type) VALUES (?1, ?2, ?3, ?4, ?5)',
+          [
+            userId,
+            `${thirdUser.username}-${nanoid(5)}`,
+            thirdUser.displayName,
+            thirdUser.photos?.[0].value,
+            UserType.User
+          ]
+        );
+      } else throw e;
+    }
     await this.#addThirdUser(userId, thirdUser);
     const user = await this.getUserById(userId);
     return user;

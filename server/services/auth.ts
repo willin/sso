@@ -5,6 +5,7 @@ import { GitHubStrategy } from 'remix-auth-github';
 import { AfdianStrategy } from 'remix-auth-afdian';
 import { z } from 'zod';
 import type { Env } from '../env';
+import type { IUserService } from './user';
 
 const ThirdUserSchema = z.object({
   provider: z.enum(['github', 'afdian']),
@@ -41,7 +42,7 @@ export class AuthService implements IAuthService {
   #sessionStorage: SessionStorage<typeof SessionSchema>;
   #authenticator: Authenticator<ThirdUser>;
 
-  constructor(env: Env, url: URL) {
+  constructor(env: Env, url: URL, userService: IUserService) {
     let sessionStorage = createCookieSessionStorage({
       cookie: {
         name: 'sid',
@@ -73,10 +74,10 @@ export class AuthService implements IAuthService {
           callbackURL: afdianCallbackURL
         },
         async ({ profile }) => {
-          return {
-            username: profile.displayName,
+          return userService.getUserByThirdUser({
+            username: profile.displayName.toLowerCase(),
             ...profile
-          };
+          });
         }
       )
     );
@@ -89,14 +90,14 @@ export class AuthService implements IAuthService {
           callbackURL: githubCallbackURL
         },
         async ({ profile }) => {
-          return {
+          return userService.getUserByThirdUser({
             provider: 'github',
             id: profile._json.id,
-            username: profile._json.login,
+            username: profile._json.login.toLowerCase(),
             displayName: profile._json.name,
-            photos: [profile._json.avatar_url],
+            photos: [{ value: profile._json.avatar_url }],
             _json: profile._json
-          };
+          });
         }
       )
     );
