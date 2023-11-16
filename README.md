@@ -12,6 +12,14 @@
 - 开发文档 Dev Guides: TBD
 - 部署文档 Deployment Guides: TBD
 
+## 端点 Endpoints
+
+- `/authorize`
+- `/token`
+- `/userinfo`
+- `/$lang/login`
+- `/$lang/dashboard` (需要登录 need login)
+
 ## 赞助 Sponsor
 
 如果您对本项目感兴趣，可以通过以下方式支持我：
