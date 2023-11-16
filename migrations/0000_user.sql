@@ -6,7 +6,8 @@ CREATE TABLE `user` (
   `type` TEXT NOT NULL DEFAULT 'user',  -- 用户类型，管理员、VIP、禁止登录等
   `forbidden` BOOLEAN NOT NULL DEFAULT false, -- 是否禁止登录
   `membership` INTEGER NOT NULL DEFAULT current_timestamp, -- 会员有效期
-  `created_at` INTEGER NOT NULL DEFAULT current_timestamp
+  `created_at` INTEGER NOT NULL DEFAULT current_timestamp,
+  `updated_at` INTEGER NOT NULL DEFAULT current_timestamp
 );
 
 CREATE TABLE `third_user` (

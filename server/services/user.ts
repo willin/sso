@@ -17,7 +17,8 @@ const UserSchema = z.object({
   avatar: z.string(),
   type: z.string(),
   membership: z.date().optional(),
-  createdAt: z.date()
+  createdAt: z.date(),
+  updatedAt: z.date()
 });
 
 export type User = z.infer<typeof UserSchema>;
@@ -92,6 +93,7 @@ export class UserService implements IUserService {
     return UserSchema.parse({
       ...user,
       createdAt: new Date(user.created_at),
+      updatedAt: new Date(user.updated_at),
       displayName: user.display_name,
       membership: user.membership ? new Date(user.membership) : null
     });

@@ -71,14 +71,17 @@ export class AppService implements IAppService {
 
   async updateApp(app: Partial<App>): Promise<App> {
     await this.#db.execute(
-      'UPDATE app SET name = ?2, description = ?3, logo = ?4, homepage = ?5, redirectUris = ?6 WHERE id = ?1',
+      'UPDATE app SET name = ?2, description = ?3, logo = ?4, homepage = ?5, redirectUris = ?6, updated_at = current_timestamp WHERE id = ?1 LIMIT 1',
       [app.id, app.name, app.description, app.logo, app.homepage, JSON.stringify(app.redirectUris)]
     );
     return this.getAppById(app.id);
   }
 
   deleteApp(appId: string): Promise<boolean> {
-    return this.#db.execute('UPDATE app SET fobidden = true FROM app WHERE id = ?1 LIMIT 1', [appId]);
+    return this.#db.execute(
+      'UPDATE app SET fobidden = true, updated_at = current_timestamp FROM app WHERE id = ?1 LIMIT 1',
+      [appId]
+    );
   }
 
   async createSecret(appId: string): Promise<string> {
@@ -86,7 +89,7 @@ export class AppService implements IAppService {
     const secret = nanoid(30);
     app.secret.push({
       secret,
-      created_at: new Date()
+      created_at: Date.now()
     });
 
     return this.#db

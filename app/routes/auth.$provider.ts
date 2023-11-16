@@ -15,7 +15,7 @@ export const action: ActionFunction = async ({ request, context, params }) => {
     state: url.searchParams.get('state'),
     lang: url.searchParams.get('lang')
   };
-  const user = await authenticator.isAuthenticated(request);
+  const user = await auth.authenticator.isAuthenticated(request);
   if (user) {
     const search = new URLSearchParams();
     search.append('client_id', stateObj.client_id);
