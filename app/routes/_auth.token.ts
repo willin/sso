@@ -9,19 +9,27 @@ export const action: ActionFunction = async ({ context, request }) => {
   const body = Object.fromEntries(form.entries());
   const { client_id: clientId, code, client_secret: clientSecret } = body;
   if (!clientId || !code || !clientSecret) {
-    // TODO: err1
+    throw new Response('invalid_request', {
+      status: 400
+    });
   }
   const { app, auth } = context.services;
   const secrets = await app.getAppSecrets(clientId);
   if (!secrets.includes(clientSecret)) {
-    // TODO: err2
+    throw new Response('invalid_client', {
+      status: 401
+    });
   }
   const user = await auth.getUserfromCode(clientId, code);
   if (!user) {
-    // TODO: err3
+    throw new Response('invalid_grant', {
+      status: 401
+    });
   }
   await auth.deleteCode(clientId, code);
 
   const token = await auth.createToken(user);
   return json(token);
 };
+
+export { ErrorBoundary } from './_auth';

@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ request, context, params }) => {
 
 export default function Screen() {
   const i18n = useI18n();
-  const [setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     setSearchParams((prev) => {

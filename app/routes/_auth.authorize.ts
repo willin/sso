@@ -25,3 +25,5 @@ export const loader: LoaderFunction = async ({ request, context }) => {
     )
   );
 };
+
+export { ErrorBoundary } from './_auth';
