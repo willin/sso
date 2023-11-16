@@ -1,13 +1,12 @@
-import { createCookieSessionStorage } from '@remix-run/cloudflare';
+import { createCookie, createCookieSessionStorage } from '@remix-run/cloudflare';
 import { Authenticator } from 'remix-auth';
-import type { SessionStorage } from '@remix-run/cloudflare';
-import { GitHubStrategy } from '../strategy/github';
-import { AfdianStrategy } from '../strategy/afdian';
+import type { Cookie, SessionStorage } from '@remix-run/cloudflare';
+import { GitHubStrategy } from 'remix-auth-github';
+import { AfdianStrategy } from 'remix-auth-afdian';
 import { z } from 'zod';
 import type { Env } from '../env';
 import type { IUserService } from './user';
 import type { ICacheService } from './cache';
-import { nanoid } from '../utils/nanoid';
 
 const ThirdUserSchema = z.object({
   provider: z.enum(['github', 'afdian']),
@@ -40,17 +39,17 @@ export type ClientUrlParams = { client_id: string; redirect_uri: string; state?:
 export interface IAuthService {
   readonly authenticator: Authenticator<ThirdUser>;
   readonly sessionStorage: TypedSessionStorage<typeof SessionSchema>;
-  createState(ClientUrlParams): Promise<string>;
-  getState(key: string): Promise<ClientUrlParams | null>;
+  readonly redirectCookieStorage: Cookie;
 }
 
 export class AuthService implements IAuthService {
   #cache: ICacheService;
   #sessionStorage: SessionStorage<typeof SessionSchema>;
+  #redirectCookieStorage: Cookie;
   #authenticator: Authenticator<ThirdUser>;
 
   constructor(env: Env, url: URL, userService: IUserService, cache: ICacheService) {
-    let sessionStorage = createCookieSessionStorage({
+    const sessionStorage = createCookieSessionStorage({
       cookie: {
         name: 'sid',
         httpOnly: true,
@@ -61,7 +60,10 @@ export class AuthService implements IAuthService {
       }
     });
 
+    const cookieStorage = createCookie('returnTo', { httpOnly: true });
+
     this.#sessionStorage = sessionStorage;
+    this.#redirectCookieStorage = cookieStorage;
     this.#cache = cache;
     this.#authenticator = new Authenticator<ThirdUser>(this.#sessionStorage as unknown as SessionStorage, {
       throwOnError: true
@@ -119,14 +121,7 @@ export class AuthService implements IAuthService {
     return this.#sessionStorage;
   }
 
-  async createState(params: ClientUrlParams): Promise<string> {
-    const key = nanoid(30);
-    const { client_id, redirect_uri, state, lang } = params;
-    await this.#cache.put(`state:${key}`, JSON.stringify({ client_id, redirect_uri, state, lang }), 600);
-    return key;
-  }
-
-  getState(key: string): Promise<ClientUrlParams | null> {
-    return this.#cache.get<ClientUrlParams>(`state:${key}`);
+  get redirectCookieStorage() {
+    return this.#redirectCookieStorage;
   }
 }

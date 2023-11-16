@@ -32,6 +32,9 @@ dependencies:
   remix-auth-afdian:
     specifier: ^1.0.0
     version: 1.0.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1)
+  remix-auth-github:
+    specifier: ^1.6.0
+    version: 1.6.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1)
   remix-i18n:
     specifier: ^1.0.1
     version: 1.0.1(@remix-run/react@2.0.0)(react@18.2.0)
@@ -8009,6 +8012,20 @@ packages:
       remix-auth-oauth2: 1.11.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1)
     transitivePeerDependencies:
       - '@remix-run/server-runtime'
+      - supports-color
+    dev: false
+
+  /remix-auth-github@1.6.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1):
+    resolution:
+      { integrity: sha512-qdQmWVVEDHxnzMPn7XE0s7QX5GYba0uH3MDW+lVJiCoHDZCGymqmGCajLThL5vFJdwSx0C4GpQJ5EgEsIjQ3pA== }
+    peerDependencies:
+      '@remix-run/server-runtime': ^1.0.0
+      remix-auth: ^3.4.0
+    dependencies:
+      '@remix-run/server-runtime': 1.19.3
+      remix-auth: 3.5.1(@remix-run/react@2.0.0)(@remix-run/server-runtime@1.19.3)
+      remix-auth-oauth2: 1.11.0(@remix-run/server-runtime@1.19.3)(remix-auth@3.5.1)
+    transitivePeerDependencies:
       - supports-color
     dev: false
 

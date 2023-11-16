@@ -1,4 +1,5 @@
 import { redirect, type LoaderFunction } from '@remix-run/cloudflare';
+import { safeRedirect } from '~/utils/safe-redirect';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const { authenticator } = context.services.auth;
@@ -13,5 +14,5 @@ export const loader: LoaderFunction = async ({ request, context }) => {
   }
   // callback with code
   search.append('code', 'xxx');
-  return redirect(`${url.searchParams.get('redirect_uri')}?${search.toString()}`);
+  return redirect(safeRedirect(`${url.searchParams.get('redirect_uri')}?${search.toString()}`, '/dashboard'));
 };
