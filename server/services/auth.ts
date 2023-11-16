@@ -35,7 +35,7 @@ export type ThirdUser = z.infer<typeof ThirdUserSchema>;
 
 export type Session = z.infer<typeof SessionSchema>;
 
-export type ClientUrlParams = { client_id: string; redirect_uri: string; state: string };
+export type ClientUrlParams = { client_id: string; redirect_uri: string; state?: string; lang?: string };
 
 export interface IAuthService {
   readonly authenticator: Authenticator<ThirdUser>;
@@ -121,8 +121,8 @@ export class AuthService implements IAuthService {
 
   async createState(params: ClientUrlParams): Promise<string> {
     const key = nanoid(30);
-    const { client_id, redirect_uri, state } = params;
-    await this.#cache.put(`state:${key}`, JSON.stringify({ client_id, redirect_uri, state }), 600);
+    const { client_id, redirect_uri, state, lang } = params;
+    await this.#cache.put(`state:${key}`, JSON.stringify({ client_id, redirect_uri, state, lang }), 600);
     return key;
   }
 

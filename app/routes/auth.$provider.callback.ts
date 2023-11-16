@@ -10,12 +10,11 @@ export const loader: LoaderFunction = async ({ request, context, params }) => {
   const state = await auth.getState(url.searchParams.get('state'));
   let redirectUrl = '/dashboard';
   if (state) {
-    console.log(state, typeof state);
     const search = new URLSearchParams();
     search.append('client_id', state.client_id);
     search.append('redirect_uri', state.redirect_uri);
     search.append('state', state.state);
-    redirectUrl = `/login?${search.toString()}`;
+    redirectUrl = `/authorize?${search.toString()}`;
   }
 
   return await auth.authenticator.authenticate(provider, request, {
