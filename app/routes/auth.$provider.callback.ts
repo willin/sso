@@ -3,9 +3,23 @@ import { z } from 'zod';
 
 export const loader: LoaderFunction = async ({ request, context, params }) => {
   const provider = z.enum(['github', 'afdian']).parse(params.provider);
+  const url = new URL(request.url);
 
-  return await context.services.auth.authenticator.authenticate(provider, request, {
-    successRedirect: '/demo',
+  const { auth } = context.services;
+
+  const state = await auth.getState(url.searchParams.get('state'));
+  let redirectUrl = '/dashboard';
+  if (state) {
+    console.log(state, typeof state);
+    const search = new URLSearchParams();
+    search.append('client_id', state.client_id);
+    search.append('redirect_uri', state.redirect_uri);
+    search.append('state', state.state);
+    redirectUrl = `/login?${search.toString()}`;
+  }
+
+  return await auth.authenticator.authenticate(provider, request, {
+    successRedirect: redirectUrl,
     failureRedirect: '/login'
   });
 };

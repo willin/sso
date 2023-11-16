@@ -8,11 +8,16 @@ export class KVProvider implements ICacheService {
   }
 
   put<T>(key: string, value: T, expire?: number = 0): Promise<void> {
-    return this.#kv.put(key, JSON.stringify(value), { expiration: expire });
+    return this.#kv.put(key, JSON.stringify(value), { expirationTtl: expire });
   }
 
-  get<T>(key: string): Promise<T | null> {
-    return this.#kv.get(key, 'json');
+  async get<T>(key: string): Promise<T | null> {
+    const result = await this.#kv.get(key, 'json');
+    if (!result) return null;
+    try {
+      return JSON.parse(result);
+    } catch (e) {}
+    return result;
   }
 
   delete(key: string): Promise<void> {

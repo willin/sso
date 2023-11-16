@@ -24,13 +24,12 @@ export default function Index() {
   return (
     <div>
       <Form method='post' action='/auth/github'>
-        {error ? <div>{error.message}</div> : null}
         <button>Sign In with GitHub</button>
       </Form>
       <Form method='post' action='/auth/afdian'>
-        {error ? <div>{error.message}</div> : null}
         <button>Sign In with Afdian(爱发电)</button>
       </Form>
+      {error ? <div>{error.message}</div> : null}
     </div>
   );
 }

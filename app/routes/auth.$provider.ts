@@ -7,9 +7,17 @@ export const loader: LoaderFunction = () => {
 
 export const action: ActionFunction = async ({ request, context, params }) => {
   const provider = z.enum(['github', 'afdian']).parse(params.provider);
-
-  return await context.services.auth.authenticator.authenticate(provider, request, {
-    successRedirect: '/demo',
-    failureRedirect: '/login'
+  const url = new URL(request.url);
+  const { auth } = context.services;
+  const stateObj = {
+    client_id: url.searchParams.get('client_id'),
+    redirect_uri: url.searchParams.get('redirect_uri') ?? '/dashboard',
+    state: url.searchParams.get('state')
+  };
+  const state = stateObj.client_id ? await auth.createState(stateObj) : undefined;
+  return await auth.authenticator.authenticate(provider, request, {
+    successRedirect: request.referrer ?? '/dashboard',
+    failureRedirect: '/login',
+    state
   });
 };

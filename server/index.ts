@@ -19,14 +19,14 @@ export const onRequest = createPagesFunctionHandler({
     const env = EnvSchema.parse(ctx.env);
     const url = new URL(ctx.request.url);
     // Init Providers
-    const cacheProvider = new KVProvider(ctx.env.SESSION);
+    const cacheProvider = new KVProvider(ctx.env.CACHE);
     const dbProvider = new D1Provider(ctx.env.DB);
     // Init Services
     const cache = new CacheService(cacheProvider);
     const db = new DatabaseService(dbProvider);
     // Inject Main Services
     const user = new UserService(env, db);
-    const auth = new AuthService(env, url, user);
+    const auth = new AuthService(env, url, user, cache);
     const services: RemixServer.Services = {
       auth,
       user

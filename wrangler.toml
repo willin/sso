@@ -1,5 +1,5 @@
 kv_namespaces = [
-  { binding = "SESSION", id = "338fbd66700647869007ccc2c57fe08d" }
+  { binding = "CACHE", id = "338fbd66700647869007ccc2c57fe08d" }
 ]
 
 [[d1_databases]]
