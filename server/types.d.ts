@@ -1,4 +1,5 @@
 import type { Env } from './env';
+import type { IAppService } from './services/app';
 import type { IAuthService } from './services/auth';
 import type { IUserService } from './services/user';
 
@@ -7,6 +8,7 @@ declare global {
     export interface Services {
       auth: IAuthService;
       user: IUserService;
+      app: IAppService;
     }
   }
 }

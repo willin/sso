@@ -8,6 +8,7 @@ import { D1Provider } from './provider/d1.db';
 import { DatabaseService } from './services/database';
 import { AuthService } from './services/auth';
 import { UserService } from './services/user';
+import { AppService } from './services/app';
 
 if (process.env.NODE_ENV === 'development') {
   logDevReady(build);
@@ -25,9 +26,11 @@ export const onRequest = createPagesFunctionHandler({
     const cache = new CacheService(cacheProvider);
     const db = new DatabaseService(dbProvider);
     // Inject Main Services
+    const app = new AppService(env, db);
     const user = new UserService(env, db);
     const auth = new AuthService(env, url, user, cache);
     const services: RemixServer.Services = {
+      app,
       auth,
       user
     };

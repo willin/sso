@@ -7,15 +7,15 @@ export const action: ActionFunction = async ({ request, context }) => {
 };
 
 export const loader: LoaderFunction = async ({ request, context }) => {
-  const profile = await context.services.auth.authenticator.isAuthenticated(request, {
+  const user = await context.services.auth.authenticator.isAuthenticated(request, {
     failureRedirect: '/'
   });
 
-  return json({ profile });
+  return json({ user });
 };
 
 export default function Screen() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { user } = useLoaderData<typeof loader>();
   return (
     <>
       <Form method='post'>
@@ -25,7 +25,7 @@ export default function Screen() {
       <hr />
 
       <pre>
-        <code>{JSON.stringify(profile, null, 2)}</code>
+        <code>{JSON.stringify(user, null, 2)}</code>
       </pre>
     </>
   );

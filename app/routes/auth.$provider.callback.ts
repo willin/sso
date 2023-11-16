@@ -1,5 +1,6 @@
 import type { LoaderFunction } from '@remix-run/cloudflare';
 import { z } from 'zod';
+import { i18nConfig } from '~/i18n';
 import { safeRedirect } from '~/utils/safe-redirect';
 
 export const loader: LoaderFunction = async ({ request, context, params }) => {
@@ -7,10 +8,11 @@ export const loader: LoaderFunction = async ({ request, context, params }) => {
 
   const { auth } = context.services;
   const returnTo = await auth.redirectCookieStorage.parse(request.headers.get('cookie'));
-  console.log(returnTo);
+  const url = new URL(request.url);
+  const lang = url.searchParams.get('lang');
 
   return await auth.authenticator.authenticate(provider, request, {
-    successRedirect: safeRedirect(returnTo, '/'),
+    successRedirect: safeRedirect(returnTo, `${lang && lang !== i18nConfig.fallbackLng ? `/${lang}` : ''}/dashboard`),
     failureRedirect: '/login'
   });
 };

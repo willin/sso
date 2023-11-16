@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ request, context, params }) => {
 
 export default function Screen() {
   const i18n = useI18n();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [setSearchParams] = useSearchParams();
 
   useEffect(() => {
     setSearchParams((prev) => {
@@ -41,10 +41,10 @@ export default function Screen() {
       <Form method='post'>
         <button>Log Out</button>
       </Form>
-      <Form method='post' action={`/auth/github?${searchParams.toString()}`}>
+      <Form method='post' action={`/auth/github`}>
         <button>Sign In with GitHub</button>
       </Form>
-      <Form method='post' action={`/auth/afdian?${searchParams.toString()}`}>
+      <Form method='post' action={`/auth/afdian`}>
         <button>Sign In with Afdian(爱发电)</button>
       </Form>
     </>

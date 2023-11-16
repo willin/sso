@@ -5,8 +5,9 @@ import { GitHubStrategy } from 'remix-auth-github';
 import { AfdianStrategy } from 'remix-auth-afdian';
 import { z } from 'zod';
 import type { Env } from '../env';
-import type { IUserService } from './user';
+import type { IUserService, User } from './user';
 import type { ICacheService } from './cache';
+import { nanoid } from '../utils/nanoid';
 
 const ThirdUserSchema = z.object({
   provider: z.enum(['github', 'afdian']),
@@ -23,14 +24,23 @@ const ThirdUserSchema = z.object({
   _json: z.object().optional()
 });
 
+export type ThirdUser = z.infer<typeof ThirdUserSchema>;
+
+const AccessTokenSchema = z.object({
+  access_token: z.string(),
+  expires_in: z.number(),
+  refresh_token: z.string().optional(),
+  token_type: z.string().optional().default('bearer')
+});
+
+export type AccessToken = z.infer<typeof AccessTokenSchema>;
+
 const SessionSchema = z.object({
   user: ThirdUserSchema.optional(),
   strategy: z.string().optional(),
   'oauth2:state': z.string().uuid().optional(),
   'auth:error': z.object({ message: z.string() }).optional()
 });
-
-export type ThirdUser = z.infer<typeof ThirdUserSchema>;
 
 export type Session = z.infer<typeof SessionSchema>;
 
@@ -40,6 +50,11 @@ export interface IAuthService {
   readonly authenticator: Authenticator<ThirdUser>;
   readonly sessionStorage: TypedSessionStorage<typeof SessionSchema>;
   readonly redirectCookieStorage: Cookie;
+  createCode(user: User): Promise<string>;
+  deleteCode(clientId: string, code: string): Promise<void>;
+  getUserfromCode(clientId: string, code: string): Promise<User | null>;
+  createToken(user: User): Promise<AccessToken>;
+  revokeToken(token: string): Promise<void>;
 }
 
 export class AuthService implements IAuthService {
@@ -47,6 +62,8 @@ export class AuthService implements IAuthService {
   #sessionStorage: SessionStorage<typeof SessionSchema>;
   #redirectCookieStorage: Cookie;
   #authenticator: Authenticator<ThirdUser>;
+  #authCodeExpiration: number;
+  #authTokenExpiration: number;
 
   constructor(env: Env, url: URL, userService: IUserService, cache: ICacheService) {
     const sessionStorage = createCookieSessionStorage({
@@ -62,6 +79,8 @@ export class AuthService implements IAuthService {
 
     const cookieStorage = createCookie('returnTo', { httpOnly: true });
 
+    this.#authCodeExpiration = env.AUTH_CODE_EXPIRATION || 600;
+    this.#authTokenExpiration = env.AUTH_TOKEN_EXPIRATION || 86400 * 30;
     this.#sessionStorage = sessionStorage;
     this.#redirectCookieStorage = cookieStorage;
     this.#cache = cache;
@@ -123,5 +142,32 @@ export class AuthService implements IAuthService {
 
   get redirectCookieStorage() {
     return this.#redirectCookieStorage;
+  }
+
+  async createCode(clientId: string, user: User): Promise<string> {
+    const code = nanoid(30);
+    await this.#cache.put(`code:${clientId}:${code}`, JSON.stringify(user), this.#authCodeExpiration);
+    return code;
+  }
+
+  getUserfromCode(clientId: string, code: string): Promise<User | null> {
+    return this.#cache.get(`code:${clientId}:${code}`);
+  }
+
+  deleteCode(clientId: string, code: string): Promise<void> {
+    return this.#cache.delete(`code:${clientId}:${code}`);
+  }
+
+  async createToken(user: User): Promise<AccessToken> {
+    const token = {
+      access_token: nanoid(30),
+      expires_in: this.#authTokenExpiration
+    };
+    await this.#cache.put(`token:${token.access_token}`, JSON.stringify(user), this.#authTokenExpiration);
+    return AccessTokenSchema.parseAsync(token);
+  }
+
+  revokeToken(token: string): Promise<void> {
+    return this.#cache.delete(`token:${token}`);
   }
 }

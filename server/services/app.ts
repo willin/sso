@@ -26,6 +26,7 @@ export interface IAppService {
   createApp(app: App): Promise<App>;
   updateApp(app: App): Promise<App>;
   deleteApp(appId: string): Promise<boolean>;
+  getAppSecrets(appId: string): Promise<string[]>;
   createSecret(appId: string): Promise<string>;
   deleteSecret(appId: string, createdAt: Date): Promise<boolean>;
 }
@@ -106,5 +107,21 @@ export class AppService implements IAppService {
     return this.#db
       .execute('UPDATE app SET secret = ?2 WHERE id = ?1 LIMIT 1', [appId, JSON.stringify(app.secret)])
       .then(() => secret);
+  }
+
+  async getAppSecrets(appId: string): Promise<string[]> {
+    const records = await this.#db.query(
+      'SELECT secret FROM app WHERE id=?1 AND forbidden=0 ORDER BY created_at DESC LIMIT 1',
+      [appId]
+    );
+    if (records.length === 0) {
+      return [];
+    }
+    const { secret } = records[0];
+    try {
+      const data = JSON.parse(secret);
+      return data.map((x) => x.secret);
+    } catch (e) {}
+    return [];
   }
 }
