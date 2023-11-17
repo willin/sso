@@ -1,12 +1,8 @@
-import type { ActionFunction, LoaderFunction } from '@remix-run/cloudflare';
+import type { LoaderFunction } from '@remix-run/cloudflare';
 import { json, redirect } from '@remix-run/cloudflare';
 import { Form, useSearchParams } from '@remix-run/react';
 import { useEffect } from 'react';
 import { useI18n } from 'remix-i18n';
-
-export const action: ActionFunction = async ({ request, context }) => {
-  await context.services.auth.authenticator.logout(request, { redirectTo: '/login' });
-};
 
 export const loader: LoaderFunction = async ({ request, context, params }) => {
   const user = await context.services.auth.authenticator.isAuthenticated(request);
@@ -28,7 +24,7 @@ export const loader: LoaderFunction = async ({ request, context, params }) => {
 export default function Screen() {
   const i18n = useI18n();
   const [, setSearchParams] = useSearchParams();
-
+  const { t } = i18n;
   useEffect(() => {
     setSearchParams((prev) => {
       prev.set('lang', i18n.locale());
@@ -38,14 +34,19 @@ export default function Screen() {
 
   return (
     <>
-      <Form method='post'>
-        <button>Log Out</button>
-      </Form>
       <Form method='post' action={`/auth/github`}>
-        <button>Sign In with GitHub</button>
+        <div className='form-control w-full my-2'>
+          <button type='submit' className='btn btn-primary'>
+            {t('common.login_with', { provider: 'GitHub' })}
+          </button>
+        </div>
       </Form>
       <Form method='post' action={`/auth/afdian`}>
-        <button>Sign In with Afdian(爱发电)</button>
+        <div className='form-control w-full my-2'>
+          <button type='submit' className='btn btn-secondary'>
+            {t('common.login_with', { provider: '爱发电(afdian.net)' })}
+          </button>
+        </div>
       </Form>
     </>
   );

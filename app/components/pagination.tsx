@@ -24,7 +24,7 @@ export function Paginator({ total }: { total: number }) {
     <div className='flex justify-center my-4'>
       <select
         className='select select-bordered w-24 max-w-xs mr-2'
-        onChange={(e: FormEvent) => {
+        onChange={(e: FormEvent<HTMLFormElement>) => {
           setSearchParams((s) => {
             s.set('size', e.target.value);
             return s;
