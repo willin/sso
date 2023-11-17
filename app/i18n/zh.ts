@@ -6,6 +6,8 @@ export const dict: I18nDict = {
   },
   app: {
     management: '应用管理',
+    create: '创建应用',
+    edit: '编辑应用',
     id: 'clientId',
     logo: 'Logo',
     name: '应用名称',
@@ -16,6 +18,8 @@ export const dict: I18nDict = {
     homepage: '官方主页'
   },
   common: {
+    save: '保存',
+    edit: '编辑',
     created_at: '创建时间',
     updated_at: '修改时间',
     go_back: '后退',

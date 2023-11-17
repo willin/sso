@@ -6,6 +6,8 @@ export const dict: I18nDict = {
   },
   app: {
     management: 'App Management',
+    create: 'Create App',
+    edit: 'Edit App',
     id: 'clientId',
     logo: 'Logo',
     name: 'App Name',
@@ -16,6 +18,8 @@ export const dict: I18nDict = {
     homepage: 'Homepage'
   },
   common: {
+    save: 'Save',
+    edit: 'Edit',
     created_at: 'Created Time',
     updated_at: 'Updated Time',
     go_back: 'Go back',

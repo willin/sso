@@ -29,3 +29,8 @@ export function getLocale(pathname: string): string {
 
 i18n.set('zh', zh);
 i18n.set('en', en);
+
+export function getLocaleLink(path: string, lang?: string) {
+  if (lang && lang !== i18nConfig.fallbackLng) return `/${lang}${path}`;
+  return path;
+}

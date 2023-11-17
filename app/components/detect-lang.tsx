@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useLocation } from '@remix-run/react';
 import { useEffect } from 'react';
 import { useI18n } from 'remix-i18n';
@@ -11,6 +12,7 @@ export default function DetectLanguage() {
     const locale = getLocale(pathname);
     if (locale !== i18n.locale()) {
       i18n.locale(locale);
+      dayjs.locale(locale);
     }
     try {
       // @ts-ignore

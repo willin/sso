@@ -24,8 +24,8 @@ export type App = z.infer<typeof AppSchema>;
 
 export interface IAppService {
   getAppById(appId: string): Promise<App | null>;
-  createApp(app: App): Promise<App>;
-  updateApp(app: App): Promise<App>;
+  createApp(app: Partial<App>): Promise<App>;
+  updateApp(appId: string, app: Partial<App>): Promise<App>;
   deleteApp(appId: string): Promise<boolean>;
   getAppSecrets(appId: string): Promise<string[]>;
   createSecret(appId: string): Promise<string>;
@@ -49,9 +49,12 @@ export class AppService implements IAppService {
       return null;
     }
     const app = records[0];
+    console.log(app);
     return AppSchema.parse({
       ...app,
-      secret: app.secret.map((x) => ({
+      redirectUris: JSON.parse(app.redirect_uris),
+      production: !!app.production,
+      secret: JSON.parse(app.secret).map((x) => ({
         createdAt: new Date(x.created_at)
       })),
       createdAt: new Date(app.created_at),
@@ -61,23 +64,19 @@ export class AppService implements IAppService {
 
   async createApp(app: Partial<App>): Promise<App> {
     const id = nanoid(20);
-    await this.#db.execute('INSERT INTO app (id, name, description, logo, homepage) VALUES (?1, ?2, ?3, ?4, ?5)', [
-      id,
-      app.name,
-      app.description,
-      app.logo,
-      app.homepage,
-      JSON.stringify(app.redirectUris)
-    ]);
+    await this.#db.execute(
+      "INSERT INTO app (id, name, description, logo, homepage, production, redirect_uris, secret) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, '[]')",
+      [id, app.name, app.description, app.logo, app.homepage, app.production, JSON.stringify(app.redirectUris)]
+    );
     return this.getAppById(id);
   }
 
-  async updateApp(app: Partial<App>): Promise<App> {
+  async updateApp(appId: string, app: Partial<App>): Promise<App> {
     await this.#db.execute(
-      'UPDATE app SET name = ?2, description = ?3, logo = ?4, homepage = ?5, redirectUris = ?6, production = ?7 updated_at = current_timestamp WHERE id = ?1 LIMIT 1',
-      [app.id, app.name, app.description, app.logo, app.homepage, app.production, JSON.stringify(app.redirectUris)]
+      'UPDATE app SET name = ?2, description = ?3, logo = ?4, homepage = ?5, redirect_uris = ?6, production = ?7, updated_at = current_timestamp WHERE id = ?1 LIMIT 1',
+      [appId, app.name, app.description, app.logo, app.homepage, JSON.stringify(app.redirectUris), app.production]
     );
-    return this.getAppById(app.id);
+    return this.getAppById(appId);
   }
 
   deleteApp(appId: string): Promise<boolean> {
@@ -129,6 +128,17 @@ export class AppService implements IAppService {
 
   async listApps(): Promise<App[]> {
     const records = await this.#db.query<App>('SELECT * FROM app WHERE forbidden=0 ORDER BY created_at DESC');
-    return records.map((app) => AppSchema.parse(app));
+    return records.map((app) =>
+      AppSchema.parse({
+        ...app,
+        redirectUris: JSON.parse(app.redirect_uris),
+        production: !!app.production,
+        secret: JSON.parse(app.secret).map((x) => ({
+          createdAt: new Date(x.created_at)
+        })),
+        createdAt: new Date(app.created_at),
+        updatedAt: new Date(app.updated_at)
+      })
+    );
   }
 }

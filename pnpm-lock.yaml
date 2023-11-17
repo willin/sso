@@ -17,6 +17,9 @@ dependencies:
   classnames:
     specifier: ^2.3.2
     version: 2.3.2
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   isbot:
     specifier: ^3.6.13
     version: 3.6.13
@@ -71,8 +74,8 @@ devDependencies:
     specifier: ^2.2.2
     version: 2.2.2
   daisyui:
-    specifier: ^4.0.7
-    version: 4.0.7(postcss@8.4.29)
+    specifier: ^4.3.1
+    version: 4.3.1(postcss@8.4.29)
   drizzle-kit:
     specifier: ^0.19.13
     version: 0.19.13
@@ -3349,9 +3352,9 @@ packages:
       type: 1.2.0
     dev: true
 
-  /daisyui@4.0.7(postcss@8.4.29):
+  /daisyui@4.3.1(postcss@8.4.29):
     resolution:
-      { integrity: sha512-D84DnNDZKcamwNsxCMrwYaddyz5kC6VO6oe30nM1x67GzCAfarfd3Ar1rpLGXCIqSsEoNZUHO8EcXvX93W2ZkA== }
+      { integrity: sha512-dCi91VD+57lkoBd10CjdW4wPOeOPYvvzQbxti6xmyQbDMbCeCXwNq2KdoU798I4OsCcD5B+n7yVG7HAgYW+cvw== }
     engines: { node: '>=16.9.0' }
     dependencies:
       css-selector-tokenizer: 0.8.0
@@ -3382,6 +3385,11 @@ packages:
     resolution:
       { integrity: sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q== }
     dev: true
+
+  /dayjs@1.11.10:
+    resolution:
+      { integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ== }
+    dev: false
 
   /debug@2.6.9:
     resolution:

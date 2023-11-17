@@ -1,21 +1,15 @@
 import type { LoaderFunction } from '@remix-run/cloudflare';
 import { json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
+import dayjs from 'dayjs';
 import { useI18n } from 'remix-i18n';
 import { LocaleLink } from '~/components/link';
-import { UserType } from '~/server/services/user';
+import { checkAdminPermission } from '~/utils/admin-check.server';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
-  const { auth, app } = context.services;
-  const user = await auth.authenticator.isAuthenticated(request, {
-    failureRedirect: '/'
-  });
-  if (user.type !== UserType.Admin) {
-    throw new Response('Forbbiden', { status: 403 });
-  }
-  const apps = await app.listApps();
-
-  return json({ user, apps });
+  await checkAdminPermission({ context, request });
+  const apps = await context.services.app.listApps();
+  return json({ apps });
 };
 
 export default function Screen() {
@@ -48,8 +42,10 @@ export default function Screen() {
                   {app.homepage}
                 </a>
               </td>
-              <td>{app.createdAt.toLocaleString()}</td>
-              <td>Edit Delete</td>
+              <td>{dayjs(app.createdAt).format('YYYY-MM-DD')}</td>
+              <td>
+                <LocaleLink to={`/dashboard/app/edit/${app.id}`}>{t('common.edit')}</LocaleLink>
+              </td>
             </tr>
           ))}
         </tbody>

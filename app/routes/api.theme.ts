@@ -1,15 +1,7 @@
-import {
-  type LoaderFunction,
-  redirect,
-  type ActionFunction,
-  json,
-  type Cookie,
-  createCookie
-} from '@remix-run/cloudflare';
+import { type LoaderFunction, redirect, type ActionFunction, json } from '@remix-run/cloudflare';
 import { z } from 'zod';
+import { themeCookie } from '~/cookie.server';
 import { themes } from '~/themes';
-
-export const themeCookie: Cookie = createCookie('theme', { httpOnly: true });
 
 export const loader: LoaderFunction = () => {
   return redirect('/');

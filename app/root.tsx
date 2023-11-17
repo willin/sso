@@ -3,10 +3,10 @@ import { json, type LinksFunction, type LoaderFunction } from '@remix-run/cloudf
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import DetectLanguage from './components/detect-lang';
 import Layout from './components/layout';
-import { themeCookie } from './routes/api.theme';
 import { ThemeProvider } from './components/use-theme';
 import { defaultLightTheme } from './themes';
 import { useI18n } from 'remix-i18n';
+import { themeCookie } from './cookie.server';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
