@@ -4,6 +4,18 @@ export const dict: I18nDict = {
   site: {
     title: 'Willin SSO'
   },
+  user: {
+    management: '用户管理',
+    user: '用户',
+    vip: '赞助者 / VIP',
+    admin: '管理员',
+    id: '用户 ID',
+    username: '用户名',
+    display_name: '昵称',
+    avatar: '头像',
+    type: '类型',
+    membership: '有效期'
+  },
   app: {
     management: '应用管理',
     create: '创建应用',
@@ -27,9 +39,6 @@ export const dict: I18nDict = {
     updated_at: '修改时间',
     go_back: '后退',
     login: '登录',
-    logout: '退出',
-    user: '用户',
-    vip: '赞助者 / VIP',
-    admin: '管理员'
+    logout: '退出'
   }
 };

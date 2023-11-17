@@ -4,6 +4,18 @@ export const dict: I18nDict = {
   site: {
     title: 'Willin SSO'
   },
+  user: {
+    management: 'User Management',
+    user: 'User',
+    vip: 'Sponsor / VIP',
+    admin: 'Admin',
+    id: 'User ID',
+    username: 'Username',
+    display_name: 'Display Name',
+    avatar: 'Avatar',
+    type: 'User Type',
+    membership: 'Membership'
+  },
   app: {
     management: 'App Management',
     create: 'Create App',
@@ -27,9 +39,6 @@ export const dict: I18nDict = {
     updated_at: 'Updated Time',
     go_back: 'Go back',
     login: 'Login',
-    logout: 'Logout',
-    user: 'User',
-    vip: 'Sponsor / VIP',
-    admin: 'Admin'
+    logout: 'Logout'
   }
 };

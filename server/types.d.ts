@@ -11,6 +11,13 @@ declare global {
       app: IAppService;
     }
   }
+
+  type Paginated<T> = {
+    data: T[];
+    total: number;
+    page: number;
+    size: number;
+  };
 }
 
 declare module '@remix-run/cloudflare' {

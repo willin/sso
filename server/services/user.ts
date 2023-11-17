@@ -31,6 +31,7 @@ export interface IUserService {
   updateThirdUser(userId: string, thirdUser: ThirdUser): Promise<boolean>;
   deleteUser(userId: string): Promise<boolean>;
   changeUserType(userId: string, userType: UserType, expire?: number | Date): Promise<boolean>;
+  listUsers(page?: number, size?: number): Promise<Paginated<User>>;
 }
 
 export class UserService implements IUserService {
@@ -113,5 +114,27 @@ export class UserService implements IUserService {
     const userId = record[0].user_id;
     const user = await this.getUserById(userId);
     return user;
+  }
+
+  async listUsers(page?: number = 1, size?: number = 20): Promise<Paginated<User>> {
+    const records = await this.#db.query<User>(
+      'SELECT * FROM user WHERE forbidden=0 ORDER BY created_at DESC LIMIT ?1, ?2',
+      [(page - 1) * size, size]
+    );
+    const total = await this.#db.query<number>('SELECT COUNT(*) AS total FROM user WHERE forbidden=0');
+    return {
+      data: records.map((user) =>
+        UserSchema.parse({
+          ...user,
+          createdAt: new Date(user.created_at),
+          updatedAt: new Date(user.updated_at),
+          displayName: user.display_name,
+          membership: user.membership ? new Date(user.membership) : null
+        })
+      ),
+      total: total[0].total,
+      page,
+      pageSize: size
+    };
   }
 }

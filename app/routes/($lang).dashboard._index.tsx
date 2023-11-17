@@ -23,6 +23,7 @@ export default function Screen() {
         <button>Log Out</button>
       </Form>
       {user.type === UserType.Admin && <LocaleLink to='/dashboard/app'>{t('app.management')}</LocaleLink>}
+      {user.type === UserType.Admin && <LocaleLink to='/dashboard/user'>{t('user.management')}</LocaleLink>}
       <hr />
       <pre>
         <code>{JSON.stringify(user, null, 2)}</code>
