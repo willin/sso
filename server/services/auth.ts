@@ -52,7 +52,8 @@ export interface IAuthService {
   readonly redirectCookieStorage: Cookie;
   createCode(user: User): Promise<string>;
   deleteCode(clientId: string, code: string): Promise<void>;
-  getUserfromCode(clientId: string, code: string): Promise<User | null>;
+  getUserFromCode(clientId: string, code: string): Promise<User | null>;
+  getUserFromToken(token: string): Promise<User | null>;
   createToken(user: User): Promise<AccessToken>;
   revokeToken(token: string): Promise<void>;
 }
@@ -150,8 +151,12 @@ export class AuthService implements IAuthService {
     return code;
   }
 
-  getUserfromCode(clientId: string, code: string): Promise<User | null> {
+  getUserFromCode(clientId: string, code: string): Promise<User | null> {
     return this.#cache.get(`code:${clientId}:${code}`);
+  }
+
+  getUserFromToken(token: string): Promise<User | null> {
+    return this.#cache.get(`token:${token}`);
   }
 
   deleteCode(clientId: string, code: string): Promise<void> {

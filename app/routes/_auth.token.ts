@@ -20,7 +20,7 @@ export const action: ActionFunction = async ({ context, request }) => {
       status: 401
     });
   }
-  const user = await auth.getUserfromCode(clientId, code);
+  const user = await auth.getUserFromCode(clientId, code);
   if (!user) {
     throw new Response('invalid_grant', {
       status: 401
@@ -31,5 +31,3 @@ export const action: ActionFunction = async ({ context, request }) => {
   const token = await auth.createToken(user);
   return json(token);
 };
-
-export { ErrorBoundary } from './_auth';

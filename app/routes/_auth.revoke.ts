@@ -23,5 +23,3 @@ export const action: ActionFunction = async ({ context, request }) => {
   await auth.revokeToken(token);
   return json({});
 };
-
-export { ErrorBoundary } from './_auth';

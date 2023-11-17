@@ -8,6 +8,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
   const url = new URL(request.url);
   const search = new URLSearchParams();
   const clientId = url.searchParams.get('client_id');
+  // TODO: check redirect uri
   search.append('state', url.searchParams.get('state'));
   if (!user) {
     search.append('client_id', clientId);

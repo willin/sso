@@ -11,5 +11,3 @@ export const loader: LoaderFunction = async ({ context, request }) => {
   }
   return json(user);
 };
-
-export { ErrorBoundary } from './_auth';
