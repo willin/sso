@@ -4,7 +4,21 @@ export const dict: I18nDict = {
   site: {
     title: 'Willin SSO'
   },
+  app: {
+    management: 'App Management',
+    id: 'clientId',
+    logo: 'Logo',
+    name: 'App Name',
+    description: 'Description',
+    secret: 'clientSecret',
+    redirect_uris: 'redirectUris',
+    production: 'Is Production',
+    homepage: 'Homepage'
+  },
   common: {
+    created_at: 'Created Time',
+    updated_at: 'Updated Time',
+    go_back: 'Go back',
     login: 'Login',
     logout: 'Logout',
     user: 'User',

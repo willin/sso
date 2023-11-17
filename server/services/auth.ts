@@ -165,7 +165,7 @@ export class AuthService implements IAuthService {
 
   async createToken(user: User): Promise<AccessToken> {
     const token = {
-      access_token: nanoid(30),
+      access_token: nanoid(64),
       expires_in: this.#authTokenExpiration
     };
     await this.#cache.put(`token:${token.access_token}`, JSON.stringify(user), this.#authTokenExpiration);

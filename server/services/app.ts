@@ -30,6 +30,7 @@ export interface IAppService {
   getAppSecrets(appId: string): Promise<string[]>;
   createSecret(appId: string): Promise<string>;
   deleteSecret(appId: string, createdAt: Date): Promise<boolean>;
+  listApps(): Promise<App[]>;
 }
 
 export class AppService implements IAppService {
@@ -124,5 +125,10 @@ export class AppService implements IAppService {
       return data.map((x) => x.secret);
     } catch (e) {}
     return [];
+  }
+
+  async listApps(): Promise<App[]> {
+    const records = await this.#db.query<App>('SELECT * FROM app WHERE forbidden=0 ORDER BY created_at DESC');
+    return records.map((app) => AppSchema.parse(app));
   }
 }
