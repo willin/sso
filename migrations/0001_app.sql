@@ -6,6 +6,7 @@ CREATE TABLE `app` (
   `secret` TEXT NOT NULL, -- JSON 数组 {创建时间，密钥}
   `redirect_uris` TEXT NOT NULL, -- JSON 字串数组
   `homepage` TEXT NOT NULL,
+  `production` BOOLEAN NOT NULL DEFAULT false,
   `forbidden` BOOLEAN NOT NULL DEFAULT false, -- 是否禁止登录
   `created_at` INTEGER NOT NULL DEFAULT current_timestamp,
   `updated_at` INTEGER NOT NULL DEFAULT current_timestamp

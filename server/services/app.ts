@@ -10,6 +10,7 @@ const AppSchema = z.object({
   logo: z.string(),
   homepage: z.string(),
   redirectUris: z.array(z.string()),
+  production: z.boolean().transform(Boolean),
   secret: z.array(
     z.object({
       createdAt: z.date()
@@ -72,8 +73,8 @@ export class AppService implements IAppService {
 
   async updateApp(app: Partial<App>): Promise<App> {
     await this.#db.execute(
-      'UPDATE app SET name = ?2, description = ?3, logo = ?4, homepage = ?5, redirectUris = ?6, updated_at = current_timestamp WHERE id = ?1 LIMIT 1',
-      [app.id, app.name, app.description, app.logo, app.homepage, JSON.stringify(app.redirectUris)]
+      'UPDATE app SET name = ?2, description = ?3, logo = ?4, homepage = ?5, redirectUris = ?6, production = ?7 updated_at = current_timestamp WHERE id = ?1 LIMIT 1',
+      [app.id, app.name, app.description, app.logo, app.homepage, app.production, JSON.stringify(app.redirectUris)]
     );
     return this.getAppById(app.id);
   }

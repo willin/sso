@@ -20,6 +20,7 @@
     "@remix-run/cloudflare": "^2.0.0",
     "@remix-run/cloudflare-pages": "^2.0.0",
     "@remix-run/react": "^2.0.0",
+    "classnames": "^2.3.2",
     "isbot": "^3.6.13",
     "nanoid": "^5.0.3",
     "react": "^18.2.0",
