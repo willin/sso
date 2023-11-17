@@ -36,7 +36,9 @@ export default function Screen() {
           {apps.map((app) => (
             <tr key={app.id}>
               <td>{app.name}</td>
-              <td>{app.production ? '√' : '×'}</td>
+              <td>
+                <input type='checkbox' checked={app.production} className='checkbox checkbox-primary' readOnly />
+              </td>
               <td>
                 <a href={app.homepage} target='_blank' rel='noreferrer'>
                   {app.homepage}

@@ -8,6 +8,7 @@ export const dict: I18nDict = {
     management: 'App Management',
     create: 'Create App',
     edit: 'Edit App',
+    create_secret: 'Create Client Secret',
     id: 'clientId',
     logo: 'Logo',
     name: 'App Name',
@@ -20,6 +21,8 @@ export const dict: I18nDict = {
   common: {
     save: 'Save',
     edit: 'Edit',
+    delete: 'Delete',
+    confirm_delete: 'Are you sure to delete?',
     created_at: 'Created Time',
     updated_at: 'Updated Time',
     go_back: 'Go back',

@@ -49,7 +49,6 @@ export class AppService implements IAppService {
       return null;
     }
     const app = records[0];
-    console.log(app);
     return AppSchema.parse({
       ...app,
       redirectUris: JSON.parse(app.redirect_uris),
@@ -86,28 +85,41 @@ export class AppService implements IAppService {
     );
   }
 
+  async #getAppSecrets(appId: string) {
+    const records = await this.#db.query<App>(
+      'SELECT secret FROM app WHERE id=?1 AND forbidden=0 ORDER BY created_at DESC LIMIT 1',
+      [appId]
+    );
+    if (records.length === 0) {
+      throw new Error('App not found');
+    }
+    const secret = JSON.parse(records[0].secret);
+    return secret.map((x) => ({
+      secret: x.secret,
+      created_at: new Date(x.created_at)
+    }));
+  }
+
   async createSecret(appId: string): Promise<string> {
-    const app = await this.getAppById(appId);
-    const secret = nanoid(30);
-    app.secret.push({
-      secret,
+    const secret = await this.#getAppSecrets(appId);
+    const key = nanoid(30);
+    secret.push({
+      secret: key,
       created_at: Date.now()
     });
 
     return this.#db
-      .execute('UPDATE app SET secret = ?2 WHERE id = ?1 LIMIT 1', [appId, JSON.stringify(app.secret)])
-      .then(() => secret);
+      .execute('UPDATE app SET secret = ?2 WHERE id = ?1 LIMIT 1', [appId, JSON.stringify(secret)])
+      .then(() => key);
   }
 
   async deleteSecret(appId: string, createdAt: Date): Promise<boolean> {
-    const app = await this.getAppById(appId);
-    const index = app.secret.findIndex((x) => new Date(x.created_at).getTime() !== new Date(createdAt).getTime());
+    const secret = await this.#getAppSecrets(appId);
+    const index = secret.findIndex((x) => new Date(x.created_at).getTime() === new Date(createdAt).getTime());
     if (index === -1) return false;
-    app.secret.splice(index, 1);
+    secret.splice(index, 1);
 
-    return this.#db
-      .execute('UPDATE app SET secret = ?2 WHERE id = ?1 LIMIT 1', [appId, JSON.stringify(app.secret)])
-      .then(() => secret);
+    return this.#db.execute('UPDATE app SET secret = ?2 WHERE id = ?1 LIMIT 1', [appId, JSON.stringify(secret)]);
   }
 
   async getAppSecrets(appId: string): Promise<string[]> {

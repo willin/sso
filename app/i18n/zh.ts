@@ -8,6 +8,7 @@ export const dict: I18nDict = {
     management: '应用管理',
     create: '创建应用',
     edit: '编辑应用',
+    create_secret: '创建 Client Secret',
     id: 'clientId',
     logo: 'Logo',
     name: '应用名称',
@@ -20,6 +21,8 @@ export const dict: I18nDict = {
   common: {
     save: '保存',
     edit: '编辑',
+    delete: '删除',
+    confirm_delete: '确定要删除吗？',
     created_at: '创建时间',
     updated_at: '修改时间',
     go_back: '后退',
