@@ -155,7 +155,7 @@ export class UserService implements IUserService {
   }
 
   unbindThirdUser(userId: string, provider: string): Promise<boolean> {
-    return this.#db.execute('DELETE FROM third_user WHERE user_id=?1 AND provider=?2 LIMIT 1', [userId, provider]);
+    return this.#db.execute('DELETE FROM third_user WHERE user_id=?1 AND provider=?2', [userId, provider]);
   }
 
   bindThirdUser(userId: string, thirdUser: ThirdUser): Promise<boolean> {
