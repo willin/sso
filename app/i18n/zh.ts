@@ -38,6 +38,7 @@ export const dict: I18nDict = {
     homepage: '官方主页'
   },
   common: {
+    total: '总计',
     save: '保存',
     edit: '编辑',
     delete: '删除',

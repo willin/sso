@@ -38,6 +38,7 @@ export const dict: I18nDict = {
     homepage: 'Homepage'
   },
   common: {
+    total: 'Total',
     save: 'Save',
     edit: 'Edit',
     delete: 'Delete',

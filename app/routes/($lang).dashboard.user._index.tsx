@@ -41,8 +41,11 @@ export default function UserListPage() {
   return (
     <>
       <Form action='.?index' method='POST' reloadDocument>
+        <h2 className='my-2'>
+          {t('common.total')}： {total}
+        </h2>
         <input type='hidden' name='forbidden' value={searchParams.get('forbidden')} />
-        <table className='table table-zebra w-full min-w-full'>
+        <table className='table table-zebra w-full min-w-full table-md'>
           <thead>
             <tr>
               <th>{t('user.avatar')}</th>
