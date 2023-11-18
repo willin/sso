@@ -67,7 +67,7 @@ export default function DashboardPage() {
         </div>
         <div className='form-control w-full my-2'>
           <label className='label'>
-            <span className='label-text'>{t('user.username')}</span>
+            <span className='label-text'>{t('user.display_name')}</span>
           </label>
           <input
             type='text'
