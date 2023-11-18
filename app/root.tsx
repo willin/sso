@@ -1,24 +1,61 @@
-import type { LinksFunction } from '@remix-run/cloudflare';
-import { cssBundleHref } from '@remix-run/css-bundle';
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import styles from './tailwind.css';
+import { json, type LinksFunction, type LoaderFunction } from '@remix-run/cloudflare';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
+import DetectLanguage from './components/detect-lang';
+import Layout from './components/layout';
+import { ThemeProvider } from './components/use-theme';
+import { defaultLightTheme } from './themes';
+import { useI18n } from 'remix-i18n';
+import { themeCookie } from './cookie.server';
 
-export const links: LinksFunction = () => [...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : [])];
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: styles },
+  { rel: 'shortcut icon', href: '/favicon.ico', type: 'image/ico' },
+  { rel: 'icon', href: '/favicon.png', type: 'image/png' }
+];
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'SSO - Willin Wang' },
+    { name: 'description', content: 'Source: https://github.com/willin/sso' },
+    {
+      name: 'keywords',
+      content: ['Remix', 'IDaaS', 'SSO', 'OIDC', 'OAuth', 'React', 'JavaScript', 'Willin Wang'].join(', ')
+    },
+    { name: 'author', content: 'Willin Wang' }
+  ];
+};
+
+export const loader: LoaderFunction = async ({ request, context }) => {
+  const theme = (await themeCookie.parse(request.headers.get('Cookie'))) || defaultLightTheme;
+
+  const user = await context.services.auth.authenticator.isAuthenticated(request);
+  return json({ theme, user });
+};
 
 export default function App() {
+  const { theme } = useLoaderData<typeof loader>();
+  const i18n = useI18n();
+
   return (
-    <html lang='en'>
-      <head>
-        <meta charSet='utf-8' />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+    <ThemeProvider specifiedTheme={theme}>
+      <html lang={i18n.locale()} data-theme={theme}>
+        <head>
+          <meta charSet='utf-8' />
+          <meta name='viewport' content='width=device-width,initial-scale=1' />
+          <Meta />
+          <Links />
+        </head>
+        <body>
+          <Layout>
+            <Outlet />
+          </Layout>
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+          <DetectLanguage />
+        </body>
+      </html>
+    </ThemeProvider>
   );
 }

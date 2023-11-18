@@ -7,12 +7,23 @@
 import { RemixBrowser } from '@remix-run/react';
 import { startTransition, StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
+import { I18nProvider } from 'remix-i18n';
+import { i18n, getLocale } from './i18n';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh';
+import 'dayjs/locale/en';
+
+const locale = getLocale(window.location.pathname);
+i18n.locale(locale);
+dayjs.locale(locale);
 
 startTransition(() => {
   hydrateRoot(
     document,
     <StrictMode>
-      <RemixBrowser />
+      <I18nProvider i18n={i18n}>
+        <RemixBrowser />
+      </I18nProvider>
     </StrictMode>
   );
 });
