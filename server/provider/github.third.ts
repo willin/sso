@@ -13,7 +13,7 @@ export default class BindGithubProvider implements IBindThirdPartyProvider {
 
   constructor(env: Env, url: URL) {
     const callbackURL = `${url.protocol}//${url.hostname}${
-      ['80', '443'].includes(url.port) ? '' : `:${url.port}`
+      ['80', '443', ''].includes(url.port) ? '' : `:${url.port}`
     }/auth/$provider/callback`;
 
     this.#clientId = env.GITHUB_ID;
