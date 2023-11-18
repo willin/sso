@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import type { Env } from '../env';
-import type { ThirdUser } from './auth';
+import { ThirdUserSchema, type ThirdUser } from './auth';
 import type { IDatabaseService } from './database';
 import { nanoid } from '../utils/nanoid';
 
@@ -28,7 +28,8 @@ export interface IUserService {
   getUserByThirdUser(thirdUser: ThirdUser): Promise<User>;
   getThirdUsersByUserId(userId: string): Promise<ThirdUser[]>;
   updateUser(userId: string, user: Partial<User>): Promise<boolean>;
-  updateThirdUser(userId: string, thirdUser: ThirdUser): Promise<boolean>;
+  bindThirdUser(userId: string, thirdUser: ThirdUser): Promise<boolean>;
+  unbindThirdUser(userId: string, provider: string): Promise<boolean>;
   deleteUser(userId: string): Promise<boolean>;
   changeUserType(userId: string, userType: UserType, expire?: number | Date): Promise<boolean>;
   changeUserForbidden(userId: string, forbidden: number): Promise<boolean>;
@@ -151,5 +152,29 @@ export class UserService implements IUserService {
       user.displayName,
       user.avatar
     ]);
+  }
+
+  unbindThirdUser(userId: string, provider: string): Promise<boolean> {
+    return this.#db.execute('DELETE FROM third_user WHERE user_id=?1 AND provider=?2 LIMIT 1', [userId, provider]);
+  }
+
+  bindThirdUser(userId: string, thirdUser: ThirdUser): Promise<boolean> {
+    return this.#addThirdUser(userId, thirdUser);
+  }
+
+  async getThirdUsersByUserId(userId: string): Promise<ThirdUser[]> {
+    const records = await this.#db.query<ThirdUser>(
+      'SELECT * FROM third_user WHERE user_id=?1 ORDER BY created_at DESC',
+      [userId]
+    );
+    return records.map((third) =>
+      ThirdUserSchema.parse({
+        ...third,
+        id: third.third_id,
+        displayName: third.display_name,
+        photos: [{ value: third.avatar }],
+        createdAt: new Date(third.created_at)
+      })
+    );
   }
 }

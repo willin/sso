@@ -8,9 +8,12 @@ import type { Env } from '../env';
 import type { IUserService, User } from './user';
 import type { ICacheService } from './cache';
 import { nanoid } from '../utils/nanoid';
+import { AvailableProviders } from '~/config';
+import type { IBindThirdPartyProvider } from '../provider/thirdparty';
+import { BindThirdPartyProvider } from '../provider/thirdparty';
 
-const ThirdUserSchema = z.object({
-  provider: z.enum(['github', 'afdian']),
+export const ThirdUserSchema = z.object({
+  provider: z.enum(AvailableProviders),
   id: z.string(),
   username: z.string(),
   displayName: z.string(),
@@ -21,6 +24,7 @@ const ThirdUserSchema = z.object({
       })
     )
     .optional(),
+  createdAt: z.date().optional(),
   _json: z.object().optional()
 });
 
@@ -56,6 +60,8 @@ export interface IAuthService {
   getUserFromToken(token: string): Promise<User | null>;
   createToken(user: User): Promise<AccessToken>;
   revokeToken(token: string): Promise<void>;
+  bindThirdPartyRedirect(provider: string): string;
+  bindThirdPartyCallback(userId: string, provider: string, request: Request): Promise<boolean>;
 }
 
 export class AuthService implements IAuthService {
@@ -65,6 +71,8 @@ export class AuthService implements IAuthService {
   #authenticator: Authenticator<ThirdUser>;
   #authCodeExpiration: number;
   #authTokenExpiration: number;
+  #thirdparty: IBindThirdPartyProvider;
+  #userService: IUserService;
 
   constructor(env: Env, url: URL, userService: IUserService, cache: ICacheService) {
     const sessionStorage = createCookieSessionStorage({
@@ -85,6 +93,8 @@ export class AuthService implements IAuthService {
     this.#sessionStorage = sessionStorage;
     this.#redirectCookieStorage = cookieStorage;
     this.#cache = cache;
+    this.#thirdparty = new BindThirdPartyProvider(env, url);
+    this.#userService = userService;
     this.#authenticator = new Authenticator<ThirdUser>(this.#sessionStorage as unknown as SessionStorage, {
       throwOnError: true
     });
@@ -174,5 +184,13 @@ export class AuthService implements IAuthService {
 
   revokeToken(token: string): Promise<void> {
     return this.#cache.delete(`token:${token}`);
+  }
+
+  bindThirdPartyRedirect(provider: string): string {
+    return this.#thirdparty.bindThirdPartyRedirect(provider);
+  }
+
+  bindThirdPartyCallback(userId: string, provider: string, request: Request): Promise<boolean> {
+    return this.#thirdparty.bindThirdPartyCallback(userId, provider, request, this.#userService);
   }
 }

@@ -61,7 +61,7 @@ export default function DashboardPage() {
               <img
                 src={app.logo.startsWith('http') ? app.logo : '/images/logo.jpg'}
                 alt={app.name}
-                className='w-32 rounded'
+                className='ml-4 w-32 rounded'
               />
             </figure>
 

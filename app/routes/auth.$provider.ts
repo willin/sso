@@ -1,5 +1,6 @@
 import { redirect, type ActionFunction, type LoaderFunction } from '@remix-run/cloudflare';
 import { z } from 'zod';
+import { AvailableProviders } from '~/config';
 import { safeRedirect } from '~/utils/safe-redirect';
 
 export const loader: LoaderFunction = () => {
@@ -7,7 +8,7 @@ export const loader: LoaderFunction = () => {
 };
 
 export const action: ActionFunction = async ({ request, context, params }) => {
-  const provider = z.enum(['github', 'afdian']).parse(params.provider);
+  const provider = z.enum(AvailableProviders).parse(params.provider);
   const { auth } = context.services;
   let referrer = request.headers.get('referer'); // the typo on referee is correct here https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer
   try {

@@ -18,7 +18,10 @@ export const dict: I18nDict = {
     normal: 'Normal Users',
     forbidden: 'Forbidden Users',
     ban: 'Ban',
-    unban: 'Active'
+    unban: 'Active',
+    thirdparty: 'Third Party Login',
+    bind: 'Bind',
+    unbind: 'Unbind'
   },
   app: {
     management: 'App Management',

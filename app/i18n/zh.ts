@@ -18,7 +18,10 @@ export const dict: I18nDict = {
     normal: '正常用户',
     forbidden: '禁用账户',
     ban: '禁止登录',
-    unban: '激活登录'
+    unban: '激活登录',
+    thirdparty: '登录方式',
+    bind: '绑定',
+    unbind: '解绑'
   },
   app: {
     management: '应用管理',
