@@ -27,7 +27,7 @@ export interface IUserService {
   getUserById(userId: string): Promise<User | null>;
   getUserByThirdUser(thirdUser: ThirdUser): Promise<User>;
   getThirdUsersByUserId(userId: string): Promise<ThirdUser[]>;
-  updateUser(user: User): Promise<User>;
+  updateUser(userId: string, user: Partial<User>): Promise<boolean>;
   updateThirdUser(userId: string, thirdUser: ThirdUser): Promise<boolean>;
   deleteUser(userId: string): Promise<boolean>;
   changeUserType(userId: string, userType: UserType, expire?: number | Date): Promise<boolean>;
@@ -119,7 +119,6 @@ export class UserService implements IUserService {
 
   async listUsers(args: { page?: number; size?: number; fobidden?: number }): Promise<Paginated<User>> {
     const { page = 1, size = 20, forbidden = 0 } = args;
-    console.log(args);
     const records = await this.#db.query<User>(
       'SELECT * FROM user WHERE forbidden = ?3 ORDER BY created_at DESC LIMIT ?1, ?2',
       [(page - 1) * size, size, forbidden]
@@ -143,5 +142,14 @@ export class UserService implements IUserService {
 
   changeUserForbidden(userId: string, forbidden: number): Promise<boolean> {
     return this.#db.execute('UPDATE user SET forbidden=?2 WHERE id=?1 LIMIT 1', [userId, forbidden]);
+  }
+
+  updateUser(userId: string, user: Partial<User>): Promise<boolean> {
+    return this.#db.execute('UPDATE user SET username=?2, display_name=?3, avatar=?4 WHERE id=?1 LIMIT 1', [
+      userId,
+      user.username,
+      user.displayName,
+      user.avatar
+    ]);
   }
 }
