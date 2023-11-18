@@ -49,6 +49,8 @@ export const dict: I18nDict = {
     updated_at: '修改时间',
     go_back: '后退',
     login: '登录',
-    logout: '退出'
+    logout: '退出',
+    adblock: '发现广告拦截插件',
+    adblock_message: '请关闭广告拦截插件以继续使用本站服务。'
   }
 };

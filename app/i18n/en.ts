@@ -49,6 +49,8 @@ export const dict: I18nDict = {
     updated_at: 'Updated Time',
     go_back: 'Go back',
     login: 'Login',
-    logout: 'Logout'
+    logout: 'Logout',
+    adblock: 'Adblock Detected',
+    adblock_message: 'Please disable adblock to continue using this site.'
   }
 };

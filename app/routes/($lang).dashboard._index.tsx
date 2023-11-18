@@ -2,6 +2,7 @@ import type { LoaderFunction } from '@remix-run/cloudflare';
 import { json } from '@remix-run/cloudflare';
 import { Form, useLoaderData } from '@remix-run/react';
 import { useI18n } from 'remix-i18n';
+import AdSlot from '~/components/adsense';
 import { LocaleLink } from '~/components/link';
 import type { App } from '~/server/services/app';
 import { UserType } from '~/server/services/user';
@@ -80,6 +81,7 @@ export default function DashboardPage() {
           </div>
         ))}
       </div>
+      <AdSlot />
     </>
   );
 }

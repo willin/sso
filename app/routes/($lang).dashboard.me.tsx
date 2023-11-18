@@ -4,6 +4,7 @@ import { json, redirect } from '@remix-run/cloudflare';
 import { Form, useLoaderData, useNavigation } from '@remix-run/react';
 import { useI18n } from 'remix-i18n';
 import dayjs from 'dayjs';
+import AdSlot from '~/components/adsense';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const login = await context.services.auth.authenticator.isAuthenticated(request, {
@@ -100,6 +101,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </Form>
+      <AdSlot />
       <h3 className='my-4'>{t('user.thirdparty')}</h3>
       <div className='card w-full my-4 bg-base-100 shadow-xl'>
         <div className='card-body'>
