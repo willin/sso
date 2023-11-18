@@ -21,6 +21,7 @@ export default function AppListPage() {
       <table className='table table-zebra w-full min-w-full'>
         <thead>
           <tr>
+            <th>{t('app.logo')}</th>
             <th>{t('app.name')}</th>
             <th>{t('app.production')}</th>
             <th>{t('app.homepage')}</th>
@@ -35,6 +36,13 @@ export default function AppListPage() {
         <tbody>
           {apps.map((app) => (
             <tr key={app.id}>
+              <td>
+                <div className='avatar'>
+                  <div className='w-8 rounded'>
+                    <img src={app.logo.startsWith('http') ? app.logo : '/images/logo.jpg'} alt={app.name} />
+                  </div>
+                </div>
+              </td>
               <td>{app.name}</td>
               <td>
                 <input type='checkbox' checked={app.production} className='checkbox checkbox-primary' readOnly />

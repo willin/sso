@@ -21,8 +21,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
 export const action: ActionFunction = async ({ request, context }) => {
   await checkAdminPermission({ context, request });
   const formData = await request.formData();
-  const { searchParams } = new URL(request.url);
-  const forbidden = Number(searchParams.get('forbidden')) || 0;
+  const forbidden = Number(formData.get('forbidden')) || 0;
   const userId = formData.get('id');
   await context.services.user.changeUserForbidden(userId, forbidden === 0 ? 1 : 0);
   return json({});
@@ -41,7 +40,8 @@ export default function UserListPage() {
 
   return (
     <>
-      <Form action='.' method='POST' reloadDocument>
+      <Form action='.?index' method='POST' reloadDocument>
+        <input type='hidden' name='forbidden' value={searchParams.get('forbidden')} />
         <table className='table table-zebra w-full min-w-full'>
           <thead>
             <tr>

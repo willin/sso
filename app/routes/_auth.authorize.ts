@@ -6,6 +6,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
   const { authenticator } = auth;
   const user = await authenticator.isAuthenticated(request);
   const url = new URL(request.url);
+
   const search = new URLSearchParams();
   const clientId = url.searchParams.get('client_id');
   // TODO: check redirect uri
