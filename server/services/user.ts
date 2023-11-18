@@ -31,7 +31,8 @@ export interface IUserService {
   updateThirdUser(userId: string, thirdUser: ThirdUser): Promise<boolean>;
   deleteUser(userId: string): Promise<boolean>;
   changeUserType(userId: string, userType: UserType, expire?: number | Date): Promise<boolean>;
-  listUsers(page?: number, size?: number): Promise<Paginated<User>>;
+  changeUserForbidden(userId: string, forbidden: number): Promise<boolean>;
+  listUsers(args: { page?: number; size?: number; forbidden?: number }): Promise<Paginated<User>>;
 }
 
 export class UserService implements IUserService {
@@ -116,12 +117,14 @@ export class UserService implements IUserService {
     return user;
   }
 
-  async listUsers(page?: number = 1, size?: number = 20): Promise<Paginated<User>> {
+  async listUsers(args: { page?: number; size?: number; fobidden?: number }): Promise<Paginated<User>> {
+    const { page = 1, size = 20, forbidden = 0 } = args;
+    console.log(args);
     const records = await this.#db.query<User>(
-      'SELECT * FROM user WHERE forbidden=0 ORDER BY created_at DESC LIMIT ?1, ?2',
-      [(page - 1) * size, size]
+      'SELECT * FROM user WHERE forbidden = ?3 ORDER BY created_at DESC LIMIT ?1, ?2',
+      [(page - 1) * size, size, forbidden]
     );
-    const total = await this.#db.query<number>('SELECT COUNT(*) AS total FROM user WHERE forbidden=0');
+    const total = await this.#db.query<number>('SELECT COUNT(*) AS total FROM user WHERE forbidden = ?1', [forbidden]);
     return {
       data: records.map((user) =>
         UserSchema.parse({
@@ -136,5 +139,9 @@ export class UserService implements IUserService {
       page,
       pageSize: size
     };
+  }
+
+  changeUserForbidden(userId: string, forbidden: number): Promise<boolean> {
+    return this.#db.execute('UPDATE user SET forbidden=?2 WHERE id=?1 LIMIT 1', [userId, forbidden]);
   }
 }

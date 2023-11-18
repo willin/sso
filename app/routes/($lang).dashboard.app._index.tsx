@@ -12,7 +12,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
   return json({ apps });
 };
 
-export default function Screen() {
+export default function AppListPage() {
   const { apps } = useLoaderData<typeof loader>();
   const { t } = useI18n();
 

@@ -14,7 +14,11 @@ export const dict: I18nDict = {
     display_name: '昵称',
     avatar: '头像',
     type: '类型',
-    membership: '有效期'
+    membership: '有效期',
+    normal: '正常用户',
+    forbidden: '禁用账户',
+    ban: '禁止登录',
+    unban: '激活登录'
   },
   app: {
     management: '应用管理',
@@ -35,6 +39,7 @@ export const dict: I18nDict = {
     edit: '编辑',
     delete: '删除',
     login_with: '使用 {{provider}} 登录',
+    confirm: '确定要执行该操作吗？',
     confirm_delete: '确定要删除吗？',
     confirm_logout: '确定要退出登录吗？',
     created_at: '创建时间',

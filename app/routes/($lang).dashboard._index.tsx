@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
   return json({ user });
 };
 
-export default function Screen() {
+export default function DashboardPage() {
   const { user } = useLoaderData<typeof loader>();
   const { t } = useI18n();
 

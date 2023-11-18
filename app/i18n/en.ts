@@ -14,7 +14,11 @@ export const dict: I18nDict = {
     display_name: 'Display Name',
     avatar: 'Avatar',
     type: 'User Type',
-    membership: 'Membership'
+    membership: 'Membership',
+    normal: 'Normal Users',
+    forbidden: 'Forbidden Users',
+    ban: 'Ban',
+    unban: 'Active'
   },
   app: {
     management: 'App Management',
@@ -35,6 +39,7 @@ export const dict: I18nDict = {
     edit: 'Edit',
     delete: 'Delete',
     login_with: 'Login with {{provider}}',
+    confirm: 'Are you sure?',
     confirm_delete: 'Are you sure to delete?',
     confirm_logout: 'Are you sure to logout?',
     created_at: 'Created Time',
