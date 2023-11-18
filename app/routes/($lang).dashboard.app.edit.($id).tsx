@@ -148,6 +148,18 @@ export default function EditAppPage() {
 
         {id && (
           <>
+            <div className='form-control w-full my-2'>
+              <label className='label'>
+                <span className='label-text'>{t('app.id')}</span>
+              </label>
+              <input
+                type='text'
+                placeholder={t('app.id')}
+                defaultValue={app.id || ''}
+                className='input input-bordered w-full'
+                readOnly
+              />
+            </div>
             <h3>{t('app.secret')}</h3>
             <div className='form-control w-full my-2'>
               <ul>
