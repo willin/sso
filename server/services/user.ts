@@ -142,11 +142,11 @@ export class UserService implements IUserService {
   }
 
   changeUserForbidden(userId: string, forbidden: number): Promise<boolean> {
-    return this.#db.execute('UPDATE user SET forbidden=?2 WHERE id=?1 LIMIT 1', [userId, forbidden]);
+    return this.#db.execute('UPDATE user SET forbidden=?2 WHERE id=?1', [userId, forbidden]);
   }
 
   updateUser(userId: string, user: Partial<User>): Promise<boolean> {
-    return this.#db.execute('UPDATE user SET username=?2, display_name=?3, avatar=?4 WHERE id=?1 LIMIT 1', [
+    return this.#db.execute('UPDATE user SET username=?2, display_name=?3, avatar=?4 WHERE id=?1', [
       userId,
       user.username,
       user.displayName,

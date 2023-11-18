@@ -72,17 +72,16 @@ export class AppService implements IAppService {
 
   async updateApp(appId: string, app: Partial<App>): Promise<App> {
     await this.#db.execute(
-      'UPDATE app SET name = ?2, description = ?3, logo = ?4, homepage = ?5, redirect_uris = ?6, production = ?7, updated_at = current_timestamp WHERE id = ?1 LIMIT 1',
+      'UPDATE app SET name = ?2, description = ?3, logo = ?4, homepage = ?5, redirect_uris = ?6, production = ?7, updated_at = current_timestamp WHERE id = ?1',
       [appId, app.name, app.description, app.logo, app.homepage, JSON.stringify(app.redirectUris), app.production]
     );
     return this.getAppById(appId);
   }
 
   deleteApp(appId: string): Promise<boolean> {
-    return this.#db.execute(
-      'UPDATE app SET fobidden = true, updated_at = current_timestamp FROM app WHERE id = ?1 LIMIT 1',
-      [appId]
-    );
+    return this.#db.execute('UPDATE app SET fobidden = true, updated_at = current_timestamp FROM app WHERE id = ?1', [
+      appId
+    ]);
   }
 
   async #getAppSecrets(appId: string) {
@@ -109,7 +108,7 @@ export class AppService implements IAppService {
     });
 
     return this.#db
-      .execute('UPDATE app SET secret = ?2 WHERE id = ?1 LIMIT 1', [appId, JSON.stringify(secret)])
+      .execute('UPDATE app SET secret = ?2 WHERE id = ?1', [appId, JSON.stringify(secret)])
       .then(() => key);
   }
 
@@ -119,7 +118,7 @@ export class AppService implements IAppService {
     if (index === -1) return false;
     secret.splice(index, 1);
 
-    return this.#db.execute('UPDATE app SET secret = ?2 WHERE id = ?1 LIMIT 1', [appId, JSON.stringify(secret)]);
+    return this.#db.execute('UPDATE app SET secret = ?2 WHERE id = ?1', [appId, JSON.stringify(secret)]);
   }
 
   async getAppSecrets(appId: string): Promise<string[]> {
