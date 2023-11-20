@@ -1,5 +1,5 @@
 import styles from './tailwind.css';
-import { json, type LinksFunction, type LoaderFunction } from '@remix-run/cloudflare';
+import { json, redirect, type LinksFunction, type LoaderFunction } from '@remix-run/cloudflare';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import DetectLanguage from './components/detect-lang';
 import Layout from './components/layout';
