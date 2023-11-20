@@ -13,7 +13,7 @@ export default function Bootstrap() {
   const { t } = useI18n();
 
   useEffect(() => {
-    if (user.type === 'admin' || user.type === 'vip') {
+    if (user && (user?.type === 'admin' || user?.type === 'vip')) {
       setHideAd(true);
       return;
     }
@@ -50,7 +50,7 @@ export default function Bootstrap() {
           setBlocked(false);
         }
       });
-  }, [pathname]);
+  }, [pathname, user]);
 
   return (
     <>

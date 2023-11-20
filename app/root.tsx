@@ -7,6 +7,7 @@ import { ThemeProvider } from './components/use-theme';
 import { defaultLightTheme } from './themes';
 import { useI18n } from 'remix-i18n';
 import { themeCookie } from './cookie.server';
+import { i18nConfig } from './i18n';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
@@ -27,6 +28,10 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async ({ request, context }) => {
+  if (params.lang && !i18nConfig.supportedLanguages.includes(params.lang)) {
+    return redirect('/');
+  }
+
   const theme = (await themeCookie.parse(request.headers.get('Cookie'))) || defaultLightTheme;
 
   const user = await context.services.auth.authenticator.isAuthenticated(request);
