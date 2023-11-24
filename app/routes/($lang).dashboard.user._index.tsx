@@ -4,7 +4,7 @@ import { Form, useLoaderData, useSearchParams } from '@remix-run/react';
 import dayjs from 'dayjs';
 import type { FormEvent } from 'react';
 import { useI18n } from 'remix-i18n';
-// import { LocaleLink } from '~/components/link';
+import { LocaleLink } from '~/components/link';
 import { Paginator } from '~/components/pagination';
 import { checkAdminPermission } from '~/utils/admin-check.server';
 
@@ -87,7 +87,7 @@ export default function UserListPage() {
                   <button type='submit' onClick={confirmOperation} name='id' value={user.id}>
                     {searchParams.get('forbidden') === '1' ? t('user.unban') : t('user.ban')}
                   </button>
-                  {/* <LocaleLink to={`/dashboard/user/edit/${user.id}`}>{t('common.edit')}</LocaleLink> */}
+                  <LocaleLink to={`/dashboard/user/edit/${user.id}`}>{t('common.edit')}</LocaleLink>
                 </td>
               </tr>
             ))}
