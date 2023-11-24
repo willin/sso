@@ -84,9 +84,10 @@ export default function UserListPage() {
                 <td>{t(`user.${user.type}`)}</td>
                 <td>{dayjs(user.createdAt).format('YYYY-MM-DD')}</td>
                 <td>
-                  <button type='submit' onClick={confirmOperation} name='id' value={user.id}>
+                  <button type='submit' onClick={confirmOperation} name='id' value={user.id} className='text-primary'>
                     {searchParams.get('forbidden') === '1' ? t('user.unban') : t('user.ban')}
                   </button>
+                  {'  '}
                   <LocaleLink to={`/dashboard/user/edit/${user.id}`}>{t('common.edit')}</LocaleLink>
                 </td>
               </tr>

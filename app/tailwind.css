@@ -15,7 +15,7 @@
   .btn *,
   .prose .post-image,
   .cursor-pointer * {
-    cursor: url('/images/pointer.cur'), pointer;
+    cursor: url('/images/pointer.cur'), pointer !important;
   }
 
   html {
