@@ -8,14 +8,18 @@ import AdSlot from '~/components/adsense';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const login = await context.services.auth.authenticator.isAuthenticated(request, {
-    failureRedirect: '/',
-    headers: {
-      'set-cookie': await context.services.auth.redirectCookieStorage.serialize(request.url)
-    }
+    failureRedirect: '/'
   });
   const user = await context.services.user.getUserById(login.id);
   const thirdparty = await context.services.user.getThirdUsersByUserId(login.id);
-  return json({ user, thirdparty });
+  return json(
+    { user, thirdparty },
+    {
+      headers: {
+        'set-cookie': await context.services.auth.redirectCookieStorage.serialize(request.url)
+      }
+    }
+  );
 };
 
 export const action: ActionFunction = async ({ request, context }) => {
