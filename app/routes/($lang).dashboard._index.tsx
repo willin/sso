@@ -38,7 +38,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <Form method='post' action='/api/logout'>
+      <Form method='post' action='/auth/logout'>
         <LocaleLink to='/dashboard/me'>{user.username}</LocaleLink>
         {user.type === UserType.Admin && (
           <LocaleLink to='/dashboard/app' className='my-2 mx-2'>

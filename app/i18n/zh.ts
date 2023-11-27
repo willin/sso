@@ -46,6 +46,8 @@ export const dict: I18nDict = {
     confirm: '确定要执行该操作吗？',
     confirm_delete: '确定要删除吗？',
     confirm_logout: '确定要退出登录吗？',
+    vip: '升级/续费会员',
+    profile: '个人资料',
     created_at: '创建时间',
     updated_at: '修改时间',
     go_back: '后退',

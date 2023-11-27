@@ -26,5 +26,6 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_username ON user(`username`);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_third_user_pk ON third_user(`user_id`, `third_id`, `provider`);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_third_user_unq ON third_user(`third_id`, `provider`);
 CREATE INDEX IF NOT EXISTS idx_user ON user(`id`, `forbidden`, `created_at`);
+CREATE INDEX IF NOT EXISTS idx_user_type ON user(`type`);
 CREATE INDEX IF NOT EXISTS idx_third_user ON third_user(`user_id`, `created_at`);
 CREATE INDEX IF NOT EXISTS idx_third_search ON third_user(`third_id`, `provider`, `forbidden`, `created_at`);

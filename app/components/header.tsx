@@ -2,6 +2,7 @@ import LocaleSwitch from './locale-switch';
 import ThemeSwitch from './theme-switch';
 import { LocaleLink } from './link';
 import { useI18n } from 'remix-i18n';
+import UserPanel from './user-panel';
 
 export default function MainHeader() {
   const { t } = useI18n();
@@ -17,6 +18,7 @@ export default function MainHeader() {
         <div className='navbar-end'>
           <LocaleSwitch />
           <ThemeSwitch />
+          <UserPanel />
         </div>
       </div>
     </header>

@@ -46,6 +46,8 @@ export const dict: I18nDict = {
     confirm: 'Are you sure?',
     confirm_delete: 'Are you sure to delete?',
     confirm_logout: 'Are you sure to logout?',
+    vip: 'Upgrade/Renew VIP',
+    profile: 'Profile',
     created_at: 'Created Time',
     updated_at: 'Updated Time',
     go_back: 'Go back',
