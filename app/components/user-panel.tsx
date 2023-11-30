@@ -29,11 +29,9 @@ export default function UserPanel() {
 
   if (!user)
     return (
-      <Form method='post' action='/auth/sso'>
-        <button className='btn btn-ghost' type='submit'>
-          <IconUser />
-        </button>
-      </Form>
+      <LocaleLink to='/login' className='btn btn-ghost'>
+        <IconUser />
+      </LocaleLink>
     );
 
   return (
