@@ -34,6 +34,7 @@ GitHub provides two types of Apps to utilize its API: the `GitHub App` and the `
 - `redirect_uri`:
   - Type: `string`.
   - `Optional`.
+  - `Oauth App`.
   - Github can have multiple callback URLs. Defaults to `c.req.url`.
 
 ### Authentication Flow

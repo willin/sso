@@ -1,5 +1,5 @@
 {
-  "name": "sso-api-worker",
+  "name": "v0-sso",
   "private": true,
   "version": "0.0.0",
   "description": "Hono SSO Provider Server for cloudflare workers",
@@ -29,6 +29,7 @@
     "test": "vitest run --pass-with-no-tests"
   },
   "dependencies": {
+    "@hono-dev/powered-by": "*",
     "hono": "^3.11.10"
   },
   "devDependencies": {

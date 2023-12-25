@@ -6,6 +6,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "test": "turbo run test --parallel",
+    "coverage": "turbo run test --parallel -- --coverage",
     "changeset:version": "changeset version",
     "changeset:release": "changeset publish",
     "lint": "turbo run lint --parallel",

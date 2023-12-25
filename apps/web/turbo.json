@@ -2,10 +2,7 @@
   "extends": ["//"],
   "pipeline": {
     "build": {
-      "outputs": ["dist/**"]
-    },
-    "dev": {
-      "dependsOn": ["@hono-dev/powered-by#build"]
+      "outputs": [".cloudflare/**", ".svelte-kit/**"]
     },
     "test": {
       "outputs": [".coverage/**"]

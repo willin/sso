@@ -1,0 +1,13 @@
+name = "v0-sso-api"
+compatibility_date = "2024-01-01"
+compatibility_flags = [ "nodejs_compat" ]
+main = "./.cloudflare/worker.js"
+
+[site]
+bucket = "./.cloudflare/public"
+
+[build]
+command = "npm run build"
+
+[env.dev]
+workers_dev = true

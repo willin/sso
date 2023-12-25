@@ -4,9 +4,6 @@
     "build": {
       "outputs": ["dist/**"]
     },
-    "dev": {
-      "dependsOn": ["@hono-dev/powered-by#build"]
-    },
     "test": {
       "outputs": [".coverage/**"]
     }

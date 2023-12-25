@@ -1,9 +1,10 @@
+import { poweredBy } from '@hono-dev/powered-by';
 import { Hono } from 'hono';
-import { poweredBy } from 'hono/powered-by';
+import pkg from '../package.json';
 
 const app = new Hono();
 
-app.use('*', poweredBy());
+app.use('*', poweredBy(`${pkg.name}/${pkg.version}`));
 
 app.get('/', (c) => {
   return c.text('Hello Hono!');
