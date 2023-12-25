@@ -12,13 +12,13 @@ export function githubAuth(opts: {
   client_id: string;
   client_secret: string;
   redirect_uri?: string;
-  scope?: GitHubScope[] | GitHubScope;
+  scope?: GitHubScope[];
   oauthApp?: boolean;
 }): MiddlewareHandler {
   const options = {
     ...{
       oauthApp: false,
-      scope: 'user:email'
+      scope: ['user:email']
     },
     ...opts
   };
@@ -55,7 +55,7 @@ export function githubAuth(opts: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        'User-Agent': 'Hono-Auth-App'
+        'User-Agent': '@hono-dev/auth-github'
       }
     }).then((res) => res.json())) as GitHubUser | GitHubErrorResponse;
 
@@ -92,9 +92,7 @@ export function githubAuth(opts: {
           client_id: options.client_id,
           state,
           ...(options.oauthApp && {
-            scope: Array.isArray(options.scope)
-              ? options.scope.join(' ')
-              : options.scope,
+            scope: options.scope.join(','),
             redirect_uri: options.redirect_uri || c.req.url
           })
         }

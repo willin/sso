@@ -1,4 +1,4 @@
-![Logo](https://repository-images.githubusercontent.com/726691357/f09bf6fc-3844-4584-8eee-6bfb425d8a38)
+![Logo](https://github.com/willin/sso/assets/1890238/dcfe72fd-72af-40a4-bd14-6e8ee0907f4a)
 
 # @hono-dev/auth-afdian
 
