@@ -15,13 +15,15 @@ export function githubAuth(opts: {
   redirect_uri?: string;
   scope?: GitHubScope[];
   oauthApp?: boolean;
-}): MiddlewareHandler {
+}): MiddlewareHandler<{
+  Bindings: {
+    GITHUB_ID: string;
+    GITHUB_SECRET: string;
+    GITHUB_CALLBACK_URL: string;
+  };
+}> {
   return async (c, next) => {
-    const { GITHUB_ID, GITHUB_SECRET, GITHUB_CALLBACK_URL } = env<{
-      GITHUB_ID: string;
-      GITHUB_SECRET: string;
-      GITHUB_CALLBACK_URL: string;
-    }>(c);
+    const { GITHUB_ID, GITHUB_SECRET, GITHUB_CALLBACK_URL } = env(c);
 
     const options = {
       client_id: GITHUB_ID,

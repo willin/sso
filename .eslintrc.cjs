@@ -1,9 +1,16 @@
+/** @type { import("eslint").Linter.FlatConfig } */
 module.exports = {
   root: true,
-  extends: ['@svelte-dev/eslint-config', '@hono/eslint-config'],
+  extends: [
+    '@svelte-dev/eslint-config',
+    '@hono/eslint-config',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking'
+  ],
   rules: {
     semi: ['error', 'always'],
-    'no-undef': ['error'],
+    quotes: ['error', 'single', { avoidEscape: true }],
+    '@typescript-eslint/no-explicit-any': 'warn',
+    // 'no-undef': ['error', { typeof: false }],
     'node/no-unsupported-features/node-builtins': [
       'error',
       {
@@ -18,5 +25,9 @@ module.exports = {
         ignores: []
       }
     ]
+  },
+  parserOptions: {
+    project: 'tsconfig.eslint.json',
+    tsconfigRootDir: __dirname
   }
 };

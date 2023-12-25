@@ -21,9 +21,9 @@ const formatDate = (
   inputDate: any = undefined
 ) => {
   const date =
-    new Date(inputDate).toString() === 'Invalid Date'
+    new Date(inputDate as string).toString() === 'Invalid Date'
       ? new Date()
-      : new Date(inputDate);
+      : new Date(inputDate as string);
   let pattern = inputPattern;
   const y = date.getFullYear().toString();
   const o = {
@@ -34,12 +34,15 @@ const formatDate = (
     s: date.getSeconds() // second
   };
   pattern = pattern.replace(/(y+)/gi, (a, b) =>
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     y.substr(4 - Math.min(4, b.length))
   );
   /* eslint-disable @typescript-eslint/ban-ts-comment */
   for (const i in o) {
     // @ts-ignore
     pattern = pattern.replace(new RegExp(`(${i}+)`, 'g'), (a, b) =>
+      /* eslint-disable @typescript-eslint/no-unsafe-return */
       // @ts-ignore
       o[i] < 10 && b.length > 1 ? `0${o[i]}` : o[i]
     );
@@ -66,7 +69,13 @@ export function alipayAuth(opts: {
   redirect_uri?: string;
   sign_type?: AlipaySignType;
   scope?: AlipayScope;
-}): MiddlewareHandler {
+}): MiddlewareHandler<{
+  Bindings: {
+    ALIPAY_APP_ID: string;
+    ALIPAY_PRIVATE_KEY: string;
+    ALIPAY_CALLBACK_URL: string;
+  };
+}> {
   if (!crypto.subtle || !crypto.subtle.importKey) {
     throw new Error(
       '`crypto.subtle.importKey` is undefined. Alipay auth middleware requires it.'
@@ -75,11 +84,7 @@ export function alipayAuth(opts: {
 
   return async (c, next) => {
     console.log(c.req.url);
-    const { ALIPAY_APP_ID, ALIPAY_PRIVATE_KEY, ALIPAY_CALLBACK_URL } = env<{
-      ALIPAY_APP_ID: string;
-      ALIPAY_PRIVATE_KEY: string;
-      ALIPAY_CALLBACK_URL: string;
-    }>(c);
+    const { ALIPAY_APP_ID, ALIPAY_PRIVATE_KEY, ALIPAY_CALLBACK_URL } = env(c);
 
     const options = {
       app_id: ALIPAY_APP_ID,

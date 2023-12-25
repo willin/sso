@@ -9,14 +9,16 @@ export function afdianAuth(opts: {
   client_secret?: string;
   redirect_uri?: string;
   scope?: AfdianScope;
-}): MiddlewareHandler {
+}): MiddlewareHandler<{
+  Bindings: {
+    AFDIAN_CLIENT_ID: string;
+    AFDIAN_CLIENT_SECRET: string;
+    AFDIAN_CALLBACK_URL: string;
+  };
+}> {
   return async (c, next) => {
     const { AFDIAN_CLIENT_ID, AFDIAN_CLIENT_SECRET, AFDIAN_CALLBACK_URL } =
-      env<{
-        AFDIAN_CLIENT_ID: string;
-        AFDIAN_CLIENT_SECRET: string;
-        AFDIAN_CALLBACK_URL: string;
-      }>(c);
+      env(c);
 
     const options = {
       client_id: AFDIAN_CLIENT_ID,
