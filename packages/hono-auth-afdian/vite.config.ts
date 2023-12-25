@@ -10,7 +10,7 @@ export default defineConfig({
       fileName: 'index'
     },
     rollupOptions: {
-      external: (id) => id.startsWith('hono')
+      external: [/^hono(.*)/]
     }
   },
   plugins: [dts(), checker({ typescript: true })],

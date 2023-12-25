@@ -13,7 +13,7 @@ app.use('/auth/afdian/*', afdianAuth());
 app.use('/auth/alipay/*', alipayAuth());
 app.use('/auth/github/*', githubAuth());
 
-app.get('/auth/afdian/*', (c) => {
+app.get('/auth/afdian/callback', (c) => {
   const user = c.get('afdian-user');
 
   return c.json({
@@ -21,7 +21,7 @@ app.get('/auth/afdian/*', (c) => {
   });
 });
 
-app.get('/auth/alipay/*', (c) => {
+app.get('/auth/alipay/callback', (c) => {
   const token = c.get('alipay-token');
   const user = c.get('alipay-user');
 
@@ -31,7 +31,7 @@ app.get('/auth/alipay/*', (c) => {
   });
 });
 
-app.get('/auth/github/*', (c) => {
+app.get('/auth/github/callback', (c) => {
   const token = c.get('github-token');
   const user = c.get('github-user');
 
