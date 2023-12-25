@@ -1,14 +1,3 @@
-export type OAuthVariables = {
-  token: Token | undefined;
-  'refresh-token': Token | undefined;
-  'granted-scopes': string[] | undefined;
-};
-
-export type Token = {
-  token: string;
-  expires_in: number;
-};
-
 export type GitHubScope =
   | 'repo'
   | 'repo:status'
@@ -57,7 +46,7 @@ export type GitHubTokenResponse = {
   refresh_token?: string;
   refresh_token_expires_in?: number;
   token_type: string;
-  scope: string;
+  scope: GitHubScope[];
 };
 
 export type GitHubUser = {

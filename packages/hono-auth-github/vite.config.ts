@@ -1,3 +1,4 @@
+import checker from 'vite-plugin-checker';
 import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vitest/config';
 
@@ -9,7 +10,7 @@ export default defineConfig({
       fileName: 'index'
     }
   },
-  plugins: [dts()],
+  plugins: [dts(), checker({ typescript: true })],
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}', 'test/**/*.{test,spec}.{js,ts}'],
     coverage: {

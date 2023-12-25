@@ -1,0 +1,117 @@
+import type { MiddlewareHandler } from 'hono';
+import { getCookie, setCookie } from 'hono/cookie';
+import { HTTPException } from 'hono/http-exception';
+import type {
+  GitHubErrorResponse,
+  GitHubScope,
+  GitHubTokenResponse,
+  GitHubUser
+} from './types';
+
+export function githubAuth(opts: {
+  client_id: string;
+  client_secret: string;
+  redirect_uri?: string;
+  scope?: GitHubScope[] | GitHubScope;
+  oauthApp?: boolean;
+}): MiddlewareHandler {
+  const options = {
+    ...{
+      oauthApp: false,
+      scope: 'user:email'
+    },
+    ...opts
+  };
+
+  async function getTokenFromCode(code: string) {
+    const response = (await fetch(
+      'https://github.com/login/oauth/access_token',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          client_id: options.client_id,
+          client_secret: options.client_secret,
+          code
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    ).then((res) => res.json())) as GitHubTokenResponse | GitHubErrorResponse;
+
+    if ('error_description' in response)
+      throw new HTTPException(400, { message: response.error_description });
+
+    Object.assign(response, {
+      scope: (response.scope as unknown as string).split(',') as GitHubScope[]
+    });
+    return response;
+  }
+
+  async function getUserData(token: string) {
+    const response = (await fetch('https://api.github.com/user', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'Hono-Auth-App'
+      }
+    }).then((res) => res.json())) as GitHubUser | GitHubErrorResponse;
+
+    if ('message' in response)
+      throw new HTTPException(400, { message: response.message });
+
+    if ('id' in response) {
+      return response;
+    }
+  }
+
+  return async (c, next) => {
+    // Avoid CSRF attack by checking state
+    if (c.req.url.includes('?')) {
+      const storedState = getCookie(c, 'state');
+      if (c.req.query('state') !== storedState) {
+        throw new HTTPException(401);
+      }
+    }
+    const code = c.req.query('code');
+    // Redirect to login dialog
+    if (!code) {
+      const state: string =
+        crypto?.randomUUID() || Math.random().toString().substring(2);
+      setCookie(c, 'state', state, {
+        maxAge: 60 * 10,
+        httpOnly: true,
+        path: '/'
+        // secure: true,
+      });
+
+      const url = `https://github.com/login/oauth/authorize?${new URLSearchParams(
+        {
+          client_id: options.client_id,
+          state,
+          ...(options.oauthApp && {
+            scope: Array.isArray(options.scope)
+              ? options.scope.join(' ')
+              : options.scope,
+            redirect_uri: options.redirect_uri || c.req.url
+          })
+        }
+      ).toString()}`;
+      // OAuth apps can't have multiple callback URLs, but GitHub Apps can.
+      // As such, we want to make sure we call back to the same location
+      // for GitHub apps and not the first configured callbackURL in the app config.
+      return c.redirect(url);
+    }
+
+    // Retrieve user data from github
+    const token = await getTokenFromCode(code);
+    const user = await getUserData(token.access_token);
+    // Set return info
+    c.set('github-token', token);
+    c.set('github-user', user);
+
+    await next();
+  };
+}
