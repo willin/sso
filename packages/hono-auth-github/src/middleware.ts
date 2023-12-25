@@ -1,4 +1,5 @@
 import type { MiddlewareHandler } from 'hono';
+import { env } from 'hono/adapter';
 import { getCookie, setCookie } from 'hono/cookie';
 import { HTTPException } from 'hono/http-exception';
 import type {
@@ -9,65 +10,72 @@ import type {
 } from './types';
 
 export function githubAuth(opts: {
-  client_id: string;
-  client_secret: string;
+  client_id?: string;
+  client_secret?: string;
   redirect_uri?: string;
   scope?: GitHubScope[];
   oauthApp?: boolean;
 }): MiddlewareHandler {
-  const options = {
-    ...{
+  return async (c, next) => {
+    const { GITHUB_ID, GITHUB_SECRET, GITHUB_CALLBACK_URL } = env<{
+      GITHUB_ID: string;
+      GITHUB_SECRET: string;
+      GITHUB_CALLBACK_URL: string;
+    }>(c);
+
+    const options = {
+      client_id: GITHUB_ID,
+      client_secret: GITHUB_SECRET,
+      redirect_uri: GITHUB_CALLBACK_URL,
       oauthApp: false,
-      scope: ['user:email']
-    },
-    ...opts
-  };
+      scope: ['user:email'],
+      ...opts
+    };
 
-  async function getTokenFromCode(code: string) {
-    const response = (await fetch(
-      'https://github.com/login/oauth/access_token',
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          client_id: options.client_id,
-          client_secret: options.client_secret,
-          code
-        }),
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
+    async function getTokenFromCode(code: string) {
+      const response = (await fetch(
+        'https://github.com/login/oauth/access_token',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            client_id: options.client_id,
+            client_secret: options.client_secret,
+            code
+          }),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          }
         }
-      }
-    ).then((res) => res.json())) as GitHubTokenResponse | GitHubErrorResponse;
+      ).then((res) => res.json())) as GitHubTokenResponse | GitHubErrorResponse;
 
-    if ('error_description' in response)
-      throw new HTTPException(400, { message: response.error_description });
+      if ('error_description' in response)
+        throw new HTTPException(400, { message: response.error_description });
 
-    Object.assign(response, {
-      scope: (response.scope as unknown as string).split(',') as GitHubScope[]
-    });
-    return response;
-  }
-
-  async function getUserData(token: string) {
-    const response = (await fetch('https://api.github.com/user', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'User-Agent': '@hono-dev/auth-github'
-      }
-    }).then((res) => res.json())) as GitHubUser | GitHubErrorResponse;
-
-    if ('message' in response)
-      throw new HTTPException(400, { message: response.message });
-
-    if ('id' in response) {
+      Object.assign(response, {
+        scope: (response.scope as unknown as string).split(',') as GitHubScope[]
+      });
       return response;
     }
-  }
 
-  return async (c, next) => {
+    async function getUserData(token: string) {
+      const response = (await fetch('https://api.github.com/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'User-Agent': '@hono-dev/auth-github'
+        }
+      }).then((res) => res.json())) as GitHubUser | GitHubErrorResponse;
+
+      if ('message' in response)
+        throw new HTTPException(400, { message: response.message });
+
+      if ('id' in response) {
+        return response;
+      }
+    }
+
     // Avoid CSRF attack by checking state
     if (c.req.url.includes('?')) {
       const storedState = getCookie(c, 'state');

@@ -1,3 +1,4 @@
+compatibility_date = "2023-10-30"
 compatibility_flags = [ "nodejs_compat" ]
 
 kv_namespaces = [

@@ -8,6 +8,9 @@ export default defineConfig({
       entry: 'src/index.ts',
       formats: ['cjs', 'es'],
       fileName: 'index'
+    },
+    rollupOptions: {
+      external: (id) => id.startsWith('hono')
     }
   },
   plugins: [dts(), checker({ typescript: true })],

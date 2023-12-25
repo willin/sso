@@ -15,7 +15,9 @@ node_modules
 .coverage
 .wrangler
 .cloudflare
-
+.dev.vars
+*.log
+*.log*
 # svelte
 .svelte-kit
 

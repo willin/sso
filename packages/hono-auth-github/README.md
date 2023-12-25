@@ -14,12 +14,12 @@ GitHub provides two types of Apps to utilize its API: the `GitHub App` and the `
   - Type: `string`.
   - `Required`.
   - `Github App` and `Oauth App`.
-  - Your app client ID. You can find this value in the [GitHub App settings](https://github.com/settings/apps) or the [OAuth App settings](https://github.com/settings/developers) based on your App type. <br />When developing **Cloudflare Workers**, there's no need to send this parameter. Just declare it in the `wrangler.toml` file as `GITHUB_ID=`.
+  - Your app client ID. You can find this value in the [GitHub App settings](https://github.com/settings/apps) or the [OAuth App settings](https://github.com/settings/developers) based on your App type. <br />When developing **Cloudflare Workers**, there's no need to send this parameter. Just declare it in the `.dev.vars` file as `GITHUB_ID=`.
 - `client_secret`:
   - Type: `string`.
   - `Required`.
   - `Github App` and `Oauth App`.
-  - Your app client secret. You can find this value in the [GitHub App settings](https://github.com/settings/apps) or the [OAuth App settings](https://github.com/settings/developers) based on your App type. <br />When developing **Cloudflare Workers**, there's no need to send this parameter. Just declare it in the `wrangler.toml` file as `GITHUB_SECRET=`.
+  - Your app client secret. You can find this value in the [GitHub App settings](https://github.com/settings/apps) or the [OAuth App settings](https://github.com/settings/developers) based on your App type. <br />When developing **Cloudflare Workers**, there's no need to send this parameter. Just declare it in the `.dev.vars` file as `GITHUB_SECRET=`.
     > Do not share your client secret to ensure the security of your app.
 - `scope`:
   - Type: `string[] | string`.
@@ -35,7 +35,7 @@ GitHub provides two types of Apps to utilize its API: the `GitHub App` and the `
   - Type: `string`.
   - `Optional`.
   - `Oauth App`.
-  - Github can have multiple callback URLs. Defaults to `c.req.url`.
+  - Github can have multiple callback URLs. Defaults to `c.req.url`.<br />When developing **Cloudflare Workers**, there's no need to send this parameter. Just declare it in the `.dev.vars` file as `GITHUB_CALLBACK_URL=`.
 
 ### Authentication Flow
 

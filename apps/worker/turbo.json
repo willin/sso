@@ -5,7 +5,7 @@
       "outputs": ["dist/**"]
     },
     "dev": {
-      "dependsOn": ["@hono-dev/powered-by#build"]
+      "dependsOn": ["@hono-dev/auth-github#build", "@hono-dev/powered-by#build"]
     },
     "test": {
       "outputs": [".coverage/**"]
