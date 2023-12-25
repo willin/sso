@@ -1,0 +1,63 @@
+{
+  "name": "@hono-dev/auth-alipay",
+  "version": "0.0.0",
+  "description": "Alipay Authentication Strategy for Hono",
+  "author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
+  "keywords": [
+    "hono",
+    "auth",
+    "authentication",
+    "local",
+    "auth0",
+    "authing",
+    "oauth2",
+    "alipay",
+    "strategies"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willin/sso.git"
+  },
+  "bugs": {
+    "url": "https://github.com/willin/sso/issues"
+  },
+  "homepage": "https://sso.willin.wang",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vite build",
+    "lint": "prettier --write . && eslint . --fix",
+    "prepublishOnly": "npm run build",
+    "test": "vitest run --pass-with-no-tests"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "LICENSE",
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
+  ],
+  "dependencies": {},
+  "peerDependencies": {
+    "hono": ">=3"
+  },
+  "devDependencies": {
+    "@vitest/coverage-istanbul": "^1.1.0",
+    "hono": "^3.11.10",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vite-plugin-dts": "^3.6.4",
+    "vitest": "^1.1.0"
+  },
+  "import": "./dist/index.mjs",
+  "require": "./dist/index.js",
+  "types": "./dist/index.d.ts"
+}

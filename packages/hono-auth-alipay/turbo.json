@@ -1,0 +1,11 @@
+{
+  "extends": ["//"],
+  "pipeline": {
+    "build": {
+      "outputs": ["dist/**"]
+    },
+    "test": {
+      "outputs": [".coverage/**"]
+    }
+  }
+}

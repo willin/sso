@@ -1,0 +1,7 @@
+{
+  "conventionalCommits.scopes": ["auth"],
+  "cSpell.words": ["willin"],
+  "svelte.plugin.svelte.compilerWarnings": {
+    "a11y-no-noninteractive-tabindex": "ignore"
+  }
+}

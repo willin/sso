@@ -1,0 +1,10 @@
+[install]
+dev = true
+
+[install.lockfile]
+save = true
+
+[test]
+coverage = true
+coverageSkipTestFiles = true
+coverageIgnoreSourcemaps = true
