@@ -33,7 +33,10 @@
     "@hono-dev/auth-alipay": "*",
     "@hono-dev/auth-github": "*",
     "@hono-dev/powered-by": "*",
-    "hono": "^3.11.10"
+    "@hono-dev/zod-body-validator": "^0.1.0",
+    "hono": "^3.11.10",
+    "nanoid": "^5.0.4",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "typescript": "^5.3.3",
