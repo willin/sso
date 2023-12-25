@@ -32,6 +32,41 @@ export function githubAuth(opts: {
       ...opts
     };
 
+    // Avoid CSRF attack by checking state
+    if (c.req.url.includes('?')) {
+      const storedState = getCookie(c, 'state');
+      if (c.req.query('state') !== storedState) {
+        throw new HTTPException(401);
+      }
+    }
+    const code = c.req.query('code');
+    // Redirect to login dialog
+    if (!code) {
+      const state: string =
+        crypto?.randomUUID() || Math.random().toString().substring(2);
+      setCookie(c, 'state', state, {
+        maxAge: 60 * 10,
+        httpOnly: true,
+        path: '/'
+        // secure: true,
+      });
+
+      const url = `https://github.com/login/oauth/authorize?${new URLSearchParams(
+        {
+          client_id: options.client_id,
+          state,
+          ...(options.oauthApp && {
+            scope: options.scope.join(','),
+            redirect_uri: options.redirect_uri || c.req.url
+          })
+        }
+      ).toString()}`;
+      // OAuth apps can't have multiple callback URLs, but GitHub Apps can.
+      // As such, we want to make sure we call back to the same location
+      // for GitHub apps and not the first configured callbackURL in the app config.
+      return c.redirect(url);
+    }
+
     async function getTokenFromCode(code: string) {
       const response = (await fetch(
         'https://github.com/login/oauth/access_token',
@@ -74,41 +109,6 @@ export function githubAuth(opts: {
       if ('id' in response) {
         return response;
       }
-    }
-
-    // Avoid CSRF attack by checking state
-    if (c.req.url.includes('?')) {
-      const storedState = getCookie(c, 'state');
-      if (c.req.query('state') !== storedState) {
-        throw new HTTPException(401);
-      }
-    }
-    const code = c.req.query('code');
-    // Redirect to login dialog
-    if (!code) {
-      const state: string =
-        crypto?.randomUUID() || Math.random().toString().substring(2);
-      setCookie(c, 'state', state, {
-        maxAge: 60 * 10,
-        httpOnly: true,
-        path: '/'
-        // secure: true,
-      });
-
-      const url = `https://github.com/login/oauth/authorize?${new URLSearchParams(
-        {
-          client_id: options.client_id,
-          state,
-          ...(options.oauthApp && {
-            scope: options.scope.join(','),
-            redirect_uri: options.redirect_uri || c.req.url
-          })
-        }
-      ).toString()}`;
-      // OAuth apps can't have multiple callback URLs, but GitHub Apps can.
-      // As such, we want to make sure we call back to the same location
-      // for GitHub apps and not the first configured callbackURL in the app config.
-      return c.redirect(url);
     }
 
     // Retrieve user data from github

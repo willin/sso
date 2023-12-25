@@ -5,6 +5,6 @@ export { afdianAuth } from './middleware';
 
 declare module 'hono' {
   interface ContextVariableMap {
-    'github-user': Partial<AfdianUser> | undefined;
+    'afdian-user': AfdianUser | undefined;
   }
 }

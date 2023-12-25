@@ -5,7 +5,12 @@
       "outputs": ["dist/**"]
     },
     "dev": {
-      "dependsOn": ["@hono-dev/auth-github#build", "@hono-dev/powered-by#build"]
+      "dependsOn": [
+        "@hono-dev/auth-afdian#build",
+        "@hono-dev/auth-alipay#build",
+        "@hono-dev/auth-github#build",
+        "@hono-dev/powered-by#build"
+      ]
     },
     "test": {
       "outputs": [".coverage/**"]

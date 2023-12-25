@@ -10,6 +10,13 @@ module.exports = {
         version: '>=16.0.0',
         ignores: []
       }
+    ],
+    'node/no-unsupported-features/es-builtins': [
+      'error',
+      {
+        version: '>=16.0.0',
+        ignores: []
+      }
     ]
   }
 };

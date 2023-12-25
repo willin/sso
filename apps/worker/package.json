@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@hono-dev/auth-afdian": "*",
+    "@hono-dev/auth-alipay": "*",
     "@hono-dev/auth-github": "*",
     "@hono-dev/powered-by": "*",
     "hono": "^3.11.10"
