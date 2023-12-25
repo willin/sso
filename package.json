@@ -12,6 +12,7 @@
     "format": "prettier --write ."
   },
   "workspaces": [
+    "apps/*",
     "packages/*"
   ],
   "devDependencies": {
