@@ -29,6 +29,7 @@
     "test": "vitest run --pass-with-no-tests"
   },
   "dependencies": {
+    "@hono-dev/auth-afdian": "*",
     "@hono-dev/auth-github": "*",
     "@hono-dev/powered-by": "*",
     "hono": "^3.11.10"
