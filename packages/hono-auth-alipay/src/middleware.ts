@@ -91,11 +91,26 @@ export function alipayAuth(opts: {
     };
 
     // Avoid CSRF attack by checking state
-    if (c.req.url.includes('?')) {
+    const queryKeys = Object.keys(c.req.queries());
+    // skip check: [],['returnTo']
+    if (
+      queryKeys.length > 1 ||
+      (queryKeys.length === 1 && !queryKeys.includes('returnTo'))
+    ) {
       const storedState = getCookie(c, 'state');
       if (c.req.query('state') !== storedState) {
         throw new HTTPException(401);
       }
+    }
+
+    const returnTo = c.req.query('returnTo');
+    if (returnTo) {
+      setCookie(c, 'returnTo', returnTo, {
+        maxAge: 60 * 10,
+        httpOnly: true,
+        path: '/'
+        // secure: true,
+      });
     }
 
     const code = c.req.query('auth_code');

@@ -26,6 +26,50 @@ export function afdianAuth(opts: {
       ...opts
     };
 
+    // Avoid CSRF attack by checking state
+    const queryKeys = Object.keys(c.req.queries());
+    // skip check: [],['returnTo']
+    if (
+      queryKeys.length > 1 ||
+      (queryKeys.length === 1 && !queryKeys.includes('returnTo'))
+    ) {
+      const storedState = getCookie(c, 'state');
+      if (c.req.query('state') !== storedState) {
+        throw new HTTPException(401);
+      }
+    }
+
+    const returnTo = c.req.query('returnTo');
+    if (returnTo) {
+      setCookie(c, 'returnTo', returnTo, {
+        maxAge: 60 * 10,
+        httpOnly: true,
+        path: '/'
+        // secure: true,
+      });
+    }
+
+    const code = c.req.query('code');
+    // Redirect to login dialog
+    if (!code) {
+      const state: string =
+        crypto?.randomUUID() || Math.random().toString().substring(2);
+      setCookie(c, 'state', state, {
+        maxAge: 60 * 10,
+        httpOnly: true,
+        path: '/'
+        // secure: true,
+      });
+
+      const url = `https://afdian.net/oauth2/authorize?${new URLSearchParams({
+        client_id: options.client_id,
+        state,
+        scope: options.scope,
+        redirect_uri: options.redirect_uri || c.req.url
+      }).toString()}`;
+      return c.redirect(url);
+    }
+
     async function getUserDataFromCode(code: string) {
       const params = new URLSearchParams();
       params.set('grant_type', 'authorization_code');
@@ -53,34 +97,6 @@ export function afdianAuth(opts: {
         throw new HTTPException(400, { message: json.data.error });
 
       return json.data as AfdianUser;
-    }
-
-    // Avoid CSRF attack by checking state
-    if (c.req.url.includes('?')) {
-      const storedState = getCookie(c, 'state');
-      if (c.req.query('state') !== storedState) {
-        throw new HTTPException(401);
-      }
-    }
-    const code = c.req.query('code');
-    // Redirect to login dialog
-    if (!code) {
-      const state: string =
-        crypto?.randomUUID() || Math.random().toString().substring(2);
-      setCookie(c, 'state', state, {
-        maxAge: 60 * 10,
-        httpOnly: true,
-        path: '/'
-        // secure: true,
-      });
-
-      const url = `https://afdian.net/oauth2/authorize?${new URLSearchParams({
-        client_id: options.client_id,
-        state,
-        scope: options.scope,
-        redirect_uri: options.redirect_uri || c.req.url
-      }).toString()}`;
-      return c.redirect(url);
     }
 
     // Retrieve user data from fadian
