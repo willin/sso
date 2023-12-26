@@ -33,7 +33,7 @@ router.get('/github/*', async (c) => {
   // Register the user
   viewer = await user.getUserByThirdUser('github', formattedUser);
   session.set('user', viewer);
-  return c.redirect('/dashboard');
+  return c.redirect('/dashboard', 307);
 });
 
 export { router };

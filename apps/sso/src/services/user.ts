@@ -218,14 +218,14 @@ export class UserService implements IUserService {
   }
 
   async getThirdUsersByUserId(userId: string): Promise<ThirdUser[]> {
-    const records = await this.#db.query<{ avatar: string }>(
+    const records = await this.#db.query<{ avatar: string; third_id: string }>(
       'SELECT * FROM third_user WHERE user_id=?1 ORDER BY created_at DESC',
       [userId]
     );
     return records.map((third) =>
       ThirdUserSchema.parse({
         ...third,
-        id: third.third_id as string,
+        id: third.third_id,
         photos: [{ value: third.avatar }]
       })
     );
