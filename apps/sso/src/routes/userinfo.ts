@@ -1,8 +1,17 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
+import { cache } from 'hono/cache';
 import { z } from 'zod';
 
 const router = new Hono();
+
+router.use(
+  '/userinfo/*',
+  cache({
+    cacheName: 'v0-sso',
+    cacheControl: 'max-age=3600, stale-while-revalidate=600'
+  })
+);
 
 router.get(
   '/userinfo',

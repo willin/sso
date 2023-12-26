@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { injectServices } from '../middleware/inject';
 import { returnToRedirect } from '../middleware/redirect';
+import { injectSession } from '../middleware/session';
 import { router as afdian } from './afdian';
 import { router as alipay } from './alipay';
 import { router as authorize } from './authorize';
@@ -15,6 +16,7 @@ router.use('*', injectServices());
 
 const login = new Hono();
 login.use('*', returnToRedirect());
+login.use('*', injectSession());
 login.route('/', afdian);
 login.route('/', alipay);
 login.route('/', github);

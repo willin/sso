@@ -36,5 +36,6 @@ export const injectServices =
     c.set('app', app);
     c.set('user', user);
     c.set('auth', auth);
+
     await next();
   };
