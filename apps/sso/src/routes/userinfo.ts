@@ -22,14 +22,17 @@ router.get(
         .string()
         .regex(/^bearer\s/i)
         .transform((v) => v.replace(/^bearer\s/i, ''))
+        .optional()
     })
   ),
   async (c) => {
     const token = c.req.valid('header').authorization;
+    const session = c.get('session');
+    const viewer = session.get('user');
     const auth = c.get('auth');
     const user = c.get('user');
 
-    const login = await auth.getUserFromToken(token);
+    const login = viewer || (await auth.getUserFromToken(token));
     if (!login) {
       return c.json(
         {

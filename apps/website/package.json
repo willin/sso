@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "@svelte-dev/i18n": "^1.0.1",
-    "theme-change": "^2.5.0"
+    "theme-change": "^2.5.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@sveltejs/adapter-cloudflare-workers": "^2.0.1",

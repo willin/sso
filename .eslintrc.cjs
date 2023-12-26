@@ -27,6 +27,7 @@ module.exports = {
     ]
   },
   parserOptions: {
+    extraFileExtensions: ['.svelte'],
     project: 'tsconfig.eslint.json',
     tsconfigRootDir: __dirname
   }
