@@ -10,7 +10,8 @@
     "changeset:version": "changeset version",
     "changeset:release": "changeset publish",
     "lint": "turbo run lint --parallel",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky install"
   },
   "workspaces": [
     "apps/*",
@@ -27,6 +28,7 @@
     "bun-types": "^1.0.20",
     "eslint": "^8.54.0",
     "hono": "^3.11.10",
+    "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.0",
     "prettier-plugin-svelte": "^3.1.2",

@@ -4,6 +4,10 @@ import { z } from 'zod';
 
 const router = new Hono();
 
+router.get('/token', (c) => {
+  return c.json({});
+});
+
 router.post(
   '/token',
   zBodyValidator(
@@ -19,4 +23,4 @@ router.post(
   }
 );
 
-export { router as apiRouter };
+export { router as ssoRouter };

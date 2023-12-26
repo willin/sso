@@ -2,8 +2,8 @@ import { poweredBy } from '@hono-dev/powered-by';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import pkg from '../package.json';
-import { apiRouter } from './routes/api';
 import { authRouter } from './routes/auth';
+import { ssoRouter } from './routes/sso';
 
 const app = new Hono({
   strict: false
@@ -20,7 +20,7 @@ app.use(
   })
 );
 
-app.route('/auth', apiRouter);
+app.route('/auth', ssoRouter);
 app.route('/auth', authRouter);
 
 export default app;

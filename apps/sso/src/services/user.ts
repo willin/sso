@@ -133,13 +133,7 @@ export class UserService implements IUserService {
       return null;
     }
     const [user] = records;
-    return UserSchema.parse({
-      ...user,
-      createdAt: new Date(user.created_at),
-      updatedAt: new Date(user.updated_at),
-      displayName: user.display_name,
-      membership: user.membership ? new Date(user.membership) : null
-    });
+    return UserSchema.parse(user);
   }
 
   async getUserByThirdUser(
@@ -176,15 +170,7 @@ export class UserService implements IUserService {
       [forbidden]
     );
     return {
-      data: records.map((user) =>
-        UserSchema.parse({
-          ...user,
-          createdAt: new Date(user.created_at),
-          updatedAt: new Date(user.updated_at),
-          displayName: user.display_name,
-          membership: user.membership ? new Date(user.membership) : null
-        })
-      ),
+      data: records.map((user) => UserSchema.parse(user)),
       total: total[0].total,
       page,
       pageSize: size
