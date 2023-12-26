@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.prose h1 a,
+.prose h2 a,
+.prose h3 a,
+.prose h4 a,
+.prose h5 a,
+.prose h6 a {
+  @apply no-underline block;
+}
+
+* {
+  cursor: url('https://willin.wang/images/default.cur'), default;
+}
+
+a,
+a *,
+button,
+button *,
+.btn,
+.btn *,
+.prose .post-image,
+.cursor-pointer * {
+  cursor: url('https://willin.wang/images/pointer.cur'), pointer !important;
+}
+
+html {
+  /* transition: background-color 0.5s linear, color 0.25s linear; */
+  min-height: 100vh;
+}
+
+div,
+p {
+  @apply break-all;
+}
+
+pre {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Remove Safari input shadow on mobile */
+input[type='text'],
+input[type='email'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+table {
+  display: block;
+  max-width: fit-content;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.break-words,
+.break-words p {
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.prose img {
+  /* Don't apply styles to next/image */
+  @apply m-0 max-h-[75vh];
+}
+.prose .mermaid > svg {
+  @apply mx-auto my-2;
+}
+
+.prose {
+  @apply min-w-full;
+}
+.prose > * {
+  @apply min-w-[95%] w-full lg:w-[95%] mx-auto;
+}
+.prose h1 a,
+.prose h2 a {
+  @apply relative text-primary-content bg-primary border-primary-content mx-auto rounded shadow-lg text-center w-full py-1;
+}
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply text-secondary relative;
+}
+
+.prose table {
+  @apply table min-w-[95%] w-full lg:w-[95%] table-zebra shadow mx-auto;
+}
+
+.prose tr {
+  @apply hover;
+}
