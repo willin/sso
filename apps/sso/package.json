@@ -34,6 +34,7 @@
     "@hono-dev/auth-github": "*",
     "@hono-dev/powered-by": "*",
     "@hono-dev/zod-body-validator": "^0.1.0",
+    "@hono/zod-validator": "^0.1.11",
     "hono": "^3.11.10",
     "nanoid": "^5.0.4",
     "zod": "^3.22.4"

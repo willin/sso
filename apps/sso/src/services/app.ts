@@ -1,3 +1,4 @@
+import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod';
 import { nanoid } from '../utils/nanoid';
 import type { IDatabaseService } from './database';
@@ -114,7 +115,7 @@ export class AppService implements IAppService {
       [appId]
     );
     if (records.length === 0) {
-      throw new Error('App not found');
+      throw new HTTPException(404, { message: 'App not found' });
     }
     const secrets = z
       .array(SecretSchema)
