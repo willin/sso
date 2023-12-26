@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-import { cors } from 'hono/cors';
 import { injectServices } from '../middleware/inject';
 import { returnToRedirect } from '../middleware/redirect';
 import { router as afdian } from './afdian';
@@ -12,15 +11,6 @@ import { router as userinfo } from './userinfo';
 
 const router = new Hono();
 
-router.use(
-  '*',
-  cors({
-    origin: '*',
-    credentials: true,
-    exposeHeaders: ['Content-Length', 'X-Powered-By'],
-    maxAge: 3600
-  })
-);
 router.use('*', injectServices());
 
 const login = new Hono();

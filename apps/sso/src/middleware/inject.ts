@@ -23,8 +23,8 @@ declare module 'hono' {
 export const injectServices =
   (): MiddlewareHandler<{ Bindings: Bindings }> => async (c, next) => {
     // Init Providers
-    const cacheProvider = new KVProvider(c.env.CACHE);
-    const dbProvider = new D1Provider(c.env.DB);
+    const cacheProvider = new KVProvider(c, c.env.CACHE);
+    const dbProvider = new D1Provider(c, c.env.DB);
     // Init Services
     const cache = new CacheService(cacheProvider);
     const db = new DatabaseService(dbProvider);
