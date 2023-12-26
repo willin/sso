@@ -83,7 +83,6 @@ export function alipayAuth(opts: {
   }
 
   return async (c, next) => {
-    console.log(c.req.url);
     const { ALIPAY_APP_ID, ALIPAY_PRIVATE_KEY, ALIPAY_CALLBACK_URL } = env(c);
 
     const options = {
@@ -203,6 +202,7 @@ export function alipayAuth(opts: {
           'User-Agent': '@hono-dev/auth-alipay'
         }
       });
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const data = (await response.json()) as {
         alipay_system_oauth_token_response: AlipayTokenResponse;
         error_response?: AlipayErrorResponse;
@@ -233,6 +233,7 @@ export function alipayAuth(opts: {
           'User-Agent': '@hono-dev/auth-alipay'
         }
       });
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const data = (await response.json()) as {
         alipay_user_info_share_response: AlipayUser;
         error_response?: AlipayErrorResponse;

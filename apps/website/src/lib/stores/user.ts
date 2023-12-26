@@ -8,9 +8,9 @@ const UserSchema = z.object({
   display_name: z.string(),
   avatar: z.string(),
   type: z.string(),
-  membership: z.string().datetime().optional(),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime()
+  membership: z.string().optional(),
+  created_at: z.string(),
+  updated_at: z.string()
 });
 
 export type User = z.infer<typeof UserSchema>;
@@ -20,7 +20,7 @@ export const user = writable<User | null>(null);
 
 if (browser) {
   //  @typescript-eslint/no-floating-promises
-  void fetch('/api/userinfo', { withCredentials: true })
+  void fetch('/auth/userinfo', { withCredentials: true })
     .then((res) => res.json())
     .then((result) => {
       user.set(result);

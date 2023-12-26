@@ -90,6 +90,7 @@ export function afdianAuth(opts: {
           }
         }
       );
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const json = (await response.json()) as {
         ec: number;
         data: AfdianUser & { error: string };

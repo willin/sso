@@ -30,7 +30,7 @@ export class SessionService<Data = { [name: string]: unknown }> {
   async init() {
     const raw = await getSignedCookie(this.#c, this.#secret, this.#key);
     if (raw) {
-      this.#data = new Map(JSON.parse(raw) as unknown);
+      this.#data = new Map(Object.entries(JSON.parse(raw) as unknown));
     } else {
       this.#data = new Map();
     }
@@ -67,7 +67,7 @@ export class SessionService<Data = { [name: string]: unknown }> {
     await setSignedCookie(
       this.#c,
       this.#key,
-      JSON.stringify(this.#data.entries()),
+      JSON.stringify(Object.fromEntries(this.#data.entries())),
       this.#secret,
       {
         maxAge: 86400 * 30,

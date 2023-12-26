@@ -1,6 +1,5 @@
 import type { Context, MiddlewareHandler } from 'hono';
 import { endTime, startTime } from 'hono/timing';
-import { type AccessToken } from '../services/auth';
 import { SessionService } from '../services/session';
 import { type User } from '../services/user';
 
@@ -8,7 +7,6 @@ declare module 'hono' {
   interface ContextVariableMap {
     session: SessionService<{
       user?: User;
-      token?: AccessToken;
     }>;
   }
 }

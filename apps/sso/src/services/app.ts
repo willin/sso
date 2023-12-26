@@ -14,7 +14,7 @@ const isJsonString = (value: string) => {
 
 const SecretSchema = z.object({
   secret: z.string().optional(),
-  created_at: z.string().datetime()
+  created_at: z.string()
 });
 
 const AppSchema = z.object({
@@ -32,8 +32,8 @@ const AppSchema = z.object({
     .string()
     .refine(isJsonString)
     .transform((value) => z.array(SecretSchema).parse(JSON.parse(value))),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime()
+  created_at: z.string(),
+  updated_at: z.string()
 });
 
 export type App = z.infer<typeof AppSchema>;

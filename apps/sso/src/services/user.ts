@@ -14,9 +14,9 @@ const UserSchema = z.object({
   display_name: z.string(),
   avatar: z.string(),
   type: z.string(),
-  membership: z.string().datetime().optional(),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime()
+  membership: z.string().optional(),
+  created_at: z.string(),
+  updated_at: z.string()
 });
 
 export type User = z.infer<typeof UserSchema>;
@@ -32,7 +32,7 @@ export const ThirdUserSchema = z.object({
       })
     )
     .optional(),
-  created_at: z.string().datetime().optional(),
+  created_at: z.string().optional(),
   _json: z.object().optional()
 });
 
@@ -40,6 +40,10 @@ export type ThirdUser = z.infer<typeof ThirdUserSchema>;
 
 export interface IUserService {
   getUserById(userId: string): Promise<User | null>;
+  getUserIdFromThirdUser(
+    provider: string,
+    thirdUserId: string
+  ): Promise<string | null>;
   getUserByThirdUser(provider: string, thirdUser: ThirdUser): Promise<User>;
   getThirdUsersByUserId(userId: string): Promise<ThirdUser[]>;
   updateUser(userId: string, user: Partial<User>): Promise<boolean>;
@@ -82,7 +86,7 @@ export class UserService implements IUserService {
         provider,
         thirdUser.id,
         thirdUser.username,
-        thirdUser.displayName,
+        thirdUser.display_name,
         thirdUser.photos?.[0].value,
         JSON.stringify(thirdUser._json)
       ]
@@ -100,7 +104,7 @@ export class UserService implements IUserService {
         [
           userId,
           thirdUser.username,
-          thirdUser.displayName,
+          thirdUser.display_name,
           thirdUser.photos?.[0].value,
           UserType.User
         ]
@@ -112,7 +116,7 @@ export class UserService implements IUserService {
           [
             userId,
             `${thirdUser.username}-${nanoid(5)}`,
-            thirdUser.displayName,
+            thirdUser.display_name,
             thirdUser.photos?.[0].value,
             UserType.User
           ]
@@ -136,22 +140,29 @@ export class UserService implements IUserService {
     return UserSchema.parse(user);
   }
 
+  async getUserIdFromThirdUser(
+    provider: string,
+    thirdUserId: string
+  ): Promise<string | null> {
+    const record = await this.#db.query<{ user_id: string }>(
+      'SELECT user_id FROM third_user WHERE provider=?1 AND third_id=?2 AND forbidden=0 ORDER BY created_at DESC LIMIT 1',
+      [provider, thirdUserId]
+    );
+    return record?.[0]?.user_id;
+  }
+
   async getUserByThirdUser(
     provider: string,
     thirdUser: ThirdUser
   ): Promise<User> {
-    const record = await this.#db.query<{ user_id: string }>(
-      'SELECT user_id FROM third_user WHERE provider=?1 AND third_id=?2 AND forbidden=0 ORDER BY created_at DESC LIMIT 1',
-      [thirdUser.provider, thirdUser.id]
-    );
-    if (record.length === 0) {
-      // Not Registered, auto register
-      const user = await this.#registerUserFromThirdUser(provider, thirdUser);
+    const userId = await this.getUserIdFromThirdUser(provider, thirdUser.id);
+    if (userId) {
+      // Relogin
+      const user = await this.getUserById(userId);
       return user;
     }
-    // Relogin
-    const userId = record[0].user_id;
-    const user = await this.getUserById(userId);
+    // Not Registered, auto register
+    const user = await this.#registerUserFromThirdUser(provider, thirdUser);
     return user;
   }
 
@@ -187,7 +198,7 @@ export class UserService implements IUserService {
   updateUser(userId: string, user: Partial<User>): Promise<boolean> {
     return this.#db.execute(
       'UPDATE user SET username=?2, display_name=?3, avatar=?4 WHERE id=?1',
-      [userId, user.username, user.displayName, user.avatar]
+      [userId, user.username, user.display_name, user.avatar]
     );
   }
 
@@ -214,6 +225,7 @@ export class UserService implements IUserService {
     return records.map((third) =>
       ThirdUserSchema.parse({
         ...third,
+        id: third.third_id as string,
         photos: [{ value: third.avatar }]
       })
     );

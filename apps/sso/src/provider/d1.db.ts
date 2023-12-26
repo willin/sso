@@ -1,5 +1,5 @@
 import type { Context } from 'hono';
-import { endTime, startTime } from 'hono/timing';
+import { setMetric } from 'hono/timing';
 import type { IDatabaseService } from '../services/database';
 
 export class D1Provider implements IDatabaseService {
@@ -11,28 +11,29 @@ export class D1Provider implements IDatabaseService {
     this.#d1 = d1;
   }
 
-  async query<T>(sql: string, bindings?: string[] | undefined): Promise<T[]> {
-    startTime(this.#c, 'db:query');
+  async #run<T>(
+    sql: string,
+    bindings?: string[] | undefined
+  ): Promise<D1Result<T>> {
     let stmt = this.#d1.prepare(sql);
     if (bindings) {
       stmt = stmt.bind(...bindings);
     }
-    const result = await stmt.all().then(({ results }) => results as T[]);
-    endTime(this.#c, 'db:query');
+    const result = await stmt.run<T>();
+    setMetric(this.#c, 'db', result.meta.duration);
     return result;
+  }
+
+  async query<T>(sql: string, bindings?: string[] | undefined): Promise<T[]> {
+    const result = await this.#run<T>(sql, bindings);
+    return result.results;
   }
 
   async execute(
     sql: string,
     bindings?: string[] | undefined
   ): Promise<boolean> {
-    startTime(this.#c, 'db:execute');
-    let stmt = this.#d1.prepare(sql);
-    if (bindings) {
-      stmt = stmt.bind(...bindings);
-    }
-    const result = await stmt.run().then(({ success }) => success);
-    endTime(this.#c, 'db:execute');
-    return result;
+    const result = await this.#run<T>(sql, bindings);
+    return result.success;
   }
 }

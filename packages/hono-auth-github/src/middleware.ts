@@ -86,6 +86,7 @@ export function githubAuth(opts: {
     }
 
     async function getTokenFromCode(code: string) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const response = (await fetch(
         'https://github.com/login/oauth/access_token',
         {
@@ -112,6 +113,7 @@ export function githubAuth(opts: {
     }
 
     async function getUserData(token: string) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const response = (await fetch('https://api.github.com/user', {
         headers: {
           Authorization: `Bearer ${token}`,
