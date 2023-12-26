@@ -24,8 +24,13 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run build
-      - name: Deploy
+      - name: Deploy API Service
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.CF_API_TOKEN }}
           command: publish --config apps/sso/wrangler.toml
+      - name: Deploy Website
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          command: publish --config apps/website/wrangler.toml
