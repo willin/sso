@@ -4,7 +4,7 @@ import { Hono } from 'hono';
 const router = new Hono();
 
 router.use('/alipay/*', alipayAuth());
-router.get('/alipay/*', (c) => {
+router.get('/alipay/*', async (c) => {
   const user = c.get('user');
   const session = c.get('session');
   let viewer = session.get('user');

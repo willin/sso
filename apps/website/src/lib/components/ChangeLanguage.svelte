@@ -39,7 +39,9 @@
           <li>
             <a
               class:active={$locale === langItem}
-              href={`${langItem !== fallbackLng ? `/${langItem}` : ''}${pathname || '/'}`}
+              href={`${langItem !== fallbackLng ? `/${langItem}` : ''}${
+                pathname || '/'
+              }`}
               onclick={() => locale.set(langItem)}>
               {#if $t('__flag', {}, langItem) !== '__flag'}
                 <img
@@ -58,7 +60,9 @@
                   {$t('__code', {}, langItem)}
                 </span>
               {/if}
-              <span class="font-[sans-serif]">{$t('__name', {}, langItem)} </span>
+              <span class="font-[sans-serif]"
+                >{$t('__name', {}, langItem)}
+              </span>
               {#if $t('__status', {}, langItem) !== '__status' && $t('__status', {}, langItem) !== ''}
                 <span class="badge badge-sm badge-ghost">
                   {$t('__status', {}, langItem)}

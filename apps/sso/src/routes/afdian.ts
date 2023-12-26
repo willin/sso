@@ -4,7 +4,7 @@ import { Hono } from 'hono';
 const router = new Hono();
 
 router.use('/afdian/*', afdianAuth());
-router.get('/afdian/*', (c) => {
+router.get('/afdian/*', async (c) => {
   const user = c.get('user');
   const session = c.get('session');
   let viewer = session.get('user');

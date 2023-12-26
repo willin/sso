@@ -6,7 +6,7 @@
   import { goto } from '$app/navigation';
   import { loading, user } from '$lib/stores/user';
 
-   $effect(() => {
+  $effect(() => {
     const isInit = !!localStorage.getItem('lang');
     if (isInit) return;
     const langs = getPossibleLocales(navigator.language);
@@ -20,15 +20,15 @@
     });
   });
 
-  loading.subscribe((v)=>{
-    if(v) return;
+  loading.subscribe((v) => {
+    if (v) return;
     if ($user?.id) {
-      goto(`${$locale===fallbackLng?'':`/${locale}`}/dashboard`)
-     } else {
-      goto(`${$locale===fallbackLng?'':`/${locale}`}/login`)
+      goto(`${$locale === fallbackLng ? '' : `/${locale}`}/dashboard`);
+    } else {
+      goto(`${$locale === fallbackLng ? '' : `/${locale}`}/login`);
     }
-  })
- </script>
+  });
+</script>
 
 <SEO />
 

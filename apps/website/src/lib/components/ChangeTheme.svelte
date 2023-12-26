@@ -44,7 +44,8 @@
             data-theme={theme.id}
             class="bg-neutral text-neutral-content w-full cursor-pointer font-sans">
             <div class="grid grid-cols-5 grid-rows-3">
-              <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
+              <div
+                class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -52,7 +53,8 @@
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   class="invisible h-3 w-3 shrink-0 mt-1">
-                  <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+                  <path
+                    d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
                 </svg>
                 <div class="flex-grow text-sm font-bold">{theme.name}</div>
                 <div class="flex flex-shrink-0 flex-wrap gap-1">

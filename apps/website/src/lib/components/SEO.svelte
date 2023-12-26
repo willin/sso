@@ -9,7 +9,11 @@
     desc = siteData.desc
   } = $props<{ formatTitle?: boolean; title?: string; desc?: string }>();
   const formattedTitle = $derived(
-    formatTitle ? (title ? `${title} — ${siteData.title}` : `${siteData.title}`) : title
+    formatTitle
+      ? title
+        ? `${title} — ${siteData.title}`
+        : `${siteData.title}`
+      : title
   );
 </script>
 
