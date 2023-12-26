@@ -1,0 +1,16 @@
+name = "v0-sso"
+compatibility_date = "2023-10-30"
+compatibility_flags = [ "nodejs_compat" ]
+main = "src/index.ts"
+
+vars = { ENVIRONMENT = "production" }
+routes = [
+  # { pattern = "sso.willin.wang/auth/*", zone_name = "willin.wang" },
+  { pattern = "sso.v0.md/auth/*", zone_name = "v0.md" }
+]
+kv_namespaces= [
+  { binding = "CACHE", id = "338fbd66700647869007ccc2c57fe08d" }
+]
+d1_databases = [
+  { binding = "DB", database_name = "sso", database_id = "5b8d49f4-9296-4c04-99e5-6fc30b426952" }
+]

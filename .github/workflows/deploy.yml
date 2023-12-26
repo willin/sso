@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - apps/sso/**/*
+  workflow_dispatch:
+jobs:
+  deploy:
+    # prevents this action from running on forks
+    if: github.repository == 'willin/sso'
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 1
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: publish --config apps/sso/wrangler.toml
