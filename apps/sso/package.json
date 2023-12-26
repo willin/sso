@@ -23,8 +23,8 @@
   "license": "Apache-2.0",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "wrangler dev src/index.ts",
-    "deploy": "wrangler publish src/index.ts",
+    "dev": "wrangler dev --config wrangler.toml",
+    "deploy": "wrangler publish --config wrangler.toml",
     "lint": "prettier --write . && eslint . --fix",
     "test": "vitest run --pass-with-no-tests"
   },

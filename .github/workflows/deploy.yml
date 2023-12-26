@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - apps/sso/**/*
+      - apps/website/**/*
+      - migrations/**/*
   workflow_dispatch:
 jobs:
   deploy:
@@ -24,13 +26,24 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run build
+      - name: migrate D1 database
+        uses: cloudflare/wrangler-action@2.0.0
+        with:
+          command: d1 migrations apply sso
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
       - name: Deploy API Service
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           command: publish --config apps/sso/wrangler.toml
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
       - name: Deploy Website
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           command: publish --config apps/website/wrangler.toml
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}

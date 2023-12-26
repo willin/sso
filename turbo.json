@@ -1,10 +1,10 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDotEnv": [".env.local", ".env"],
+  "globalDotEnv": [".env.local", ".env", ".dev.vars"],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", ".cloudflare/**", ".svelte-kit/**"]
     },
     "test": {
       "outputs": [".coverage/**"],
