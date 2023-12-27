@@ -8,12 +8,11 @@ import type { App as Apps, User } from '$lib/types';
 declare global {
   namespace App {
     // interface Error {}
-    interface Locals {
-      user: User;
-    }
+    // interface Locals {}
     interface PageData {
       user: User;
       apps: Apps[];
+      app: Apps;
     }
     // interface PageState {}
     // interface Platform {}

@@ -2,7 +2,6 @@
 module.exports = {
   root: true,
   extends: [
-    '@svelte-dev/eslint-config',
     '@hono/eslint-config',
     'plugin:@typescript-eslint/recommended-requiring-type-checking'
   ],
@@ -27,7 +26,6 @@ module.exports = {
     ]
   },
   parserOptions: {
-    extraFileExtensions: ['.svelte'],
     project: 'tsconfig.eslint.json',
     tsconfigRootDir: __dirname
   }

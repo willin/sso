@@ -1,6 +1,7 @@
 <script>
   import '../app.css';
   // import { t } from '@svelte-dev/i18n';
+  import SEO from '$lib/components/SEO.svelte';
   import Navbar from '$lib/components/Navbar.svelte';
   import { onNavigate } from '$app/navigation';
   import Bootstrap from '$lib/components/Bootstrap.svelte';
@@ -18,6 +19,8 @@
     });
   });
 </script>
+
+<SEO />
 
 <div id="background"></div>
 <Navbar />

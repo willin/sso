@@ -1,5 +1,4 @@
 <script>
-  import SEO from '$lib/components/SEO.svelte';
   import { t, locale } from '@svelte-dev/i18n';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
@@ -12,8 +11,6 @@
     }
   });
 </script>
-
-<SEO />
 
 {#if !user}
   <a href="/auth/github" class="btn btn-primary w-full my-2">

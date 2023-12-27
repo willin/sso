@@ -17,7 +17,7 @@ const SecretSchema = z.object({
   created_at: z.string()
 });
 
-const AppSchema = z.object({
+export const AppSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
@@ -71,6 +71,7 @@ export class AppService implements IAppService {
 
   async createApp(app: Partial<App>): Promise<App> {
     const id = nanoid(20);
+
     await this.#db.execute(
       "INSERT INTO app (id, name, description, logo, homepage, production, redirect_uris, secret) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, '[]')",
       [
@@ -80,7 +81,7 @@ export class AppService implements IAppService {
         app.logo,
         app.homepage,
         app.production,
-        JSON.stringify(app.redirectUris)
+        JSON.stringify(app.redirect_uris)
       ]
     );
     return this.getAppById(id);
@@ -95,7 +96,7 @@ export class AppService implements IAppService {
         app.description,
         app.logo,
         app.homepage,
-        JSON.stringify(app.redirectUris),
+        JSON.stringify(app.redirect_uris),
         app.production
       ]
     );

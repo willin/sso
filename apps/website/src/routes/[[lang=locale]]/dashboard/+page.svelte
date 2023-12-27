@@ -3,7 +3,6 @@
   import { t } from '@svelte-dev/i18n';
   import { page } from '$app/stores';
   import AdSlot from '$lib/components/AdSlot.svelte';
-  import SEO from '$lib/components/SEO.svelte';
   import { linkPrefix } from '$lib/stores/prefix';
 
   function confirmLogout(e: Event) {
@@ -22,7 +21,6 @@
   }
 </script>
 
-<SEO />
 
 <div>
   <a href={`${$linkPrefix}/dashboard/me`}>{$page.data.user.username}</a>
@@ -44,7 +42,7 @@
     <div class="card card-side w-full my-4 bg-base-100 shadow-xl">
       <figure>
         <img
-          src={app.logo.startsWith('http') ? app.logo : '/images/logo.jpg'}
+          src={app.logo.startsWith('http') ? app.logo : '/logo.jpg'}
           alt={app.name}
           class="ml-4 w-32 rounded" />
       </figure>

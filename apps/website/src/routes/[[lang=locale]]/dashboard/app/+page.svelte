@@ -1,11 +1,8 @@
 <script lang="ts">
   import { t } from '@svelte-dev/i18n';
   import { page } from '$app/stores';
-  import SEO from '$lib/components/SEO.svelte';
   import { linkPrefix } from '$lib/stores/prefix';
 </script>
-
-<SEO />
 
 <table class="table table-zebra w-full min-w-full">
   <thead>
@@ -31,9 +28,7 @@
           <div class="avatar">
             <div class="w-8 rounded">
               <img
-                src={app.logo.startsWith('http')
-                  ? app.logo
-                  : '/images/logo.jpg'}
+                src={app.logo.startsWith('http') ? app.logo : '/logo.jpg'}
                 alt={app.name} />
             </div>
           </div>
