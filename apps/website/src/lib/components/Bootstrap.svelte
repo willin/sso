@@ -1,11 +1,11 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { user } from '$lib/stores/user';
   import { t } from '@svelte-dev/i18n';
 
   let blocked = $state(false);
+  const user = $derived($page.data.user);
   let hideAd = $derived(
-    $user && ($user?.type === 'admin' || $user?.type === 'vip')
+    user && (user?.type === 'admin' || user?.type === 'vip')
   );
 
   const SCRIPT =

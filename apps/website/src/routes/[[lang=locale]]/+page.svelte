@@ -4,7 +4,6 @@
   import { page } from '$app/stores';
   import SEO from '$lib/components/SEO.svelte';
   import { goto } from '$app/navigation';
-  import { loading, user } from '$lib/stores/user';
 
   $effect(() => {
     const isInit = !!localStorage.getItem('lang');
@@ -20,12 +19,11 @@
     });
   });
 
-  loading.subscribe((v) => {
-    if (v) return;
-    if ($user?.id) {
-      goto(`${$locale === fallbackLng ? '' : `/${locale}`}/dashboard`);
+  $effect(() => {
+    if (!$page.data.user) {
+      goto(`${$locale === fallbackLng ? '' : `/${$locale}`}/login`);
     } else {
-      goto(`${$locale === fallbackLng ? '' : `/${locale}`}/login`);
+      goto(`${$locale === fallbackLng ? '' : `/${$locale}`}/dashboard`);
     }
   });
 </script>
@@ -33,7 +31,5 @@
 <SEO />
 
 <div class="flex justify-center flex-col items-center">
-  {#if $loading}
-    <div class="loader text-primary my-10"></div>
-  {/if}
+  <div class="loader text-primary my-10"></div>
 </div>
