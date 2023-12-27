@@ -91,6 +91,13 @@ router.on(
   }
 );
 
+router.delete('/apps/:id', guard('admin'), async (c) => {
+  const s = c.get('services');
+  const id = c.req.param('id');
+  const result = await s.app.deleteApp(id);
+  return c.json({ result });
+});
+
 router.post('/apps/:id/secret', guard('admin'), async (c) => {
   const s = c.get('services');
   const id = c.req.param('id');

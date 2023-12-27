@@ -2,7 +2,8 @@
   import { t } from '@svelte-dev/i18n';
   import { page } from '$app/stores';
   import { applyAction, enhance } from '$app/forms';
-  import { invalidateAll } from '$app/navigation';
+  import { goto, invalidateAll } from '$app/navigation';
+  import { linkPrefix } from '$lib/stores/prefix';
 
   let loading = $state(false);
 
@@ -19,6 +20,9 @@
     // @ts-ignore
     return async ({ result }) => {
       await applyAction(result);
+      if (!$page.params.id && result?.data?.id) {
+        goto(`${$linkPrefix}/dashboard/app/edit/${result?.data?.id}`);
+      }
       if (result?.data?.result === true) {
         await invalidateAll();
       }

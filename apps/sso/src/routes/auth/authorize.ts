@@ -31,7 +31,7 @@ router.get(
   async (c) => {
     const { client_id, state, redirect_uri, lang } = c.req.valid('query');
     const s = c.get('services');
-    let user; // const user = await authenticator.isAuthenticated(request);
+    const user = s.session.get('user');
 
     const search = new URLSearchParams();
     // TODO: check redirect uri

@@ -17,10 +17,9 @@
     search.append('client_id', app.id);
     search.append('redirect_uri', app.redirect_uris[0]);
     search.append('state', Date.now().toString());
-    window.open(`/authorize?${search.toString()}`);
+    window.open(`/auth/authorize?${search.toString()}`);
   }
 </script>
-
 
 <div>
   <a href={`${$linkPrefix}/dashboard/me`}>{$page.data.user.username}</a>
@@ -54,7 +53,7 @@
           {$t('app.homepage')}： {app.homepage}
         </p>
         <div class="card-actions justify-end">
-          <button onClick={() => appLogin(app)} class="btn btn-primary">
+          <button onclick={() => appLogin(app)} class="btn btn-primary">
             {$t('common.login')}
           </button>
         </div>
