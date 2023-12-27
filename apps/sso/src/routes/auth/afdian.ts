@@ -1,13 +1,13 @@
 import { afdianAuth } from '@hono-dev/auth-afdian';
 import { Hono } from 'hono';
+import { callbackOrBindRedirect } from '../../utils/safe-redirect';
 
 const router = new Hono();
 
 router.use('/afdian/*', afdianAuth());
 router.get('/afdian/*', async (c) => {
-  const user = c.get('user');
-  const session = c.get('session');
-  let viewer = session.get('user');
+  const s = c.get('services');
+  let viewer = s.session.get('user');
 
   const afdianUser = c.get('afdian-user');
   const formattedUser = {
@@ -19,20 +19,20 @@ router.get('/afdian/*', async (c) => {
   };
 
   if (viewer) {
-    const bindedUid = await user.getUserIdFromThirdUser(
+    const bindedUid = await s.user.getUserIdFromThirdUser(
       'afdian',
       formattedUser.id
     );
     // Bind thid login method to the user
     if (!bindedUid) {
-      await user.bindThirdUser(viewer.id, 'afdian', formattedUser);
+      await s.user.bindThirdUser(viewer.id, 'afdian', formattedUser);
       return c.redirect('/dashboard');
     }
   }
   // Register the user
-  viewer = await user.getUserByThirdUser('afdian', formattedUser);
-  session.set('user', viewer);
-  return c.redirect('/dashboard', 307);
+  viewer = await s.user.getUserByThirdUser('afdian', formattedUser);
+  s.session.set('user', viewer);
+  return callbackOrBindRedirect(c, '/dashboard');
 });
 
 export { router };

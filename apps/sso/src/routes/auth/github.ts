@@ -1,13 +1,13 @@
 import { githubAuth } from '@hono-dev/auth-github';
 import { Hono } from 'hono';
+import { callbackOrBindRedirect } from '../../utils/safe-redirect';
 
 const router = new Hono();
 
 router.use('/github/*', githubAuth());
 router.get('/github/*', async (c) => {
-  const user = c.get('user');
-  const session = c.get('session');
-  let viewer = session.get('user');
+  const s = c.get('services');
+  let viewer = s.session.get('user');
 
   const githubToken = c.get('github-token');
   const githubUser = c.get('github-user');
@@ -20,20 +20,20 @@ router.get('/github/*', async (c) => {
   };
 
   if (viewer) {
-    const bindedUid = await user.getUserIdFromThirdUser(
+    const bindedUid = await s.user.getUserIdFromThirdUser(
       'github',
       formattedUser.id
     );
     // Bind thid login method to the user
     if (!bindedUid) {
-      await user.bindThirdUser(viewer.id, 'github', formattedUser);
+      await s.user.bindThirdUser(viewer.id, 'github', formattedUser);
       return c.redirect('/dashboard');
     }
   }
   // Register the user
-  viewer = await user.getUserByThirdUser('github', formattedUser);
-  session.set('user', viewer);
-  return c.redirect('/dashboard', 307);
+  viewer = await s.user.getUserByThirdUser('github', formattedUser);
+  s.session.set('user', viewer);
+  return callbackOrBindRedirect(c, '/dashboard');
 });
 
 export { router };

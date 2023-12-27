@@ -3,7 +3,9 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { timing } from 'hono/timing';
 import pkg from '../package.json';
-import { authRouter } from './routes';
+import { injectServices } from './middleware/inject';
+import { apiRouter } from './routes/api';
+import { authRouter } from './routes/auth';
 
 const app = new Hono({
   strict: false
@@ -31,10 +33,8 @@ app.use(
     maxAge: 3600
   })
 );
+app.use('*', injectServices());
 app.route('/auth', authRouter);
-
-app.get('/auth', (c) => {
-  return c.json(c.env);
-});
+app.route('/api', apiRouter);
 
 export default app;

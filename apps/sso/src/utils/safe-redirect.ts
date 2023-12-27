@@ -1,3 +1,6 @@
+import type { Context } from 'hono';
+import { deleteCookie, getCookie } from 'hono/cookie';
+
 const DEFAULT_REDIRECT = '/';
 
 /**
@@ -28,4 +31,19 @@ export function safeRedirect(
   }
 
   return to;
+}
+
+export function callbackOrBindRedirect(
+  c: Context,
+  fallback: string = '/dashboard'
+) {
+  const returnTo = getCookie(c, 'returnTo');
+  if (returnTo) {
+    deleteCookie(c, 'returnTo', {
+      httpOnly: true,
+      path: '/'
+    });
+  }
+
+  return c.redirect(safeRedirect(returnTo, fallback), 307);
 }

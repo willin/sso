@@ -5,7 +5,8 @@ import { AppService, type IAppService } from '../services/app';
 import { AuthService, type IAuthService } from '../services/auth';
 import { CacheService } from '../services/cache';
 import { DatabaseService } from '../services/database';
-import { UserService, type IUserService } from '../services/user';
+import { SessionService } from '../services/session';
+import { UserService, type IUserService, type User } from '../services/user';
 
 export type Bindings = {
   DB: D1Database;
@@ -14,9 +15,14 @@ export type Bindings = {
 
 declare module 'hono' {
   interface ContextVariableMap {
-    app: IAppService;
-    user: IUserService;
-    auth: IAuthService;
+    services: {
+      app: IAppService;
+      user: IUserService;
+      auth: IAuthService;
+      session: SessionService<{
+        user?: User;
+      }>;
+    };
   }
 }
 
@@ -32,10 +38,19 @@ export const injectServices =
     const app = new AppService(db);
     const user = new UserService(db);
     const auth = new AuthService(user, cache);
+    const session = new SessionService(c);
+    await session.init();
 
-    c.set('app', app);
-    c.set('user', user);
-    c.set('auth', auth);
+    c.set('services', {
+      app,
+      user,
+      auth,
+      session
+    });
 
     await next();
+
+    if (session.needSync) {
+      await session.save();
+    }
   };

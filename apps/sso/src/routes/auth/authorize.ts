@@ -1,7 +1,7 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { z } from 'zod';
-import { safeRedirect } from '../utils/safe-redirect';
+import { safeRedirect } from '../../utils/safe-redirect';
 
 const router = new Hono();
 
@@ -30,7 +30,7 @@ router.get(
   ),
   async (c) => {
     const { client_id, state, redirect_uri, lang } = c.req.valid('query');
-    const auth = c.get('auth');
+    const s = c.get('services');
     let user; // const user = await authenticator.isAuthenticated(request);
 
     const search = new URLSearchParams();
@@ -42,7 +42,7 @@ router.get(
       return c.redirect(`/login?${search.toString()}`);
     }
     // callback with code
-    search.append('code', await auth.createCode(client_id, user));
+    search.append('code', await s.auth.createCode(client_id, user));
 
     return c.redirect(
       safeRedirect(
