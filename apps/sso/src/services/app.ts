@@ -110,7 +110,7 @@ export class AppService implements IAppService {
   }
 
   async #getAppSecrets(appId: string) {
-    const records = await this.#db.query<App>(
+    const records = await this.#db.query<{ secret: string }>(
       'SELECT secret FROM app WHERE id=?1 AND forbidden=0 ORDER BY created_at DESC LIMIT 1',
       [appId]
     );
@@ -129,7 +129,7 @@ export class AppService implements IAppService {
     const key = nanoid(30);
     secret.push({
       secret: key,
-      created_at: Date.now()
+      created_at: Date.now() as any as string
     });
 
     return this.#db
@@ -166,7 +166,7 @@ export class AppService implements IAppService {
       .array(SecretSchema)
       .refine(isJsonString)
       .parse(JSON.parse(records[0].secret));
-    return secrets.map((x) => x.secret);
+    return secrets.map((x) => x.secret!);
   }
 
   async listApps(): Promise<App[]> {

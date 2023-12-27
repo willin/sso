@@ -13,7 +13,7 @@ const AccessTokenSchema = z.object({
 export type AccessToken = z.infer<typeof AccessTokenSchema>;
 
 export interface IAuthService {
-  createCode(user: User): Promise<string>;
+  createCode(clientId: string, user: User): Promise<string>;
   deleteCode(clientId: string, code: string): Promise<void>;
   getUserFromCode(clientId: string, code: string): Promise<User | null>;
   getUserFromToken(token: string): Promise<User | null>;
@@ -25,7 +25,6 @@ export class AuthService implements IAuthService {
   #cache: ICacheService;
   #authCodeExpiration: number = 600;
   #authTokenExpiration: number = 86400 * 30;
-  #thirdparty: IBindThirdPartyProvider;
   #userService: IUserService;
 
   constructor(userService: IUserService, cache: ICacheService) {

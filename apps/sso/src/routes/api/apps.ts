@@ -13,8 +13,11 @@ router.get(
   }),
   async (c) => {
     const s = c.get('services');
+    const viewer = c.get('viewer');
     const apps = await s.app.listApps();
-    return c.json(apps);
+    return c.json(
+      viewer.type === 'admin' ? apps : apps.filter((app) => !!app.production)
+    );
   }
 );
 

@@ -44,7 +44,7 @@ export class SessionService<Data = { [name: string]: unknown }> {
     return this.#data.get(key);
   }
 
-  set<Key extends keyof Data & string>(key: Key, value) {
+  set<Key extends keyof Data & string>(key: Key, value: Data[Key]) {
     if (!this.#data) throw new Error('Not Initialized');
     this.#data.set(key, value);
     this.#needSync = true;

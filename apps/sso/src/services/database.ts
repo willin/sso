@@ -1,6 +1,6 @@
 export interface IDatabaseService {
-  query<T>(sql: string, bindings?: string[]): Promise<T[]>;
-  execute(sql: string, bindings?: string[]): Promise<boolean>;
+  query<T>(sql: string, bindings?: unknown[]): Promise<T[]>;
+  execute(sql: string, bindings?: unknown[]): Promise<boolean>;
 }
 
 export class DatabaseService implements IDatabaseService {
@@ -10,11 +10,11 @@ export class DatabaseService implements IDatabaseService {
     this.#db = db;
   }
 
-  query<T>(sql: string, bindings?: string[] | undefined): Promise<T[]> {
+  query<T>(sql: string, bindings?: unknown[] | undefined): Promise<T[]> {
     return this.#db.query<T>(sql, bindings);
   }
 
-  execute(sql: string, bindings?: string[] | undefined): Promise<boolean> {
+  execute(sql: string, bindings?: unknown[] | undefined): Promise<boolean> {
     return this.#db.execute(sql, bindings);
   }
 }

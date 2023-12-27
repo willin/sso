@@ -13,13 +13,12 @@ const DEFAULT_REDIRECT = '/';
  * @author https://github.com/jacob-ebey
  */
 export function safeRedirect(
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  goto: FormDataEntryValue | string | null | undefined,
+  goto: string | null | undefined,
   defaultRedirect: string = DEFAULT_REDIRECT
 ) {
   if (!goto || typeof goto !== 'string') return defaultRedirect;
 
-  const to: string = to.trim();
+  const to: string = goto.trim();
 
   if (
     (!to.startsWith('http') && !to.startsWith('/')) ||

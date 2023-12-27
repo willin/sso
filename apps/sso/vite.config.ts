@@ -10,7 +10,13 @@ export default defineConfig({
       fileName: 'index'
     }
   },
-  plugins: [dts(), checker({ typescript: true })],
+  plugins: [
+    dts({
+      entryRoot: 'src'
+      // rollupTypes: true
+    }),
+    checker({ typescript: true })
+  ],
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}', 'test/**/*.{test,spec}.{js,ts}'],
     coverage: {

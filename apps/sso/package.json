@@ -4,6 +4,18 @@
   "version": "0.0.0",
   "description": "Hono SSO Provider Server for cloudflare workers",
   "author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "LICENSE",
+    "dist",
+    "!dist/**/*.js",
+    "!dist/**/*.mjs"
+  ],
   "keywords": [
     "hono",
     "auth",

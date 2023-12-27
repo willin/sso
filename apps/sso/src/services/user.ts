@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { Paginated } from '../types';
 import { nanoid } from '../utils/nanoid';
 import type { IDatabaseService } from './database';
 
@@ -33,7 +34,7 @@ export const ThirdUserSchema = z.object({
     )
     .optional(),
   created_at: z.string().optional(),
-  _json: z.object().optional()
+  _json: z.object({}).optional()
 });
 
 export type ThirdUser = z.infer<typeof ThirdUserSchema>;
@@ -53,12 +54,12 @@ export interface IUserService {
     thirdUser: ThirdUser
   ): Promise<boolean>;
   unbindThirdUser(userId: string, provider: string): Promise<boolean>;
-  deleteUser(userId: string): Promise<boolean>;
-  changeUserType(
-    userId: string,
-    userType: UserType,
-    expire?: number | Date
-  ): Promise<boolean>;
+  // deleteUser(userId: string): Promise<boolean>;
+  // changeUserType(
+  //   userId: string,
+  //   userType: UserType,
+  //   expire?: number | Date
+  // ): Promise<boolean>;
   changeUserForbidden(userId: string, forbidden: number): Promise<boolean>;
   listUsers(args: {
     page?: number;
@@ -125,7 +126,7 @@ export class UserService implements IUserService {
     }
     await this.#addThirdUser(userId, provider, thirdUser);
     const user = await this.getUserById(userId);
-    return user;
+    return user!;
   }
 
   async getUserById(userId: string): Promise<User | null> {
@@ -159,7 +160,7 @@ export class UserService implements IUserService {
     if (userId) {
       // Relogin
       const user = await this.getUserById(userId);
-      return user;
+      return user!;
     }
     // Not Registered, auto register
     const user = await this.#registerUserFromThirdUser(provider, thirdUser);
@@ -169,7 +170,7 @@ export class UserService implements IUserService {
   async listUsers(args: {
     page?: number;
     size?: number;
-    fobidden?: number;
+    forbidden?: number;
   }): Promise<Paginated<User>> {
     const { page = 1, size = 20, forbidden = 0 } = args;
     const records = await this.#db.query<User>(

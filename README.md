@@ -8,7 +8,7 @@ Free IDaas And Single Sign-On Service
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/willin/sso?style=social)](https://github.com/willin/sso) [![Fork](https://img.shields.io/github/contributors/willin/sso)](https://github.com/willin/sso/fork)
 
-<https://sso.willin.wang/>
+[中文网站](https://sso.willin.wang) | [English Website](https://sso.willin.wang/en)
 
 ## 相关文档 Documentation
 
@@ -24,10 +24,8 @@ Free IDaas And Single Sign-On Service
 - `/auth/revoke`
 - `/$lang/login`
 - `/$lang/dashboard` (需要登录 need login)
-
-[![github](https://img.shields.io/github/followers/willin.svg?style=social&label=Followers)](https://github.com/willin)
-
-[中文网站](https://sso.willin.wang) | [English Website](https://sso.willin.wang/en)
+- `/api/apps` GET/POST
+- `/api/apps/:id` GET/PUT/DELETE
 
 ## 赞助 Sponsor
 
