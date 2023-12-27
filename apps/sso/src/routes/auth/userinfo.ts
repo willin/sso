@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { cache } from 'hono/cache';
+// import { cache } from 'hono/cache';
 import { guard } from '../../middleware/guard';
 
 const router = new Hono();
@@ -7,10 +7,10 @@ const router = new Hono();
 router.get(
   '/userinfo',
   guard(),
-  cache({
-    cacheName: 'v0-sso',
-    cacheControl: 'max-age=600, stale-while-revalidate=10'
-  }),
+  // cache({
+  //   cacheName: 'v0-sso',
+  //   cacheControl: 'max-age=600, stale-while-revalidate=10'
+  // }),
   async (c) => {
     const s = c.get('services');
     const viewer = c.get('viewer');

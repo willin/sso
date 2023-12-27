@@ -18,14 +18,15 @@ Free IDaas And Single Sign-On Service
 
 ## 端点 Endpoints
 
-- `/auth/authorize`
-- `/auth/token`
-- `/auth/userinfo`
-- `/auth/revoke`
-- `/$lang/login`
-- `/$lang/dashboard` (需要登录 need login)
+- `/auth/authorize` GET
+- `/auth/token` POST
+- `/auth/userinfo` GET
+- `/auth/revoke` POST
+- `/$lang/login` (以下需要登录 below need login)
+- `/$lang/dashboard`
 - `/api/apps` GET/POST
-- `/api/apps/:id` GET/PUT/DELETE
+- `/api/apps/:id` GET/PUT
+- `/api/apps/:id/secret` POST/DELETE
 
 ## 赞助 Sponsor
 

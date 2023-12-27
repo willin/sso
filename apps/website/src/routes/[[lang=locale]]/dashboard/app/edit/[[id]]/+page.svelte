@@ -1,9 +1,8 @@
 <script lang="ts">
   import { t } from '@svelte-dev/i18n';
   import { page } from '$app/stores';
-  import { applyAction, deserialize } from '$app/forms';
+  import { applyAction, enhance } from '$app/forms';
   import { invalidateAll } from '$app/navigation';
-  import type { ActionResult } from '@sveltejs/kit';
 
   let loading = $state(false);
 
@@ -14,25 +13,17 @@
     }
   }
 
-  async function handleSubmit(event: {
-    currentTarget: EventTarget & HTMLFormElement;
-  }) {
+  async function handleSubmit() {
     loading = true;
-    const data = new FormData(event.currentTarget);
 
-    const response = await fetch(event.currentTarget.action, {
-      method: 'POST',
-      body: data
-    });
-
-    const result: ActionResult = deserialize(await response.text());
-    loading = false;
-    if (result.type === 'success') {
-      // rerun all `load` functions, following the successful update
-      await invalidateAll();
-    }
-
-    applyAction(result);
+    // @ts-ignore
+    return async ({ result }) => {
+      await applyAction(result);
+      if (result?.data?.result === true) {
+        await invalidateAll();
+      }
+      loading = false;
+    };
   }
 </script>
 
@@ -40,7 +31,7 @@
   {$t($page.params.id ? 'app.edit' : 'app.create')}
 </h2>
 
-{#if $page.form?.secret}
+{#if $page.form?.created}
   <div class="alert">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -53,11 +44,11 @@
         stroke-width="2"
         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
     </svg>
-    <span>{$page.form?.secret}</span>
+    <span>{$page.form?.created}</span>
   </div>
 {/if}
 
-<form action="?/save" method="POST" on:submit|preventDefault={handleSubmit}>
+<form action="?/save" method="POST" use:enhance={handleSubmit}>
   <div class="form-control w-full my-2">
     <label class="label">
       <span class="label-text">{$t('app.name')}</span>
@@ -159,9 +150,9 @@
               </span>
               <div>
                 <button
-                  onClick={confirmDelete}
-                  formaction="?/delete"
-                  name="_delete"
+                  onclick={confirmDelete}
+                  formaction="?/revoke"
+                  name="_revoke"
                   value={s.created_at}
                   disabled={loading}
                   class="btn btn-sm btn-warning"
@@ -177,7 +168,6 @@
 
     <div class="form-control w-full my-2">
       <button
-        type="submit"
         formaction="?/secret"
         disabled={loading}
         class="btn btn-secondary"

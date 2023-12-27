@@ -16,11 +16,11 @@ export const load: PageServerLoad = async ({ request, fetch, params }) => {
 };
 
 export const actions: Actions = {
-  save: async ({ request, fetch }) => {
+  save: async ({ request, fetch, params }) => {
     const form = await request.formData();
     const body = Object.fromEntries(form.entries());
-    const res = await fetch('/api/apps', {
-      method: 'POST',
+    const res = await fetch(`/api/apps${params.id ? `/${params.id}` : ''}`, {
+      method: params.id ? 'PUT' : 'POST',
       body: JSON.stringify({
         ...body,
         production: body.production ? 1 : 0
@@ -30,7 +30,32 @@ export const actions: Actions = {
       }
     });
     const result = await res.json();
-    console.log(JSON.stringify(result, null, 2));
+    return result;
+  },
+  secret: async ({ fetch, params }) => {
+    const res = await fetch(`/api/apps/${params.id}/secret`, {
+      method: 'POST',
+      body: JSON.stringify({}),
+      headers: {
+        'content-type': 'application/json'
+      }
+    });
+    const result = await res.json();
+    return result;
+  },
+  revoke: async ({ request, fetch, params }) => {
+    const form = await request.formData();
+    const body = Object.fromEntries(form.entries());
+    const res = await fetch(`/api/apps/${params.id}/secret`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        created_at: body._revoke
+      }),
+      headers: {
+        'content-type': 'application/json'
+      }
+    });
+    const result = await res.json();
     return result;
   }
 };

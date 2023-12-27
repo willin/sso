@@ -1,5 +1,6 @@
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod';
+import { formatDate } from '../utils/date';
 import { nanoid } from '../utils/nanoid';
 import type { IDatabaseService } from './database';
 
@@ -45,7 +46,7 @@ export interface IAppService {
   deleteApp(appId: string): Promise<boolean>;
   getAppSecrets(appId: string): Promise<string[]>;
   createSecret(appId: string): Promise<string>;
-  deleteSecret(appId: string, createdAt: Date): Promise<boolean>;
+  deleteSecret(appId: string, created_at: string): Promise<boolean>;
   listApps(): Promise<App[]>;
 }
 
@@ -118,11 +119,7 @@ export class AppService implements IAppService {
     if (records.length === 0) {
       throw new HTTPException(404, { message: 'App not found' });
     }
-    const secrets = z
-      .array(SecretSchema)
-      .refine(isJsonString)
-      .parse(JSON.parse(records[0].secret));
-    return secrets;
+    return JSON.parse(records[0].secret) as (typeof SecretSchema)[];
   }
 
   async createSecret(appId: string): Promise<string> {
@@ -130,7 +127,7 @@ export class AppService implements IAppService {
     const key = nanoid(30);
     secret.push({
       secret: key,
-      created_at: Date.now() as any as string
+      created_at: formatDate()
     });
 
     return this.#db
@@ -141,11 +138,9 @@ export class AppService implements IAppService {
       .then(() => key);
   }
 
-  async deleteSecret(appId: string, createdAt: Date): Promise<boolean> {
+  async deleteSecret(appId: string, created_at: string): Promise<boolean> {
     const secret = await this.#getAppSecrets(appId);
-    const index = secret.findIndex(
-      (x) => new Date(x.created_at).getTime() === new Date(createdAt).getTime()
-    );
+    const index = secret.findIndex((x) => x.created_at === created_at);
     if (index === -1) return false;
     secret.splice(index, 1);
 
