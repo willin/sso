@@ -17,7 +17,6 @@ export const actions: Actions = {
   unbind: async ({ request, fetch, params }) => {
     const form = await request.formData();
     const body = Object.fromEntries(form.entries());
-    console.log(body);
     const res = await fetch(`/api/users/${params.id}/${body.provider}`, {
       method: 'DELETE',
       body: JSON.stringify({}),
@@ -26,7 +25,6 @@ export const actions: Actions = {
       }
     });
     const result = await res.json();
-    console.log(JSON.stringify(result, null, 2));
     return result;
   }
 };

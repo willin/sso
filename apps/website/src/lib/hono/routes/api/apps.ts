@@ -4,6 +4,7 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import { guard } from '../../middleware/guard';
 import { URLSchema } from '../../types';
+import { DateTimeSchema } from '../../utils/date';
 
 const router = new Hono();
 
@@ -110,7 +111,7 @@ router.delete(
   guard('admin'),
   zBodyValidator(
     z.object({
-      created_at: z.string()
+      created_at: DateTimeSchema
     })
   ),
   async (c) => {

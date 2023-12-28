@@ -50,7 +50,6 @@ router.on(
     const s = c.get('services');
     const id = c.req.param('id');
     const { forbidden } = c.req.valid('form');
-    console.log(forbidden);
     const result = await s.user.changeUserForbidden(id, forbidden);
     return c.json({ result });
   }

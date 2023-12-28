@@ -2,6 +2,7 @@ import { z } from 'zod';
 import type { Paginated } from '../types';
 import { nanoid } from '../utils/nanoid';
 import type { IDatabaseService } from './database';
+import { DateTimeSchema } from '../utils/date';
 
 export enum UserType {
   User = 'user',
@@ -16,8 +17,8 @@ const UserSchema = z.object({
   avatar: z.string(),
   type: z.string(),
   membership: z.string().optional(),
-  created_at: z.string(),
-  updated_at: z.string()
+  created_at: DateTimeSchema,
+  updated_at: DateTimeSchema
 });
 
 export type User = z.infer<typeof UserSchema>;
@@ -34,7 +35,7 @@ export const ThirdUserSchema = z.object({
       })
     )
     .optional(),
-  created_at: z.string().optional(),
+  created_at: DateTimeSchema,
   _json: z.object({}).optional()
 });
 

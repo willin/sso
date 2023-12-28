@@ -1,8 +1,8 @@
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod';
-import { formatDate } from '../utils/date';
 import { nanoid } from '../utils/nanoid';
 import type { IDatabaseService } from './database';
+import { DateTimeSchema } from '../utils/date';
 
 const isJsonString = (value: string) => {
   try {
@@ -15,7 +15,7 @@ const isJsonString = (value: string) => {
 
 const SecretSchema = z.object({
   secret: z.string().optional(),
-  created_at: z.string()
+  created_at: DateTimeSchema
 });
 
 export const AppSchema = z.object({
@@ -33,8 +33,8 @@ export const AppSchema = z.object({
     .string()
     .refine(isJsonString)
     .transform((value) => z.array(SecretSchema).parse(JSON.parse(value))),
-  created_at: z.string(),
-  updated_at: z.string()
+  created_at: DateTimeSchema,
+  updated_at: DateTimeSchema
 });
 
 export type App = z.infer<typeof AppSchema>;
@@ -127,7 +127,7 @@ export class AppService implements IAppService {
     const key = nanoid(30);
     secret.push({
       secret: key,
-      created_at: formatDate()
+      created_at: Date.now()
     });
 
     return this.#db
@@ -140,7 +140,9 @@ export class AppService implements IAppService {
 
   async deleteSecret(appId: string, created_at: string): Promise<boolean> {
     const secret = await this.#getAppSecrets(appId);
-    const index = secret.findIndex((x) => x.created_at === created_at);
+    const index = secret.findIndex(
+      (x) => new Date(x.created_at).getTime() === new Date(created_at).getTime()
+    );
     if (index === -1) return false;
     secret.splice(index, 1);
 

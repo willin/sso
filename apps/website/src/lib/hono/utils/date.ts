@@ -37,3 +37,9 @@ export const formatDate = (
   }
   return pattern;
 };
+
+export const DateTimeSchema = z
+  .string()
+  .or(z.number())
+  .optional()
+  .transform((v) => formatDate('yyyy-MM-dd hh:mm:ss', v));
