@@ -70,6 +70,44 @@ Free IDaas And Single Sign-On Service
 4. 启动 `bun run dev`。或者分别启动 SSO 和 Web 服务 `bun run dev --filter v0-sso`、`bun run dev --filter web`
 5. 手动修改 `apps/sso/.wrangler/state/v3/d1/miniflare-D1DatabaseObject` 下的数据库，通过 SQLite 软件，将你的第一个用户类型 `type` 改为 `admin`
 
+### Deployment
+
+> [!IMPORTANT]
+> If you need customized development, such as deleting/adding login methods, you need to have professional development knowledge, or contact me for paid customization.
+
+1. You need to have a Cloudflare account, a configurable domain, and a Github account as prerequisites.
+2. Create a D1 database and KV bucket in Cloudflare. You can modify the `wrangler.toml` configuration of the two applications in the `apps` directory.
+   - Create [KV bucket](https://dash.cloudflare.com/?to=/:account/workers/kv/namespaces)
+   - Create [D1 database](https://dash.cloudflare.com/?to=/:account/workers/d1)
+   - Create [API Token](https://dash.cloudflare.com/profile/api-tokens)
+3. Fork this project and do subsequent environment variable configuration in Settings.
+4. Set environment variables, refer to [.github/workflows/deploy.yml](.github/workflows/deploy.yml). Note:
+   - Create [Github OAuth App](https://github.com/settings/developers)
+   - Create [Alipay Basic App](https://open.alipay.com/develop/manage)
+   - For Afdian application, you need to send a private message to [@afdian](https://afdian.net/a/afdian)
+   - If you use Github's Secrets, you can't use the `GITHUB_` prefix, so I changed it to the `GH_` prefix, but the code has not been changed, only mapped in the Workflow
+   - Note: Only Github can leave CALLBACK_URL blank (other login methods need to specify the domain callback)
+
+### Local Development
+
+1. Configure the development environment, it is recommended to use `bun` for development.
+2. Create `apps/sso/.dev.vars` and configure environment variables such as `AFDIAN_CLIENT_ID`, `AFDIAN_CLIENT_SECRET`.
+3. Install dependencies `bun install`
+
+```bash
+ AFDIAN_CLIENT_ID=
+ AFDIAN_CLIENT_SECRET=
+ AFDIAN_CALLBACK_URL=
+ GITHUB_ID=
+ GITHUB_SECRET=
+ ALIPAY_APP_ID=
+ ALIPAY_CALLBACK_URL=
+ ALIPAY_PRIVATE_KEY=
+```
+
+4. Start with `bun run dev`. Or start SSO and Web services separately with `bun run dev --filter v0-sso`, `bun run dev --filter web`
+5. Manually modify the database under `apps/sso/.wrangler/state/v3/d1/miniflare-D1DatabaseObject` using SQLite software, change your first user type `type` to `admin`
+
 ## 赞助 Sponsor
 
 维护者 Owner： [Willin Wang](https://willin.wang)
