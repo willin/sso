@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 /**
  * 格式化时间
  * @param {string} inputPattern 时间格式,默认为'yyyy-MM-dd hh:mm:ss'
