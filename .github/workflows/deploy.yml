@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - apps/sso/**/*
-      - apps/website/**/*
+      # - apps/website/**/*
   workflow_dispatch:
 jobs:
   deploy:
