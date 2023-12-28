@@ -8,7 +8,7 @@ routes = [
 	{ pattern = "sso.v0.md", custom_domain = true }
 ]
 site = { bucket = "./.cloudflare/public" }
-# build = { command = "npm run build" }
+build = { command = "bun run build" }
 
 [env.dev]
 workers_dev = true
