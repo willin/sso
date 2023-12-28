@@ -42,8 +42,8 @@
     {$t('common.total')}： {$page.data.users?.total}
   </h2>
 
-  <div class="overflow-x-auto">
-    <table class="table table-zebra w-full min-w-full table-md">
+  <div class="overflow-x-auto my-4 bg-neutral text-neutral-content">
+    <table class="table w-full min-w-full table-md table-pin-cols">
       <thead>
         <tr>
           <th>{$t('user.avatar')}</th>
@@ -77,7 +77,7 @@
             <td>{user.display_name}</td>
             <td>{$t(`user.${user.type}`)}</td>
             <td>{user.created_at}</td>
-            <td>
+            <th>
               <button
                 type="submit"
                 onclick={confirmOperation}
@@ -87,9 +87,12 @@
                 {baned ? $t('user.unban') : $t('user.ban')}
               </button>
               {'  '}
-              <a href={`${$linkPrefix}/dashboard/user/edit/${user.id}`}
-                >{$t('common.edit')}</a>
-            </td>
+              <a
+                href={`${$linkPrefix}/dashboard/user/edit/${user.id}`}
+                class="text-secondary">
+                {$t('common.edit')}
+              </a>
+            </th>
           </tr>
         {/each}
       </tbody>

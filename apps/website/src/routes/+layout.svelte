@@ -26,10 +26,8 @@
 <Navbar />
 
 <main
-  class="w-[960px] max-w-full mx-auto shadow bg-neutral/90 text-neutral-content p-2 sm:p-4 mb-20">
-  <article class='prose'>
-    <slot />
-  </article>
+  class="w-[720px] max-w-full mx-auto shadow bg-neutral/90 text-neutral-content p-2 sm:p-4 mb-20">
+  <slot />
 
   <Bootstrap />
 </main>
