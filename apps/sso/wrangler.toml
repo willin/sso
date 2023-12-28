@@ -5,7 +5,8 @@ main = "src/index.ts"
 
 vars = { ENVIRONMENT = "production" }
 routes = [
-  # { pattern = "sso.willin.wang/auth/*", zone_name = "willin.wang" },
+  { pattern = "sso.willin.wang/auth/*", zone_name = "willin.wang" },
+  { pattern = "sso.js.cool/auth/*", zone_name = "js.cool" },
   { pattern = "sso.v0.md/auth/*", zone_name = "v0.md" }
 ]
 kv_namespaces= [

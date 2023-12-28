@@ -64,10 +64,10 @@ jobs:
         #   SESSION_KEY: ${{ secrets.SESSION_KEY }}
         #   GITHUB_CALLBACK_URL: ${{ secrets.GITHUB_CALLBACK_URL }}
 
-      - name: Deploy Website
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          command: deploy --config apps/website/wrangler.toml
-        env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+      # - name: Deploy Website
+      #   uses: cloudflare/wrangler-action@v3
+      #   with:
+      #     apiToken: ${{ secrets.CF_API_TOKEN }}
+      #     command: deploy --config apps/website/wrangler.toml
+      #   env:
+      #     CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
