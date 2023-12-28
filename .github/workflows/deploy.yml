@@ -38,31 +38,31 @@ jobs:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           command: publish --config wrangler.toml
           workingDirectory: apps/sso
-          secrets: |
-            AFDIAN_CLIENT_ID
-            AFDIAN_CLIENT_SECRET
-            AFDIAN_CALLBACK_URL
-            ALIPAY_APP_ID
-            ALIPAY_PRIVATE_KEY
-            ALIPAY_CALLBACK_URL
-            GITHUB_ID
-            GITHUB_SECRET
-            SESSION_SECRET
-          # SESSION_KEY
-          # GITHUB_CALLBACK_URL
-        env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-          AFDIAN_CLIENT_ID: ${{ secrets.AFDIAN_CLIENT_ID }}
-          AFDIAN_CLIENT_SECRET: ${{ secrets.AFDIAN_CLIENT_SECRET }}
-          AFDIAN_CALLBACK_URL: ${{ secrets.AFDIAN_CALLBACK_URL }}
-          ALIPAY_APP_ID: ${{ secrets.ALIPAY_APP_ID }}
-          ALIPAY_PRIVATE_KEY: ${{ secrets.ALIPAY_PRIVATE_KEY }}
-          ALIPAY_CALLBACK_URL: ${{ secrets.ALIPAY_CALLBACK_URL }}
-          GITHUB_ID: ${{ secrets.GH_CLIENT_ID }}
-          GITHUB_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-          # SESSION_KEY: ${{ secrets.SESSION_KEY }}
-          # GITHUB_CALLBACK_URL: ${{ secrets.GITHUB_CALLBACK_URL }}
+        #   secrets: |
+        #     AFDIAN_CLIENT_ID
+        #     AFDIAN_CLIENT_SECRET
+        #     AFDIAN_CALLBACK_URL
+        #     ALIPAY_APP_ID
+        #     ALIPAY_PRIVATE_KEY
+        #     ALIPAY_CALLBACK_URL
+        #     GITHUB_ID
+        #     GITHUB_SECRET
+        #     SESSION_SECRET
+        #     SESSION_KEY
+        #     GITHUB_CALLBACK_URL
+        # env:
+        #   CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        #   AFDIAN_CLIENT_ID: ${{ secrets.AFDIAN_CLIENT_ID }}
+        #   AFDIAN_CLIENT_SECRET: ${{ secrets.AFDIAN_CLIENT_SECRET }}
+        #   AFDIAN_CALLBACK_URL: ${{ secrets.AFDIAN_CALLBACK_URL }}
+        #   ALIPAY_APP_ID: ${{ secrets.ALIPAY_APP_ID }}
+        #   ALIPAY_PRIVATE_KEY: ${{ secrets.ALIPAY_PRIVATE_KEY }}
+        #   ALIPAY_CALLBACK_URL: ${{ secrets.ALIPAY_CALLBACK_URL }}
+        #   GITHUB_ID: ${{ secrets.GH_CLIENT_ID }}
+        #   GITHUB_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+        #   SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+        #   SESSION_KEY: ${{ secrets.SESSION_KEY }}
+        #   GITHUB_CALLBACK_URL: ${{ secrets.GITHUB_CALLBACK_URL }}
 
       - name: Deploy Website
         uses: cloudflare/wrangler-action@v3
