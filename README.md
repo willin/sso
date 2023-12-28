@@ -10,6 +10,23 @@ Free IDaas And Single Sign-On Service
 
 [中文网站](https://sso.willin.wang) | [English Website](https://sso.willin.wang/en)
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [相关文档 Documentation](#%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3-documentation)
+- [端点 Endpoints](#%E7%AB%AF%E7%82%B9-endpoints)
+- [开源包 Packages](#%E5%BC%80%E6%BA%90%E5%8C%85-packages)
+  - [Packages](#packages)
+- [开发/部署 Development & Deployment](#%E5%BC%80%E5%8F%91%E9%83%A8%E7%BD%B2-development--deployment)
+  - [部署](#%E9%83%A8%E7%BD%B2)
+  - [本地开发](#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91)
+  - [Deployment](#deployment)
+  - [Local Development](#local-development)
+- [赞助 Sponsor](#%E8%B5%9E%E5%8A%A9-sponsor)
+- [许可证 License](#%E8%AE%B8%E5%8F%AF%E8%AF%81-license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## 相关文档 Documentation
 
 - 设计文档 Design (In Chinese)： <https://blog.csdn.net/jslygwx/article/details/133765190>
@@ -31,6 +48,17 @@ Free IDaas And Single Sign-On Service
 - `/api/users/:id` GET/PUT/POST
 - `/api/users/:id/forbidden` PUT/POST
 - `/api/users/:id/:provider` DELETE
+
+## 开源包 Packages
+
+### Packages
+
+| Package                                             | Meta                                                                                                                                                                                                                                                                                                                                                                                                                             | Changelog                                           |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| [@hono-dev/auth-github](packages/hono-auth-github/) | [![npm](https://img.shields.io/npm/v/@hono-dev/auth-github?style=flat-square&logo=npm)](https://npmjs.org/package/@hono-dev/auth-github) [![npm](https://img.shields.io/npm/dm/@hono-dev/auth-github?style=flat-square&label=down)](https://npmjs.org/package/@hono-dev/auth-github) [![npm](https://img.shields.io/npm/dt/@hono-dev/auth-github?style=flat-square&label=down)](https://npmjs.org/package/@hono-dev/auth-github) | [Changelog](packages/hono-auth-github/CHANGELOG.md) |
+| [@hono-dev/auth-alipay](packages/hono-auth-alipay/) | [![npm](https://img.shields.io/npm/v/@hono-dev/auth-alipay?style=flat-square&logo=npm)](https://npmjs.org/package/@hono-dev/auth-alipay) [![npm](https://img.shields.io/npm/dm/@hono-dev/auth-alipay?style=flat-square&label=down)](https://npmjs.org/package/@hono-dev/auth-alipay) [![npm](https://img.shields.io/npm/dt/@hono-dev/auth-alipay?style=flat-square&label=down)](https://npmjs.org/package/@hono-dev/auth-alipay) | [Changelog](packages/hono-auth-alipay/CHANGELOG.md) |
+| [@hono-dev/auth-afdian](packages/hono-auth-afdian/) | [![npm](https://img.shields.io/npm/v/@hono-dev/auth-afdian?style=flat-square&logo=npm)](https://npmjs.org/package/@hono-dev/auth-afdian) [![npm](https://img.shields.io/npm/dm/@hono-dev/auth-afdian?style=flat-square&label=down)](https://npmjs.org/package/@hono-dev/auth-afdian) [![npm](https://img.shields.io/npm/dt/@hono-dev/auth-afdian?style=flat-square&label=down)](https://npmjs.org/package/@hono-dev/auth-afdian) | [Changelog](packages/hono-auth-afdian/CHANGELOG.md) |
+| [@hono-dev/powered-by](packages/hono-powered-by/)   | [![npm](https://img.shields.io/npm/v/@hono-dev/powered-by?style=flat-square&logo=npm)](https://npmjs.org/package/@hono-dev/powered-by) [![npm](https://img.shields.io/npm/dm/@hono-dev/powered-by?style=flat-square&label=down)](https://npmjs.org/package/@hono-dev/powered-by) [![npm](https://img.shields.io/npm/dt/@hono-dev/powered-by?style=flat-square&label=down)](https://npmjs.org/package/@hono-dev/powered-by)       | [Changelog](packages/hono-powered-by/CHANGELOG.md)  |
 
 ## 开发/部署 Development & Deployment
 
