@@ -32,6 +32,44 @@ Free IDaas And Single Sign-On Service
 - `/api/users/:id/forbidden` PUT/POST
 - `/api/users/:id/:provider` DELETE
 
+## 开发/部署 Development & Deployment
+
+### 部署
+
+> [!IMPORTANT]
+> 如果需要定制化的开发，比如删除/新增登录方式，则需要具备专业的开发知识，或者联系我进行付费定制。
+
+1. 需要有 Cloudflare 账号、可配置域名和 Github 账号三项前置准备
+2. 在 Cloudflare 中创建好 D1 数据库和 KV 缓存桶。可以修改项目 `apps` 目录中两个应用的 `wrangler.toml` 配置
+   - 创建 [KV 存储桶](https://dash.cloudflare.com/?to=/:account/workers/kv/namespaces)
+   - 创建 [D1 数据库](https://dash.cloudflare.com/?to=/:account/workers/d1)
+   - 创建 [API Token](https://dash.cloudflare.com/profile/api-tokens)
+3. Fork 本项目，在 Settings 中做后续环境变量配置
+4. 设置环境变量，参考 [.github/workflows/deploy.yml](.github/workflows/deploy.yml)。注意：
+   - 创建 [Github OAuth 应用](https://github.com/settings/developers)
+   - 创建 [支付宝基础应用](https://open.alipay.com/develop/manage)
+   - 爱发电应用需要私信 [@afdian](https://afdian.net/a/afdian)
+   - 如果使用 Github 的 Secrets，则不能用 `GITHUB_` 前缀，所以我改成了 `GH_` 前缀，但代码中没有更改，只在 Workflow 中映射
+   - 注意：只有 Github 可以不填 CALLBACK_URL（其他登录方式均需要指定域名回调）
+
+### 本地开发
+
+1. 配置开发环境，推荐使用 `bun` 进行开发
+2. 创建 `apps/sso/.dev.vars` 将 `AFDIAN_CLIENT_ID`、`AFDIAN_CLIENT_SECRET` 等环境变量进行配置。
+   ```bash
+   AFDIAN_CLIENT_ID=
+   AFDIAN_CLIENT_SECRET=
+   AFDIAN_CALLBACK_URL=
+   GITHUB_ID=
+   GITHUB_SECRET=
+   ALIPAY_APP_ID=
+   ALIPAY_CALLBACK_URL=
+   ALIPAY_PRIVATE_KEY=
+   ```
+3. 安装依赖 `bun install`
+4. 启动 `bun run dev`。或者分别启动 SSO 和 Web 服务 `bun run dev --filter v0-sso`、`bun run dev --filter web`
+5. 手动修改 `apps/sso/.wrangler/state/v3/d1/miniflare-D1DatabaseObject` 下的数据库，通过 SQLite 软件，将你的第一个用户类型 `type` 改为 `admin`
+
 ## 赞助 Sponsor
 
 维护者 Owner： [Willin Wang](https://willin.wang)

@@ -57,8 +57,8 @@ jobs:
           ALIPAY_APP_ID: ${{ secrets.ALIPAY_APP_ID }}
           ALIPAY_PRIVATE_KEY: ${{ secrets.ALIPAY_PRIVATE_KEY }}
           ALIPAY_CALLBACK_URL: ${{ secrets.ALIPAY_CALLBACK_URL }}
-          GITHUB_ID: ${{ secrets.GITHUB_ID }}
-          GITHUB_SECRET: ${{ secrets.GITHUB_SECRET }}
+          GITHUB_ID: ${{ secrets.GH_CLIENT_ID }}
+          GITHUB_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           # SESSION_KEY: ${{ secrets.SESSION_KEY }}
           # AFDIAN_CALLBACK_URL: ${{ secrets.AFDIAN_CALLBACK_URL }}

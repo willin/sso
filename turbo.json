@@ -6,6 +6,10 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".cloudflare/**", ".svelte-kit/**"]
     },
+    "deploy": {
+      "dependsOn": ["^deploy"],
+      "outputs": ["src/**", ".cloudflare/**", ".svelte-kit/**"]
+    },
     "test": {
       "outputs": [".coverage/**"],
       "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts"],

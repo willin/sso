@@ -4,6 +4,9 @@
     "build": {
       "outputs": [".cloudflare/**", ".svelte-kit/**"]
     },
+    "deploy": {
+      "outputs": [".cloudflare/**", ".svelte-kit/**"]
+    },
     "test": {
       "outputs": [".coverage/**"]
     }

@@ -4,6 +4,9 @@
     "build": {
       "outputs": ["dist/**"]
     },
+    "deploy": {
+      "outputs": ["src/**"]
+    },
     "dev": {
       "dependsOn": [
         "@hono-dev/auth-afdian#build",
