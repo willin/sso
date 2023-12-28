@@ -11,5 +11,14 @@ module.exports = {
   parserOptions: {
     extraFileExtensions: ['.svelte'],
     tsconfigRootDir: __dirname
-  }
+  },
+  overrides: [
+    {
+      files: ['*.svelte'],
+      parser: 'svelte-eslint-parser',
+      parserOptions: {
+        parser: '@typescript-eslint/parser'
+      }
+    }
+  ]
 };
