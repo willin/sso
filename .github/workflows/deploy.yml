@@ -36,7 +36,7 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
-          command: publish --config wrangler.toml
+          command: deploy --config wrangler.toml
           workingDirectory: apps/sso
         #   secrets: |
         #     AFDIAN_CLIENT_ID
@@ -68,6 +68,6 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
-          command: publish --config apps/website/wrangler.toml
+          command: deploy --config apps/website/wrangler.toml
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
