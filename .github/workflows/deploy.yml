@@ -7,7 +7,6 @@ on:
     paths:
       - apps/sso/**/*
       - apps/website/**/*
-      - migrations/**/*
   workflow_dispatch:
 jobs:
   deploy:
@@ -38,7 +37,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           command: publish --config wrangler.toml
-          workdingDirectory: apps/sso
+          workingDirectory: apps/sso
           secrets: |
             AFDIAN_CLIENT_ID
             AFDIAN_CLIENT_SECRET
