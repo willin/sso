@@ -2,11 +2,25 @@
   import { t } from '@svelte-dev/i18n';
   import { page } from '$app/stores';
   import { linkPrefix } from '$lib/stores/prefix';
+  import { afterNavigate, goto, invalidateAll } from '$app/navigation';
+  import Pagination from '$lib/components/Pagination.svelte';
+
+  const baned = $derived($page.url.searchParams.get('forbidden') === '1');
+
+  function handleUserType(e: Event) {
+    const t = e.target as HTMLSelectElement;
+    const search = new URLSearchParams($page.url.search);
+    search.set('forbidden', t.value);
+    goto(`${$page.url.pathname}?${search.toString()}`);
+  }
+  afterNavigate(() => {
+    invalidateAll();
+  });
 </script>
 
 <form action="?/ban">
   <h2 class="my-2">
-    {$t('common.total')}： ##total
+    {$t('common.total')}： {$page.data.users?.total}
   </h2>
   <table class="table table-zebra w-full min-w-full table-md">
     <thead>
@@ -17,7 +31,7 @@
         <th>{$t('user.type')}</th>
         <th>{$t('common.created_at')}</th>
         <th>
-          <select class="select select-bordered">
+          <select on:change={handleUserType} class="select select-bordered">
             <option value="0">{$t('user.normal')}</option>
             <option value="1">{$t('user.forbidden')}</option>
           </select>
@@ -25,27 +39,34 @@
       </tr>
     </thead>
     <tbody>
-      <!-- <tr key={user.id}>
-        <td>
-          <div class='avatar'>
-            <div class='w-8 rounded'>
-              <img src={user.avatar} alt={user.displayName} />
+      {#each $page.data.users?.data as user (user.id)}
+        <tr>
+          <td>
+            <div class="avatar">
+              <div class="w-8 rounded">
+                <img src={user.avatar} alt={user.displayName} />
+              </div>
             </div>
-          </div>
-        </td>
-        <td>{user.username}</td>
-        <td>{user.displayName}</td>
-        <td>{$t(`user.${user.type}`)}</td>
-        <td>{dayjs(user.createdAt).format('YYYY-MM-DD')}</td>
-        <td>
-          <button type='submit' onClick={confirmOperation} name='id' value={user.id} class='text-primary'>
-            {searchParams.get('forbidden') === '1' ? t('user.unban') : t('user.ban')}
-          </button>
-          {'  '}
-          <LocaleLink to={`/dashboard/user/edit/${user.id}`}>{$t('common.edit')}</LocaleLink>
-        </td>
-      </tr> -->
+          </td>
+          <td>{user.username}</td>
+          <td>{user.displayName}</td>
+          <td>{$t(`user.${user.type}`)}</td>
+          <td>{user.created_at}</td>
+          <td>
+            <button
+              type="submit"
+              name="id"
+              value={user.id}
+              class="text-primary">
+              {baned ? $t('user.unban') : $t('user.ban')}
+            </button>
+            {'  '}
+            <a href={`${$linkPrefix}/dashboard/user/edit/${user.id}`}
+              >{$t('common.edit')}</a>
+          </td>
+        </tr>
+      {/each}
     </tbody>
   </table>
-  <!-- <Paginator total={$total} /> -->
+  <Pagination total={$page.data.users?.total} />
 </form>

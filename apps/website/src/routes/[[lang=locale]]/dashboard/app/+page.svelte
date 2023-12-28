@@ -39,7 +39,7 @@
             type="checkbox"
             checked={app.production}
             class="checkbox checkbox-primary"
-            readOnly />
+            disabled />
         </td>
         <td>
           <a href={app.homepage} target="_blank" rel="noreferrer">

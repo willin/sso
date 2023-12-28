@@ -141,7 +141,7 @@
         placeholder={$t('app.id')}
         value={$page.data.app?.id || ''}
         class="input input-bordered w-full"
-        readOnly />
+        disabled />
     </div>
     <h3>{$t('app.secret')}</h3>
     <div class="form-control w-full my-2">

@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@svelte-dev/i18n": "^1.0.1",
+    "hono": "^3.11.11",
     "theme-change": "^2.5.0",
     "zod": "^3.22.4"
   },
