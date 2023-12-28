@@ -86,7 +86,8 @@
 </form>
 <AdSlot />
 <h3 class="my-4">{$t('user.thirdparty')}</h3>
-<div>
+
+<!-- <div>
   {#snippet ThirdPartyCard(thirdUser)}
     <div class='card w-full my-4 bg-base-100 shadow-xl'>
       <div class='card-body'>
@@ -114,8 +115,9 @@
     {@render ThirdPartyCard(thirdUser)}
   {/each}
 </div>
+
 <div>
-  {#snippet BindThirdCard(provider)}
+  {#each providers as provider(provider)}
     <div class='card w-full my-4 bg-base-100 shadow-xl'>
       <div class='card-body'>
         <h2 class='card-title capitalize'>{getProviderName(provider)}</h2>
@@ -130,9 +132,5 @@
         </div>
       </div>
     </div>
-  {/snippet}
-
-  {#each providers as provider(provider)}
-    {@render BindThirdCard(provider)}
   {/each}
-</div>
+</div> -->

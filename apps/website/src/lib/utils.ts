@@ -10,7 +10,7 @@ export const providerNames = {
 };
 
 export function getProviderName(
-  provider: keyof typeof providerNames & string
+  provider: keyof typeof providerNames | string
 ): string {
   return providerNames?.[provider] || provider;
 }

@@ -36,7 +36,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "wrangler dev --config wrangler.toml",
-    "deploy": "wrangler publish --config wrangler.toml",
+    "deploy": "wrangler deploy --config wrangler.toml",
     "lint": "prettier --write . && eslint . --fix",
     "test": "vitest run --pass-with-no-tests"
   },
