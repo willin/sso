@@ -1,6 +1,6 @@
 {
   "name": "@hono-dev/auth-alipay",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Alipay Authentication Strategy for Hono",
   "author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
   "keywords": [
