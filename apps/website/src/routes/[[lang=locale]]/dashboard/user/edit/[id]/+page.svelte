@@ -88,19 +88,26 @@
   </div>
 </form>
 <h3 class="my-4">{$t('user.thirdparty')}</h3>
-{#snippet ThirdPartyCard(thirdUser)}
-	<div class='card w-full my-4 bg-base-100 shadow-xl'>
-    <div class='card-body'>
-      <h2 class='card-title capitalize'>{getProviderName(thirdUser.provider)}</h2>
+
+{#each $page.data.user?.thirdparty as thirdUser (thirdUser.id)}
+  <div class="card w-full my-4 bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title capitalize">
+        {getProviderName(thirdUser.provider)}
+      </h2>
       <p>{$t('common.created_at')}: {thirdUser.created_at}</p>
-      <div class='card-actions justify-end'>
+      <div class="card-actions justify-end">
         <form action="?/unbind" method="POST" use:enhance={handleSubmit}>
-          <div class='form-control w-full my-2'>
-            <button type='submit' name='provider' value={thirdUser.provider} class='btn btn-primary'
-            onclick={confirmOperation}
-            disabled={loading ||$page.data.user?.thirdparty?.length === 1}
-            class:btn-disabled={loading ||$page.data.user?.thirdparty?.length === 1}
-            >
+          <div class="form-control w-full my-2">
+            <button
+              type="submit"
+              name="provider"
+              value={thirdUser.provider}
+              class="btn btn-primary"
+              onclick={confirmOperation}
+              disabled={loading || $page.data.user?.thirdparty?.length === 1}
+              class:btn-disabled={loading ||
+                $page.data.user?.thirdparty?.length === 1}>
               {$t('user.unbind')}
             </button>
           </div>
@@ -108,8 +115,4 @@
       </div>
     </div>
   </div>
-{/snippet}
-
-{#each $page.data.user?.thirdparty as thirdUser(thirdUser.id)}
-  {@render ThirdPartyCard(thirdUser)}
 {/each}
