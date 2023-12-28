@@ -1,7 +1,7 @@
 {
   "name": "v0-sso",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Hono SSO Provider Server for cloudflare workers",
   "author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
   "types": "./dist/index.d.ts",
