@@ -3,20 +3,29 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "dev": "vite dev",
+    "dev": "wrangler pages dev .svelte-kit/cloudflare --port 5173",
     "build": "vite build",
+    "build:watch": "vite build --watch",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest run --pass-with-no-tests"
   },
   "dependencies": {
+    "@hono-dev/auth-afdian": "*",
+    "@hono-dev/auth-alipay": "*",
+    "@hono-dev/auth-github": "*",
+    "@hono-dev/powered-by": "*",
+    "@hono-dev/zod-body-validator": "^0.1.0",
+    "@hono/zod-validator": "^0.1.11",
     "@svelte-dev/i18n": "^1.0.1",
-    "hono": "^3.11.11",
+    "hono": "^3.11.10",
+    "nanoid": "^5.0.4",
     "theme-change": "^2.5.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20231218.0",
     "@sveltejs/adapter-cloudflare": "^3.0.1",
     "@sveltejs/kit": "^2.0.6",
     "@sveltejs/vite-plugin-svelte": "^3.0.1",

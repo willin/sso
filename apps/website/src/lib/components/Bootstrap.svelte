@@ -16,6 +16,7 @@
     if (
       hideAd ||
       ['/', '/zh', '/en'].includes($page.url.pathname) ||
+      $page.url.pathname.endsWith('/login') ||
       window.location.hostname === 'localhost'
     )
       return;

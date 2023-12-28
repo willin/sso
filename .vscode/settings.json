@@ -1,5 +1,5 @@
 {
-  "conventionalCommits.scopes": ["auth", "worker", "web"],
+  "conventionalCommits.scopes": ["web", "package"],
   "cSpell.words": ["willin"],
   "svelte.plugin.svelte.compilerWarnings": {
     "a11y-no-noninteractive-tabindex": "ignore"

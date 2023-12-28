@@ -1,7 +1,8 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
-import type { App as Apps, User, ThirdUser } from '$lib/types';
+import type { App as OauthApp } from '$lib/hono/services/app';
+import type { ThirdUser, User } from '$lib/hono/services/user';
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
@@ -13,11 +14,29 @@ declare global {
     }
     interface PageData {
       user: User & { thirdparty: ThirdUser[] };
-      apps: Apps[];
-      app: Apps;
+      apps: OauthApp[];
+      app: OauthApp;
     }
     // interface PageState {}
-    // interface Platform {}
+    interface Platform {
+      env: {
+        DB: D1Database;
+        CACHE: KVNamespace;
+        AFDIAN_CLIENT_ID: string;
+        AFDIAN_CLIENT_SECRET: string;
+        AFDIAN_CALLBACK_URL?: string;
+        ALIPAY_APP_ID: string;
+        ALIPAY_PRIVATE_KEY: string;
+        ALIPAY_CALLBACK_URL: string;
+        GITHUB_ID: string;
+        GITHUB_SECRET: string;
+        GITHUB_CALLBACK_URL?: string;
+      };
+      context: {
+        waitUntil(promise: Promise<unknown>): void;
+      };
+      caches: CacheStorage & { default: Cache };
+    }
   }
 }
 

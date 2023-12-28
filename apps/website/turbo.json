@@ -1,12 +1,10 @@
 {
   "extends": ["//"],
   "pipeline": {
-    "build": {
-      "outputs": [".cloudflare/**", ".svelte-kit/**"]
+    "build:watch": {
+      "outputs": [".svelte-kit/**"]
     },
-    "deploy": {
-      "outputs": [".cloudflare/**", ".svelte-kit/**"]
-    },
+    "dev": {},
     "test": {
       "outputs": [".coverage/**"]
     }

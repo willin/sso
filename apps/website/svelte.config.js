@@ -19,13 +19,14 @@ const config = {
       routes: {
         include: ['/*'],
         exclude: [
-          '<build>',
-          '<prerendered>',
-          '/favicon.png',
-          '/ads.txt',
-          '/images',
-          '/auth/*',
-          '/api/*'
+          '<all>'
+          // '<build>',
+          // '<prerendered>',
+          // '/favicon.png',
+          // '/ads.txt',
+          // '/images',
+          // '/auth/*',
+          // '/api/*'
         ]
       }
     })

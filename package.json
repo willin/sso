@@ -5,7 +5,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "deploy": "turbo run deploy",
+    "watch": "turbo run watch --parallel",
     "test": "turbo run test --parallel",
     "coverage": "turbo run test --parallel -- --coverage",
     "changeset:version": "changeset version",

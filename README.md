@@ -13,17 +13,19 @@ Free IDaas And Single Sign-On Service
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [相关文档 Documentation](#%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3-documentation)
-- [端点 Endpoints](#%E7%AB%AF%E7%82%B9-endpoints)
-- [开源包 Packages](#%E5%BC%80%E6%BA%90%E5%8C%85-packages)
-  - [Packages](#packages)
-- [开发/部署 Development & Deployment](#%E5%BC%80%E5%8F%91%E9%83%A8%E7%BD%B2-development--deployment)
-  - [部署](#%E9%83%A8%E7%BD%B2)
-  - [本地开发](#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91)
-  - [Deployment](#deployment)
-  - [Local Development](#local-development)
-- [赞助 Sponsor](#%E8%B5%9E%E5%8A%A9-sponsor)
-- [许可证 License](#%E8%AE%B8%E5%8F%AF%E8%AF%81-license)
+- [An Open-Source SSO System](#an-open-source-sso-system)
+  - [开源免费的 IDaaS （SSO 单点登录）服务](#开源免费的-idaas-sso-单点登录服务)
+  - [相关文档 Documentation](#相关文档-documentation)
+  - [端点 Endpoints](#端点-endpoints)
+  - [开源包 Packages](#开源包-packages)
+    - [Packages](#packages)
+  - [开发/部署 Development \& Deployment](#开发部署-development--deployment)
+    - [部署](#部署)
+    - [本地开发](#本地开发)
+    - [Deployment](#deployment)
+    - [Local Development](#local-development)
+  - [赞助 Sponsor](#赞助-sponsor)
+  - [许可证 License](#许可证-license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -68,12 +70,12 @@ Free IDaas And Single Sign-On Service
 > 如果需要定制化的开发，比如删除/新增登录方式，则需要具备专业的开发知识，或者联系我进行付费定制。
 
 1. 需要有 Cloudflare 账号、可配置域名和 Github 账号三项前置准备
-2. 在 Cloudflare 中创建好 D1 数据库和 KV 缓存桶。可以修改项目 `apps` 目录中两个应用的 `wrangler.toml` 配置
+2. 在 Cloudflare 中创建好 D1 数据库和 KV 缓存桶。
    - 创建 [KV 存储桶](https://dash.cloudflare.com/?to=/:account/workers/kv/namespaces)
    - 创建 [D1 数据库](https://dash.cloudflare.com/?to=/:account/workers/d1)
    - 创建 [API Token](https://dash.cloudflare.com/profile/api-tokens)
 3. Fork 本项目，在 Settings 中做后续环境变量配置
-4. 设置环境变量，参考 [.github/workflows/deploy.yml](.github/workflows/deploy.yml)。注意：
+4. 设置环境变量，参考 `本地开发`。注意：
    - 创建 [Github OAuth 应用](https://github.com/settings/developers)
    - 创建 [支付宝基础应用](https://open.alipay.com/develop/manage)
    - 爱发电应用需要私信 [@afdian](https://afdian.net/a/afdian)
@@ -83,20 +85,26 @@ Free IDaas And Single Sign-On Service
 ### 本地开发
 
 1. 配置开发环境，推荐使用 `bun` 进行开发
-2. 创建 `apps/sso/.dev.vars` 将 `AFDIAN_CLIENT_ID`、`AFDIAN_CLIENT_SECRET` 等环境变量进行配置。
-   ```bash
-   AFDIAN_CLIENT_ID=
-   AFDIAN_CLIENT_SECRET=
-   AFDIAN_CALLBACK_URL=
-   GITHUB_ID=
-   GITHUB_SECRET=
-   ALIPAY_APP_ID=
-   ALIPAY_CALLBACK_URL=
-   ALIPAY_PRIVATE_KEY=
-   ```
-3. 安装依赖 `bun install`
-4. 启动 `bun run dev`。或者分别启动 SSO 和 Web 服务 `bun run dev --filter v0-sso`、`bun run dev --filter web`
-5. 手动修改 `apps/sso/.wrangler/state/v3/d1/miniflare-D1DatabaseObject` 下的数据库，通过 SQLite 软件，将你的第一个用户类型 `type` 改为 `admin`
+2. 创建 `apps/website/.dev.vars` 将 `AFDIAN_CLIENT_ID`、`AFDIAN_CLIENT_SECRET` 等环境变量进行配置。
+3. 安装依赖 `bun install && bun run build`
+
+```bash
+AFDIAN_CLIENT_ID=
+AFDIAN_CLIENT_SECRET=
+AFDIAN_CALLBACK_URL=
+GITHUB_ID=
+GITHUB_SECRET=
+GITHUB__CALLBACK_URL=optional
+ALIPAY_APP_ID=
+ALIPAY_CALLBACK_URL=
+ALIPAY_PRIVATE_KEY=
+SESSION_KEY=optional
+SESSION_SECRET=
+```
+
+4. 在 `apps/website`目录下初始化数据库： `npx wrangler d1 migrations apply sso --local`
+5. 启动 `bun run dev`
+6. 手动修改 `apps/website/.wrangler/state/v3/d1/miniflare-D1DatabaseObject` 下的数据库，通过 SQLite 软件，将你的第一个用户类型 `type` 改为 `admin`
 
 ### Deployment
 
@@ -104,12 +112,12 @@ Free IDaas And Single Sign-On Service
 > If you need customized development, such as deleting/adding login methods, you need to have professional development knowledge, or contact me for paid customization.
 
 1. You need to have a Cloudflare account, a configurable domain, and a Github account as prerequisites.
-2. Create a D1 database and KV bucket in Cloudflare. You can modify the `wrangler.toml` configuration of the two applications in the `apps` directory.
+2. Create a D1 database and KV bucket in Cloudflare.
    - Create [KV bucket](https://dash.cloudflare.com/?to=/:account/workers/kv/namespaces)
    - Create [D1 database](https://dash.cloudflare.com/?to=/:account/workers/d1)
    - Create [API Token](https://dash.cloudflare.com/profile/api-tokens)
 3. Fork this project and do subsequent environment variable configuration in Settings.
-4. Set environment variables, refer to [.github/workflows/deploy.yml](.github/workflows/deploy.yml). Note:
+4. Set environment variables, refer to `Local Development`. Note:
    - Create [Github OAuth App](https://github.com/settings/developers)
    - Create [Alipay Basic App](https://open.alipay.com/develop/manage)
    - For Afdian application, you need to send a private message to [@afdian](https://afdian.net/a/afdian)
@@ -119,22 +127,26 @@ Free IDaas And Single Sign-On Service
 ### Local Development
 
 1. Configure the development environment, it is recommended to use `bun` for development.
-2. Create `apps/sso/.dev.vars` and configure environment variables such as `AFDIAN_CLIENT_ID`, `AFDIAN_CLIENT_SECRET`.
-3. Install dependencies `bun install`
+2. Create `apps/website/.dev.vars` and configure environment variables such as `AFDIAN_CLIENT_ID`, `AFDIAN_CLIENT_SECRET`.
+3. Install dependencies `bun install && bun bun build`
 
 ```bash
- AFDIAN_CLIENT_ID=
- AFDIAN_CLIENT_SECRET=
- AFDIAN_CALLBACK_URL=
- GITHUB_ID=
- GITHUB_SECRET=
- ALIPAY_APP_ID=
- ALIPAY_CALLBACK_URL=
- ALIPAY_PRIVATE_KEY=
+AFDIAN_CLIENT_ID=
+AFDIAN_CLIENT_SECRET=
+AFDIAN_CALLBACK_URL=
+GITHUB_ID=
+GITHUB_SECRET=
+GITHUB__CALLBACK_URL=optional
+ALIPAY_APP_ID=
+ALIPAY_CALLBACK_URL=
+ALIPAY_PRIVATE_KEY=
+SESSION_KEY=optional
+SESSION_SECRET=
 ```
 
-4. Start with `bun run dev`. Or start SSO and Web services separately with `bun run dev --filter v0-sso`, `bun run dev --filter web`
-5. Manually modify the database under `apps/sso/.wrangler/state/v3/d1/miniflare-D1DatabaseObject` using SQLite software, change your first user type `type` to `admin`
+4. Cd to `apps/website` and init database with: `npx wrangler d1 migrations apply sso --local`
+5. Start with `bun run dev`
+6. Manually modify the database under `apps/website/.wrangler/state/v3/d1/miniflare-D1DatabaseObject` using SQLite software, change your first user type `type` to `admin`
 
 ## 赞助 Sponsor
 

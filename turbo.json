@@ -4,11 +4,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".cloudflare/**", ".svelte-kit/**"]
-    },
-    "deploy": {
-      "dependsOn": ["^deploy"],
-      "outputs": ["src/**", ".cloudflare/**", ".svelte-kit/**"]
+      "outputs": ["dist/**", ".svelte-kit/**"]
     },
     "test": {
       "outputs": [".coverage/**"],
@@ -19,6 +15,9 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "watch": {
+      "dependsOn": ["web#build:watch", "web#dev"]
     }
   }
 }

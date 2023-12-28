@@ -23,7 +23,9 @@ export class KVProvider implements ICacheService {
     if (!result) return null;
     try {
       return JSON.parse(result) as T;
-    } catch (e) {}
+    } catch (e) {
+      //
+    }
     endTime(this.#c, 'cache-get');
     return result;
   }

@@ -2,7 +2,6 @@ import { poweredBy } from '@hono-dev/powered-by';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { timing } from 'hono/timing';
-import pkg from '../package.json';
 import { injectServices } from './middleware/inject';
 import { apiRouter } from './routes/api';
 import { authRouter } from './routes/auth';
@@ -11,7 +10,7 @@ const app = new Hono({
   strict: false
 });
 
-app.use('*', poweredBy(`v0-sso/${pkg.version}`));
+app.use('*', poweredBy('v0-sso'));
 app.use(
   '*',
   timing({
