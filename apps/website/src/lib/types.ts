@@ -13,6 +13,24 @@ export const UserSchema = z.object({
 
 export type User = z.infer<typeof UserSchema>;
 
+export const ThirdUserSchema = z.object({
+  provider: z.string(),
+  id: z.string(),
+  username: z.string(),
+  display_name: z.string(),
+  photos: z
+    .array(
+      z.object({
+        value: z.string()
+      })
+    )
+    .optional(),
+  created_at: z.string().optional(),
+  _json: z.object({}).optional()
+});
+
+export type ThirdUser = z.infer<typeof ThirdUserSchema>;
+
 export const SecretSchema = z.object({
   secret: z.string().optional(),
   created_at: z.string()

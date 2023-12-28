@@ -2,6 +2,7 @@
   import { t } from '@svelte-dev/i18n';
   import { page } from '$app/stores';
   import { linkPrefix } from '$lib/stores/prefix';
+  import { applyAction, enhance } from '$app/forms';
   import { afterNavigate, goto, invalidateAll } from '$app/navigation';
   import Pagination from '$lib/components/Pagination.svelte';
 
@@ -13,12 +14,30 @@
     search.set('forbidden', t.value);
     goto(`${$page.url.pathname}?${search.toString()}`);
   }
+
+  async function handleSubmit() {
+    // @ts-ignore
+    return async ({ result }) => {
+      await applyAction(result);
+      if (result?.data?.result === true) {
+        await invalidateAll();
+      }
+    };
+  }
+
+  function confirmOperation(e: Event) {
+    if (!confirm($t('common.confirm'))) {
+      e.preventDefault();
+      return false;
+    }
+  }
+
   afterNavigate(() => {
     invalidateAll();
   });
 </script>
 
-<form action="?/ban">
+<form action="?/forbidden" method="POST" use:enhance={handleSubmit}>
   <h2 class="my-2">
     {$t('common.total')}： {$page.data.users?.total}
   </h2>
@@ -31,7 +50,11 @@
         <th>{$t('user.type')}</th>
         <th>{$t('common.created_at')}</th>
         <th>
-          <select on:change={handleUserType} class="select select-bordered">
+          <select
+            name="type"
+            on:change={handleUserType}
+            value={baned ? '1' : '0'}
+            class="select select-bordered">
             <option value="0">{$t('user.normal')}</option>
             <option value="1">{$t('user.forbidden')}</option>
           </select>
@@ -55,6 +78,7 @@
           <td>
             <button
               type="submit"
+              onclick={confirmOperation}
               name="id"
               value={user.id}
               class="text-primary">

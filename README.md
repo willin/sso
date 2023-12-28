@@ -27,6 +27,9 @@ Free IDaas And Single Sign-On Service
 - `/api/apps` GET/POST
 - `/api/apps/:id` GET/PUT
 - `/api/apps/:id/secret` POST/DELETE
+- `/api/users` GET
+- `/api/users/:id` GET/PUT/POST
+- `/api/users/:id/forbidden` PUT/POST
 
 ## 赞助 Sponsor
 

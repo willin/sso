@@ -23,6 +23,7 @@ const UserSchema = z.object({
 export type User = z.infer<typeof UserSchema>;
 
 export const ThirdUserSchema = z.object({
+  provider: z.string(),
   id: z.string(),
   username: z.string(),
   display_name: z.string(),

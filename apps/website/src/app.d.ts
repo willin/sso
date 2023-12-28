@@ -1,7 +1,7 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
-import type { App as Apps, User } from '$lib/types';
+import type { App as Apps, User, ThirdUser } from '$lib/types';
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
@@ -10,7 +10,7 @@ declare global {
     // interface Error {}
     // interface Locals {}
     interface PageData {
-      user: User;
+      user: User & { thirdparty: ThirdUser[] };
       apps: Apps[];
       app: Apps;
     }
