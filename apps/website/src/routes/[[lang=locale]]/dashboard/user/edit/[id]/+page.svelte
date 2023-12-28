@@ -23,6 +23,13 @@
       loading = false;
     };
   }
+
+  function confirmOperation(e: Event) {
+    if (!confirm($t('common.confirm'))) {
+      e.preventDefault();
+      return false;
+    }
+  }
 </script>
 
 <form action="?/save" method="POST" use:enhance={handleSubmit}>
@@ -90,6 +97,7 @@
         <form action="?/unbind" method="POST" use:enhance={handleSubmit}>
           <div class='form-control w-full my-2'>
             <button type='submit' name='provider' value={thirdUser.provider} class='btn btn-primary'
+            onclick={confirmOperation}
             disabled={loading ||$page.data.user?.thirdparty?.length === 1}
             class:btn-disabled={loading ||$page.data.user?.thirdparty?.length === 1}
             >

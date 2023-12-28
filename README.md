@@ -30,6 +30,7 @@ Free IDaas And Single Sign-On Service
 - `/api/users` GET
 - `/api/users/:id` GET/PUT/POST
 - `/api/users/:id/forbidden` PUT/POST
+- `/api/users/:id/:provider` DELETE
 
 ## 赞助 Sponsor
 

@@ -27,7 +27,7 @@ router.get('/github/*', async (c) => {
     // Bind thid login method to the user
     if (!bindedUid) {
       await s.user.bindThirdUser(viewer.id, 'github', formattedUser);
-      return c.redirect('/dashboard');
+      return callbackOrBindRedirect(c, '/dashboard');
     }
   }
   // Register the user

@@ -26,7 +26,7 @@ router.get('/afdian/*', async (c) => {
     // Bind thid login method to the user
     if (!bindedUid) {
       await s.user.bindThirdUser(viewer.id, 'afdian', formattedUser);
-      return c.redirect('/dashboard');
+      return callbackOrBindRedirect(c, '/dashboard');
     }
   }
   // Register the user

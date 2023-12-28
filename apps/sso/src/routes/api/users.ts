@@ -3,6 +3,7 @@ import { zBodyValidator } from '@hono-dev/zod-body-validator';
 import { Hono } from 'hono';
 // import { cache } from 'hono/cache';
 import { z } from 'zod';
+import { AvailableProviders } from '../../config';
 import { guard } from '../../middleware/guard';
 import { PaginationQuerySchema } from '../../types';
 
@@ -51,6 +52,52 @@ router.on(
     const { forbidden } = c.req.valid('form');
     console.log(forbidden);
     const result = await s.user.changeUserForbidden(id, forbidden);
+    return c.json({ result });
+  }
+);
+
+router.on(
+  ['POST', 'PUT'],
+  '/users/:id',
+  guard(),
+  zBodyValidator(
+    z.object({
+      username: z.string(),
+      display_name: z.string(),
+      avatar: z.string()
+    })
+  ),
+  async (c) => {
+    const s = c.get('services');
+    const viewer = c.get('viewer');
+    const id = c.req.param('id');
+    if (viewer.type !== 'admin' && viewer.id !== id) {
+      return c.json({ error: 'forbidden' }, 403);
+    }
+    const body = c.req.valid('form');
+    const result = await s.user.updateUser(id, body);
+    return c.json({ result });
+  }
+);
+
+router.delete(
+  '/users/:id/:provider',
+  guard(),
+  zValidator(
+    'param',
+    z.object({
+      id: z.string(),
+      provider: z.enum(AvailableProviders)
+    })
+  ),
+  async (c) => {
+    const s = c.get('services');
+    const { id, provider } = c.req.valid('param');
+    const viewer = c.get('viewer');
+    if (viewer.type !== 'admin' && viewer.id !== id) {
+      return c.json({ error: 'forbidden' }, 403);
+    }
+    const result = await s.user.unbindThirdUser(id, provider);
     return c.json({ result });
   }
 );

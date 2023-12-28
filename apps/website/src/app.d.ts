@@ -8,7 +8,9 @@ import type { App as Apps, User, ThirdUser } from '$lib/types';
 declare global {
   namespace App {
     // interface Error {}
-    // interface Locals {}
+    interface Locals {
+      user: User & { thirdparty: ThirdUser[] };
+    }
     interface PageData {
       user: User & { thirdparty: ThirdUser[] };
       apps: Apps[];

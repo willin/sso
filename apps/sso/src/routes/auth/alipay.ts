@@ -27,7 +27,7 @@ router.get('/alipay/*', async (c) => {
     // Bind thid login method to the user
     if (!bindedUid) {
       await s.user.bindThirdUser(viewer.id, 'alipay', formattedUser);
-      return c.redirect('/dashboard');
+      return callbackOrBindRedirect(c, '/dashboard');
     }
   }
   // Register the user

@@ -67,12 +67,12 @@
           <td>
             <div class="avatar">
               <div class="w-8 rounded">
-                <img src={user.avatar} alt={user.displayName} />
+                <img src={user.avatar} alt={user.display_name} />
               </div>
             </div>
           </td>
           <td>{user.username}</td>
-          <td>{user.displayName}</td>
+          <td>{user.display_name}</td>
           <td>{$t(`user.${user.type}`)}</td>
           <td>{user.created_at}</td>
           <td>

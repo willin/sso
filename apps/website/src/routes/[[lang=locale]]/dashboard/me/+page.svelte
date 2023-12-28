@@ -30,9 +30,17 @@
       loading = false;
     };
   }
+
+  function confirmOperation(e: Event) {
+    if (!confirm($t('common.confirm'))) {
+      e.preventDefault();
+      return false;
+    }
+  }
 </script>
 
 <form action="?/save" method="POST" use:enhance={handleSubmit}>
+  <input type='hidden' name='id' value={$page.data.user.id} />
   <div class="form-control w-full my-2">
     <label class="label">
       <span class="label-text">{$t('user.username')}</span>
@@ -86,8 +94,10 @@
         <p>{$t('common.created_at')}: {thirdUser.created_at}</p>
         <div class='card-actions justify-end'>
           <form action="?/unbind" method="POST" use:enhance={handleSubmit}>
+            <input type='hidden' name='id' value={$page.data.user.id} />
             <div class='form-control w-full my-2'>
-              <button type='submit' name='provider' value={thirdUser.provider} class='btn btn-primary'
+              <button type='submit' name='provider' value={thirdUser.provider} class='btn btn-secondary'
+              on:click={confirmOperation}
               disabled={loading ||$page.data.user?.thirdparty?.length === 1}
               class:btn-disabled={loading ||$page.data.user?.thirdparty?.length === 1}
               >
@@ -110,14 +120,11 @@
       <div class='card-body'>
         <h2 class='card-title capitalize'>{getProviderName(provider)}</h2>
         <div class='card-actions justify-end'>
-          <form action="?/bind" method="POST" use:enhance={handleSubmit}>
+          <form>
             <div class='form-control w-full my-2'>
-              <button type='submit' name='provider' value={provider} class='btn btn-primary'
-              disabled={loading}
-              class:btn-disabled={loading}
-              >
+              <a class='btn btn-primary' href={`/auth/${provider}?returnTo=${$page.url.pathname}`}>
                 {$t('user.bind')}
-              </button>
+              </a>
             </div>
           </form>
         </div>
