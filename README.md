@@ -103,7 +103,7 @@ SESSION_SECRET=
 ```
 
 4. 在 `apps/website`目录下初始化数据库： `npx wrangler d1 migrations apply sso --local`
-5. 启动 `bun run dev`
+5. 启动 `bun run build && bun run dev`
 6. 手动修改 `apps/website/.wrangler/state/v3/d1/miniflare-D1DatabaseObject` 下的数据库，通过 SQLite 软件，将你的第一个用户类型 `type` 改为 `admin`
 
 ### Deployment
@@ -145,7 +145,7 @@ SESSION_SECRET=
 ```
 
 4. Cd to `apps/website` and init database with: `npx wrangler d1 migrations apply sso --local`
-5. Start with `bun run dev`
+5. Start with `bun run build && bun run dev`
 6. Manually modify the database under `apps/website/.wrangler/state/v3/d1/miniflare-D1DatabaseObject` using SQLite software, change your first user type `type` to `admin`
 
 ## 赞助 Sponsor

@@ -29,7 +29,10 @@ const config = {
           // '/api/*'
         ]
       }
-    })
+    }),
+    csrf: {
+      checkOrigin: false
+    }
   }
 };
 
