@@ -160,10 +160,7 @@ export class AppService implements IAppService {
     if (records.length === 0) {
       return [];
     }
-    const secrets = z
-      .array(SecretSchema)
-      .refine(isJsonString)
-      .parse(JSON.parse(records[0].secret));
+    const secrets = JSON.parse(records[0].secret);
     return secrets.map((x) => x.secret!);
   }
 
