@@ -132,7 +132,7 @@ export class AuthService implements IAuthService {
         async ({ profile }) => {
           return userService.getUserByThirdUser({
             provider: 'github',
-            id: profile._json.id,
+            id: `${profile._json.id}`,
             username: profile._json.login.toLowerCase(),
             displayName: profile._json.name,
             photos: [{ value: profile._json.avatar_url }],

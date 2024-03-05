@@ -73,7 +73,7 @@ export default class BindGithubProvider implements IBindThirdPartyProvider {
 
     return {
       provider: 'github',
-      id: data.id,
+      id: `${data.id}`,
       username: data.login.toLowerCase(),
       displayName: data.name,
       photos: [{ value: data.avatar_url }],

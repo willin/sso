@@ -8,3 +8,5 @@ node_modules
 /functions/metafile.*
 /public/build
 .dev.vars
+.env.*
+*.log
