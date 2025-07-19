@@ -78,7 +78,7 @@ Free IDaas And Single Sign-On Service
 4. 设置环境变量，参考 `本地开发`。注意：
    - 创建 [Github OAuth 应用](https://github.com/settings/developers)
    - 创建 [支付宝基础应用](https://open.alipay.com/develop/manage)
-   - 爱发电应用需要私信 [@afdian](https://afdian.net/a/afdian)
+   - 爱发电应用需要私信 [@afdian](https://afdian.com/a/afdian)
    - 如果使用 Github 的 Secrets，则不能用 `GITHUB_` 前缀，所以我改成了 `GH_` 前缀，但代码中没有更改，只在 Workflow 中映射
    - 注意：只有 Github 可以不填 CALLBACK_URL（其他登录方式均需要指定域名回调）
 
@@ -120,7 +120,7 @@ SESSION_SECRET=
 4. Set environment variables, refer to `Local Development`. Note:
    - Create [Github OAuth App](https://github.com/settings/developers)
    - Create [Alipay Basic App](https://open.alipay.com/develop/manage)
-   - For Afdian application, you need to send a private message to [@afdian](https://afdian.net/a/afdian)
+   - For Afdian application, you need to send a private message to [@afdian](https://afdian.com/a/afdian)
    - If you use Github's Secrets, you can't use the `GITHUB_` prefix, so I changed it to the `GH_` prefix, but the code has not been changed, only mapped in the Workflow
    - Note: Only Github can leave CALLBACK_URL blank (other login methods need to specify the domain callback)
 
@@ -155,7 +155,7 @@ SESSION_SECRET=
 如果您对本项目感兴趣，可以通过以下方式支持我：
 
 - 关注我的 Github 账号：[@willin](https://github.com/willin) [![github](https://img.shields.io/github/followers/willin.svg?style=social&label=Followers)](https://github.com/willin)
-- 参与 [爱发电](https://afdian.net/@willin) 计划
+- 参与 [爱发电](https://afdian.com/@willin) 计划
 - 支付宝或微信[扫码打赏](https://user-images.githubusercontent.com/1890238/89126156-0f3eeb80-d516-11ea-9046-5a3a5d59b86b.png)
 
 Donation ways:

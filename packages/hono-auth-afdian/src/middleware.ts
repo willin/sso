@@ -63,7 +63,7 @@ export function afdianAuth(opts: {
         // secure: true,
       });
 
-      const url = `https://afdian.net/oauth2/authorize?${new URLSearchParams({
+      const url = `https://afdian.com/oauth2/authorize?${new URLSearchParams({
         client_id: options.client_id,
         state,
         scope: options.scope,
@@ -80,7 +80,7 @@ export function afdianAuth(opts: {
       params.set('code', code);
       params.set('redirect_uri', options.redirect_uri);
       const response = await fetch(
-        'https://afdian.net/api/oauth2/access_token',
+        'https://afdian.com/api/oauth2/access_token',
         {
           method: 'POST',
           body: params,

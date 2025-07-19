@@ -17,7 +17,7 @@
     {$t('common.login_with', { provider: 'GitHub' })}
   </a>
   <a href="/auth/github" class="btn btn-secondary w-full my-2">
-    {$t('common.login_with', { provider: '爱发电(afdian.net)' })}
+    {$t('common.login_with', { provider: '爱发电(afdian.com)' })}
   </a>
   <a href="/auth/alipay" class="btn btn-accent w-full my-2">
     {$t('common.login_with', { provider: '支付宝(alipay.com)' })}

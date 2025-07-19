@@ -5,7 +5,7 @@ export function getRealPath(path: string, locales: string[]): string {
 
 export const providerNames = {
   github: 'GitHub',
-  afdian: '爱发电(afdian.net)',
+  afdian: '爱发电(afdian.com)',
   alipay: '支付宝(alipay.com)'
 };
 
