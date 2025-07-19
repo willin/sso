@@ -31,7 +31,7 @@
       {$t('user.management')}
     </a>
   {/if}
-  <a href="/auth/logout" class="btn mx-2" on:click={confirmLogout}>
+  <a href="/auth/logout" class="btn mx-2" onclick={confirmLogout}>
     {$t('common.logout')}
   </a>
 </div>

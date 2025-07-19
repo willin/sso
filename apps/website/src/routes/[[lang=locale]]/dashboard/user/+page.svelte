@@ -54,7 +54,7 @@
           <th>
             <select
               name="type"
-              on:change={handleUserType}
+              onchange={handleUserType}
               value={baned ? '1' : '0'}
               class="select select-bordered">
               <option value="0">{$t('user.normal')}</option>

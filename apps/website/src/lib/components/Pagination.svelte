@@ -34,7 +34,7 @@
 
 <div class="flex justify-center my-4">
   <select
-    on:change={handleSize}
+    onchange={handleSize}
     class="select select-bordered w-24 max-w-xs mr-2"
     bind:value={size}>
     <option value="10">10</option>
@@ -44,7 +44,7 @@
   </select>
   <div class="join">
     <a
-      on:click|preventDefault={handleLink}
+      onclick={handleLink}
       class="join-item btn"
       class:btn-disabled={search.get('page') === '1'}
       href={`${$linkPrefix}${$page.url.pathname}?${search
@@ -57,7 +57,7 @@
     {/if}
     {#each arr as p (p)}
       <a
-        on:click|preventDefault={handleLink}
+        onclick={handleLink}
         class="join-item btn"
         class:btn-disabled={search.get('page') === `${p}`}
         href={`${$linkPrefix}${$page.url.pathname}?${search
@@ -71,7 +71,7 @@
     {/if}
     {#if pages > 1}
       <a
-        on:click|preventDefault={handleLink}
+        onclick={handleLink}
         class="join-item btn"
         class:btn-disabled={search.get('page') === `${pages}`}
         href={`${$linkPrefix}${$page.url.pathname}?${search

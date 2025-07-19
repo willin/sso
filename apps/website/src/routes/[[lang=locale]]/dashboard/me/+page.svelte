@@ -98,7 +98,7 @@
             <input type='hidden' name='id' value={$page.data.user.id} />
             <div class='form-control w-full my-2'>
               <button type='submit' name='provider' value={thirdUser.provider} class='btn btn-secondary'
-              on:click={confirmOperation}
+              onclick={confirmOperation}
               disabled={loading ||$page.data.user?.thirdparty?.length === 1}
               class:btn-disabled={loading ||$page.data.user?.thirdparty?.length === 1}
               >
