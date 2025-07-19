@@ -1,6 +1,6 @@
 {
   "name": "@hono-dev/auth-alipay",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Alipay Authentication Strategy for Hono",
   "author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
   "keywords": [
@@ -50,13 +50,13 @@
     "hono": ">=3"
   },
   "devDependencies": {
-    "@vitest/coverage-istanbul": "^1.1.0",
-    "hono": "^3.11.10",
-    "typescript": "^5.3.3",
-    "vite": "^5.0.10",
-    "vite-plugin-checker": "^0.6.2",
-    "vite-plugin-dts": "^3.6.4",
-    "vitest": "^1.1.0"
+    "@vitest/coverage-istanbul": "^1.6.1",
+    "hono": "^3.12.12",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.19",
+    "vite-plugin-checker": "^0.6.4",
+    "vite-plugin-dts": "^3.9.1",
+    "vitest": "^1.6.1"
   },
   "import": "./dist/index.mjs",
   "require": "./dist/index.js",

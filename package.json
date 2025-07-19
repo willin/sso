@@ -19,23 +19,23 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@changesets/changelog-github": "^0.5.0",
-    "@changesets/cli": "^2.26.2",
-    "@cloudflare/workers-types": "^4.20231218.0",
-    "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-conventional": "^18.4.3",
+    "@changesets/changelog-github": "^0.5.1",
+    "@changesets/cli": "^2.29.5",
+    "@cloudflare/workers-types": "^4.20250719.0",
+    "@commitlint/cli": "^18.6.1",
+    "@commitlint/config-conventional": "^18.6.3",
     "@hono/eslint-config": "^0.0.3",
     "@svelte-dev/eslint-config": "^1.0.0",
-    "bun-types": "^1.0.20",
-    "eslint": "^8.54.0",
-    "hono": "^3.11.10",
+    "bun-types": "^1.2.18",
+    "eslint": "^8.57.1",
+    "hono": "^3.12.12",
     "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
-    "prettier": "^3.1.0",
-    "prettier-plugin-svelte": "^3.1.2",
-    "turbo": "^1.11.2",
-    "typescript": "^5.3.3",
-    "wrangler": "^3.22.1"
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.6.2",
+    "prettier-plugin-svelte": "^3.4.0",
+    "turbo": "^1.13.4",
+    "typescript": "^5.8.3",
+    "wrangler": "^3.114.11"
   },
   "engines": {
     "node": ">=18"
