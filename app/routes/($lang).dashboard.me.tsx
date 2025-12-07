@@ -133,7 +133,7 @@ export default function DashboardPage() {
       </div>
       <div className='card w-full my-4 bg-base-100 shadow-xl'>
         <div className='card-body'>
-          <h2 className='card-title'>爱发电(afdian.net)</h2>
+          <h2 className='card-title'>爱发电(afdian.com)</h2>
           <p>{thirdAfdian && `${t('common.created_at')}： ${dayjs(thirdAfdian.createdAt).format('YYYY-MM-DD')}`}</p>
           <div className='card-actions justify-end'>
             {!thirdAfdian && (

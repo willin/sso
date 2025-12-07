@@ -44,7 +44,7 @@ export default function Screen() {
       <Form method='post' action={`/auth/afdian`}>
         <div className='form-control w-full my-2'>
           <button type='submit' className='btn btn-secondary'>
-            {t('common.login_with', { provider: '爱发电(afdian.net)' })}
+            {t('common.login_with', { provider: '爱发电(afdian.com)' })}
           </button>
         </div>
       </Form>

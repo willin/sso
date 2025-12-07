@@ -5,8 +5,8 @@ export default class BindAfdianProvider implements IBindThirdPartyProvider {
   #clientId: string;
   #clientSecret: string;
   #callbackUrl: string;
-  #authorizeUrl: string = 'https://afdian.net/oauth2/authorize';
-  #tokenUrl: string = 'https://afdian.net/api/oauth2/access_token';
+  #authorizeUrl: string = 'https://afdian.com/oauth2/authorize';
+  #tokenUrl: string = 'https://afdian.com/api/oauth2/access_token';
 
   #scope: string = 'basic';
 

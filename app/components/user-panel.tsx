@@ -54,7 +54,7 @@ export default function UserPanel() {
         <ul className='menu menu-compact gap-1 p-3'>
           <li>
             <a
-              href={locale() === 'zh' ? 'https://afdian.net/a/willin' : 'https://github.com/sponsors/willin'}
+              href={locale() === 'zh' ? 'https://afdian.com/a/willin' : 'https://github.com/sponsors/willin'}
               className='block'
               target='_blank'
               rel='noreferrer'>
