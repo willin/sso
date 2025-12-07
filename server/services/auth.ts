@@ -111,7 +111,9 @@ export class AuthService implements IAuthService {
         {
           clientID: env.AFDIAN_CLIENT_ID,
           clientSecret: env.AFDIAN_CLIENT_SECRET,
-          callbackURL: afdianCallbackURL
+          callbackURL: afdianCallbackURL,
+          authorizationURL: 'https://afdian.com/oauth2/authorize',
+          tokenURL: 'https://afdian.com/api/oauth2/access_token'
         },
         async ({ profile }) => {
           return userService.getUserByThirdUser({
